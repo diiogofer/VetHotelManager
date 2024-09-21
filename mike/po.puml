@@ -1,0 +1,261 @@
+/'
+repetição de informacao? n era mais facil ter referencia para o hotel em todas as entidades e aceder as listas atraves do hotel?
+'/
+@startuml po-projeto
+/'
+'/
+HotelManager --> "1" Hotel
+Hotel o-- "*" Animal
+Hotel o-- "*" Species
+Hotel *-- "*" Habitat
+Hotel o-- "*" Vaccine
+Hotel o-- "*" VaccineEvent
+Hotel o-- "*" Worker
+Hotel o-- "*" Tree
+Habitat o-- "*" Tree
+Habitat "1" o-- "*" Animal
+Habitat *-- "*" SpeciesInfluence
+SpeciesInfluence --> "1" Species
+Species "1" *-- "*" Animal
+Animal "1" o-- "*" VaccineEvent
+Worker <|-- Veterinarian
+Worker <|-- Groundskeeper
+Veterinarian --> "*" Species
+Groundskeeper --> "*" Habitat
+Vaccine "1" o-- "*" VaccineEvent
+/'
+advanceSeason() é em Hotel ou HotelManager?
+'/
+class HotelManager {
+    - _hotel:Hotel
+    - _season:int
+
+    + save()
+    + saveAs()
+    + load(filename:String)
+    + importFile(filename:String)
+    + getHotel():Hotel
+    + advanceSeason()
+}
+/'
+advanceSeason() e _season é em Hotel ou HotelManager?
+addAnimal o speciesID entre como int ou string? o java converte?
+changeAnimalHabitat -> enunciado diz que dá o habitat mas não é erro? nãod everia pedir o habitatID?
+printAnimalSatisfaction ou getAnimalSatisfaction? como se imprime? quere-se o valor?
+'/
+class Hotel {
+    - _habitats:List<Habitat>
+    - _animals:List<Animal>
+    - _species:List<Species>
+    - _workers:List<Worker>
+    - _vaccines:List<Vaccines>
+    - _vaccineEvents:List<VaccineEvents>
+
+    + getGlobalSatisfaction():int
+
+    + listAllAnimals()
+    + addAnimal(animalID:String, animalName:String, speciesID:int, habitatID:String)
+    + changeAnimalHabitat(animalID:String, habitatID:String)
+    + printAnimalSatisfaction(animalID:String)
+
+    + listAllWorkers()
+    + addWorker(workerID:String, workerName:String, workerJob:String)
+    + addWorkerResponsibility(workerID:String, speciesID:int)
+    + addWorkerResponsibility(workerID:String, habitatID:String)
+    + addWorkerResponsibility(workerID:String, speciesID:int)
+    + removeWorkerResponsibility(workerID:String, habitatID:String)
+    + printWorkerSatisfaction(workerID)
+
+    + listAllHabitats()
+    + addHabitat(habitatID:String, habitatName:String, habitatArea:int)
+    + setHabitatArea(habitatID:String, newArea:int)
+    + setHabitatSpeciesInfluence(habitatID:String, speciedID:int, influence:String)
+    + addTreeToHabitat(habitatID:String, treeID:String, treeName:String, treeAge:int, treeBaseCleaningDifficulty:int, treeType:String)
+    + listTreesOnHabitat(habitatID:String)
+
+    + listAllVaccines()
+    + addVaccine(vaccineID:String, vaccineName:String, speciesIDList:String)
+    + vaccinateAnimal(vaccineId:String, workerID:String, animalID:String)
+    + listAllVaccineEvents()
+
+    + listAnimalsInHabitat(habitatID:String)
+    + listVaccineEventsForAnimal(animalID:String)
+    + listVaccineEventsForVeterinarian(workerID:String)
+    + listBadVaccineEvents()
+}
+'---------------------------------------------------------------------------------------------
+/'
+'/
+class Habitat {
+    - _id:String
+    - _name:String
+    - _area:int
+    - _trees:List<Tree>
+    - _animals:List<Animal>
+    - _SpeciesInfluences:List<SpeciesInfluence>
+
+    + Habitat(id:String, name:String, area: int)
+    + getID():String
+    + addAnimal(animal:Animal)
+    + removeAnimal(animal:Animal)
+    + getName():String
+    + getArea():int
+    + getNumberTrees():int
+    + toString():String
+    + listTrees()
+    + setArea(area:int)
+    + setSpeciesInfluence(species:Species, influence:String)
+    + addTree(treeID:String, treeName:String, treeAge:int, treeBaseCleaningDifficulty:int, treeType:String)
+    + listAnimals()
+}
+/'
+Não sei bem o que fazer com isto, tenho que rever, é tipo uma matrix 2*n para o habitat
+'/
+class SpeciesInfluence {
+    - _species:Species
+    - _influenceOnSpecies:int
+
+    + SpeciesInfluence(species:Species)
+    + SpeciesInfluence(species:Species, influence:String)
+    + getSpeciesID():int
+    + getInfluenceOnSpecies():int
+    + setInfluenceOnSpecies(newInfluence:int)
+}
+/'
+'/
+class Tree {
+    - _id:String
+    - _name:String
+    - _age:int
+    - _baseCleaningDifficulty:int
+    - _treeType:String
+    
+    + Tree(treeID:String, treeName:String, treeAge:int, baseCleaningDifficulty:int, treeType:String)
+    + getID():String
+    + getName():String
+    + getAge():int
+    + getTreeType():String
+    + getBaseCleaningDifficulty():int
+    + getBiologicCycle():String
+    + toString():String
+
+}
+'---------------------------------------------------------------------------------------------
+/'
+getSatisfaction() retorna int ou float
+toString() retorna ANIMAL | ID | nome | idEspecie | historialSaude | idHabital
+'/
+class Animal {
+    - _id:String
+    - _name:String
+    - _species:Species
+    - _healthHistory:String
+    - _habitat:Habitat
+    + Animal(animalID:String, animalName:String, speciesID:int, habitatID:String)
+
+    + getSatisfaction():float
+    + getID():String
+    + getName():String
+    + getSpeciesId():int
+    + getHealthHistory():String
+    + getHabitatId():String
+    + toString():String
+    + setHabitat(habitat:Habitat)
+
+}
+/'
+'/
+class Species {
+    - _id:int
+    - _animals:List<Animal>
+
+    + getID():int
+    + addAnimal(animal:Animal)
+    + removeAnimal(animal:Animal)
+}
+'---------------------------------------------------------------------------------------------
+/'
+metodos abstratos estão bem implementados?
+getSatisfaction() retorna int ou float, ver se getSatisfaction tem acesso a tudo o que precisa
+_responsibilities como por em Worker? devo por em worker? genericos? tipo Object e depois casting?
+'/
+abstract class Worker {
+    - _id:String
+    - _name:String
+    - _job:String
+
+    ~ Worker(id:String, name:String, job:String)
+    + getID():String
+    + getName():String
+    + getJob():String
+    {abstract} + getSatisfaction():float
+    {abstract} + getResponsibilities():String
+    {abstract} + toString():String
+    {abstract} + addResponsibility(object:Object)
+    {abstract} + removeResponsibility(object:Object)
+    {abstract} + hasResponsibility(object:Object):boolean
+
+}
+/'
+'/
+class Veterinarian {
+    - _responsibilities:List<Species>
+    
+    + Veterinarian(job:String, id:String, name:String)
+    + getSatisfaction():float
+    + getResponsibilities():String
+    + toString():String
+    + addResponsibility(species:Species)
+    + removeResponsibility(species:Species)
+    + hasResponsibility(species:Species):boolean
+}
+/'
+'/
+class Groundskeeper {
+    - _responsibilities:List<Habitat>
+
+    + Groundskeeper(job:String, id:String, name:String)
+    + getSatisfaction():float
+    + getResponsibilities():String
+    + toString():String
+    + addResponsibility(habitat:Habitat)
+    + removeResponsibility(habitat:Habitat)
+    + hasResponsibility(habitat:Habitat):boolean
+}
+'---------------------------------------------------------------------------------------------
+/'
+Vaccine() posso receber lista de Species?
+_vacineEvents? devo guardar aqui uma nova lista ou só ter uma referencia para a lista de VacineEvents no hotal ou devo por vacineEvents com uma lista static?
+'/
+class Vaccine {
+    - _id:String
+    - _name:String
+    - _numberUsed:int
+    - _species:List<Species>
+    - _vaccineEvents:List<VaccineEvents>
+
+    + Vaccine(id:String, name:String, species:List<Species>)
+    + getID():String
+    + getName():String
+    + getNumberUsed():int
+    + getSpeciesIDs():String
+    + toString():String
+    + goodForSpecies(species:Species):boolean
+    + addVaccineEvent(vaccineEvent:VaccineEvent)
+}
+/'
+'/
+class VaccineEvent {
+    - _vaccine:Vaccine
+    - _veterinarian:Veterinarian
+    - _animal:Animal
+
+    + VacineEvent(vaccine:Vaccine, veterinarian:Veterinarian, animal:Animal)
+    + toString():String
+    + getSpeciesID():int
+    + getVeterinarianID():String
+    + isBadVaccineEvent():boolean
+}
+
+
+@enduml
