@@ -6,5 +6,5 @@ PlantUML extension in VSCode to format .puml files properly
 https://plantuml.com/class-diagram
 
 # View UML graph online
-https://www.plantuml.com/plantuml/uml/
+https://www.plantuml.com/plantuml/uml/</br>
 Replace the UML code in the box with the code in the po.puml file.
