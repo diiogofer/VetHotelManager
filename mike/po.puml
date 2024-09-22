@@ -1,5 +1,6 @@
 /'
 repetição de informacao? n era mais facil ter referencia para o hotel em todas as entidades e aceder as listas atraves do hotel?
+falta fazer as <<enumerations>> no UML
 '/
 @startuml po-projeto
 /'
