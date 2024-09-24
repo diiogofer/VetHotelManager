@@ -199,9 +199,72 @@ Hotel
 Employee
     -_id:String
     -_name:String
-    Employee(id:String, name:String)
+    +Employee(id:String, name:String)
+    {abstract} #getEmployeeType():String
 Veterenarian
-    Veterenarian(id:String, name:String)
+    -_responsibilities:List<Specie>
+    +Veterenarian(id:String, name:String)
+    +getEmployeeType():String
+Caretaker
+    -_responsibility:List<Habitat>
+    +Caretaker(id:String, name:String)
+    +getEmployeeType():String
+
+
+4.3.3 Give employee new responsibility
+Prompt.employeeID()
+Hotel
+    -_employees:List<Employee>
+    +getAllEmployees():List<Employee>
+Employee
+    -_id:String
+    +getID():String
+-exists: continue
+-doesn't exist: exception
+
+-check type of employee
+Employee
+    {abstract} #getEmployeeType():String
+Veterenarian
+    +getEmployeeType():String
+Caretaker
+    +getEmployeeType():String
+
+-add new responsibility
+
+-VET
+Prompt.speciesID()
+-verify if species with id exists
+Hotel
+    -_species:List<Species>
+    +getAllSpecies:List<Species>
+Species
+    -id:???
+    +getID():???
+-exists: continue
+-doesn't exist: exception
+-add responsibility
+Veterenarian
+    -_responsibilities:List<Species>
+    +addResponsibility(species:Species)
+
+-TRT
+Promp.responsibilityKey()
+-verify if habitat exists
+Hotel
+    -_habitats:List<Habitat>
+    +getAllHabitats():List<Habitats>
+Habitat
+    -_id:String
+    +getID():String
+-exists: continue
+-doesn't exist: exception
+-add responsibility
+Caretaker
+    -_responsibilities:List<Habitat>
+    +addResponsibility(habitat:Habitat)
+
+
 
 
 
