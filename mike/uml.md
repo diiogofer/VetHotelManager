@@ -1,158 +1,52 @@
+25/09
+-tem que ser ver se hotel foi alterado
 4.2 Animals
 
 4.2.1 Visualize all animals
 want: ANIMAL | idAnimal | nameAnimal | idSpecies | healthHistory | idHabitat
 
-Hotel
-    -_animals:List<Animal>
-    + getAllAnimals():List<Animal>
-Animal
-    - _id:String
-    - getID():String
-    - _name:String
-    - getName():String
-    - _species:List<Species>
-    - getSpecies():Species                  (1)
-    - _health:???
-    - getHealth():???
-    - _habitat:Habitat
-    - getHabitat():Habitat                  (2)
-    + toString():String
-(1)
-Species
-    - _id:???
-    + getID():???
-(2)
-Habitat
-    - _id:String
-    + getID():String
+-Precisamos de uma lista da animais
+-e um toString() para o animal
 
-4.2.2 Registar novo animal
 
+4.2.2 Register new animal
 Prompt.animalID()
--verify if animal with id exists
-Hotel
-    -_animals:List<Animal>
-    + getAllAnimals():List<Animal>
-Animal
-    - _id:String
-    + getID():String
--exists: exception
--doesn't exist: continue
-
 Prompt.animalName()
 Prompt.speciesID()
--verify if species with id exists
-Hotel
-    -_species:List<Species>
-    +getAllSpecies:List<Species>
-Species
-    -id:???
-    +getID():???
--exists: continue
--doesn't exist: create species
-
 Prompt.speciesName()
-Species
-    +Species(id:???, name:String)
-Hotel
-    -_species:List<Species>
-    +addSpecies(species:Species)
 
-Promp.habitatID()
--verify if habitat exists
-Hotel
-    -_habitats:List<Habitat>
-    +getAllHabitats():List<Habitats>
-Habitat
-    -_id:String
-    +getID():String
--exists: continue
--doesn't exist: exception
+-precisamos de um getAnimal(Animal id): -> para saber se o animal já existe
+-precisamos de um addAnimal(id, nome, idEspecie, idHabitat) no hotel
+-getSpecies(especie) -> para saber se a especie existe
+-addSpecies() no Hotel
+-Species (Construtor) recbee(id, Nome)
+-na especie meter um addAnimal(animal)
+-contrutor animal -> ( id, nome, Especie, Habitat)
 
--create animal
-Animal
-    Animal(id:String, name:String, species:Species, habitat:Habitat)
-Hotel
-    -_animals:List<Animal>
-    +addAnimal(animal:Animal)
-Species
-    -_animals:List<Animal>
-    +addAnimal(animal:Animal)
-Habitat
-    -_animals:List<Animal>
-    +addAnimal(animal:Animal)
+
 
 
 4.2.3 Transfer animal to another habitat
 Prompt.animalID()
--verify if animal with id exists
-Hotel
-    -_animals:List<Animal>
-    + getAllAnimals():List<Animal>
-Animal
-    - _id:String
-    + getID():String
--exists: continue
--doesn't exist: exception
-
 Promp.habitatID()
--verify if habitat exists
-Hotel
-    -_habitats:List<Habitat>
-    +getAllHabitats():List<Habitats>
-Habitat
-    -_id:String
-    +getID():String
--exists: continue
--doesn't exist: exception
 
--move animal
-Animal
-    +setHabitat()
-Habitat
-    -_animals:List<Animal>
-    +addAnimal(animal:Animal)
-    +removeAnimal(animal:Animal)
+-precisamos de getAnimal(animalId) no Hotel
+-getHabitat(habitatId) no hotel
+-no habitat -> removeAnimal(Animal) e addAnimal(Animal)
+
 
 
 4.2.4 Calculate satisfaction of animal
 Prompt.animalID()
--verify if animal with id exists
-Hotel
-    -_animals:List<Animal>
-    + getAllAnimals():List<Animal>
-Animal
-    - _id:String
-    + getID():String
--exists: continue
--doesn't exist: exception
 
--get satisfaction
-want: 20 + 3*sameSpecies(a,h) - 2*diferentSpecies(a,h) + (area(h) / population(h)) + suitability(a, h)
-Animal
-    -_habitat:Habitat
-    +getHabitat():Habitat
-    +getSatisfaction():int
-    -_species:Species
-    +getSpecies():Species
-    +getSatisfaction():int
-Species
-    +equals(species:Species):boolean
-Habitat
-    -_animals:List<Animal>
-    +getAnimals():List<Animals>
-    -_area:int
-    +getArea():int
-    +getPopulation():int
-    -_speciesSuitability:List<AnimalHabitatSuitability>
-    +getSuitability(species:Species):int
-AnimalHabitatSuitability
-    -_species:Species
-    -_suitability:???? String or int?
-    +getSpecies():Species
+-no Habitat -> getNumberSameEspecies(specie) : int
+-no Animal -> getSpecies(): Species
+-no Habitat -> getNumberDifferentSpecies(Specie): int
+-no Habitat -> getArea(): int
+-no Habitat -> getPopulation()
+-no Habitat -> getAdequação(Specie) : int 
 
-4.3 Employee
+4.3 <<Abstract>>Employee
 
 4.3.1 Show all employees
 want: type | id | name [| idResponsibilities]
@@ -160,112 +54,131 @@ type: VET or TRT
 idResponsibilites:  VET => speciesID1, speciesID2, ...
                     TRT => habitatID1, habitatID2, ...
 
-Hotel
-    -_employees:List<Employee>
-    +getAllEmployees():List<Employee>
-Employee
-    {abstract} #getEmployeeType():String
-    -_id:String
-    +getID():String
-    -_name:String
-    {abstract} #getResponsibilites():List<?????>
-    +toString():String
-Veterenarian
-    +getEmloyeeType():String
-    -_responsibilites:List<Species>
-    +getResponsibilities():List<Species>
-Caretaker
-    +getEmloyeeType():String
-    -_responsibilites:List<Habitat>
-    +getResponsibilities():List<Habitat>
+-Precisamos de uma lista da funcionarios no hotel
+-e um toString() para o funcionario
+-criar <<ABSTRACT>>getType():String e <<abstract>>getResponsabilidade()
+
 
 4.3.2 Register new employee
-
 Prompt.employeeID() -> String
-Hotel
-    -_employees:List<Employee>
-    +getAllEmployees():List<Employee>
-Employee
-    -_id:String
-    +getID():String
--exists: exception
--doesn't exist: continue
-
 Prompt.employeeName() -> String
 Prompt.employeeType() -> VET or TRT
-Hotel
-    -_employees:List<Employee>
-    +addEmployee()
-Employee
-    -_id:String
-    -_name:String
-    +Employee(id:String, name:String)
-    {abstract} #getEmployeeType():String
-Veterenarian
-    -_responsibilities:List<Specie>
-    +Veterenarian(id:String, name:String)
-    +getEmployeeType():String
-Caretaker
-    -_responsibility:List<Habitat>
-    +Caretaker(id:String, name:String)
-    +getEmployeeType():String
+
+-> no hotel ->getFuncionario(id : String) : Funcionario
+-> no hotel-> addFuncionario(id, nome, tipoDeFuncionario) no hotel
+-> no funcionario -> (Construtor)Funcionario(id,nome)
+-> Veterinário -> (COnstrutor)Veterinario(id, nome)
+-> Tratador -> (Construtor)Veterinario(id, nome)
 
 
 4.3.3 Give employee new responsibility
 Prompt.employeeID()
-Hotel
-    -_employees:List<Employee>
-    +getAllEmployees():List<Employee>
-Employee
-    -_id:String
-    +getID():String
--exists: continue
--doesn't exist: exception
 
--check type of employee
-Employee
-    {abstract} #getEmployeeType():String
-Veterenarian
-    +getEmployeeType():String
-Caretaker
-    +getEmployeeType():String
+->getFuncionario(id): funcionario no Hotel
+->no Funcionario -> <<abstract>>addResponsability(id)
+->no vet -> addResponsability(id) 
+-> no trt -> addResponsability(id)
+(para isto acontecer o hotel tem de ter um getSpecies(id): Especie, 
+getHabitat(): Habitat, e o Funcionario tem de ter um atributo do tipo hotel)
+-> Na Especie ->  _veterinarios: List<veterinarios>
+              ->  addVet(Vet) (por causa da cena da satisfação)
+              -> removeVet(Vet:Vet)
+-> Habitat -> addTratador(trt:Tratador)
+              -_tratador: List<Tratador>
+              removerTratador(trt: Tratador)
 
--add new responsibility
 
--VET
-Prompt.speciesID()
--verify if species with id exists
-Hotel
-    -_species:List<Species>
-    +getAllSpecies:List<Species>
-Species
-    -id:???
-    +getID():???
--exists: continue
--doesn't exist: exception
--add responsibility
-Veterenarian
-    -_responsibilities:List<Species>
-    +addResponsibility(species:Species)
 
--TRT
-Promp.responsibilityKey()
--verify if habitat exists
-Hotel
-    -_habitats:List<Habitat>
-    +getAllHabitats():List<Habitats>
+4.3.4 Remove responsibility from employee
+Prompt.employeeID()
+
+Hotel -> getFuncionario(id): Funcionario
+Funcionario -> <<abstract>> removeResponsabilidade(id) -> getResponsabilidade()
+Vet -> removeResponsabilidade(id) -> getResponsabilidade(id)
+Trt _> removeResponsabilidade(id) -> getResponsabilidade(id)
+Na especie -> removeVet(Vet:veterinario)
+
+
+_________?????????????DUVIDA????????????????_____________
+MANO, Encontrar NVETERINARIOS DA ESPÉCIE MELHOR MANEIRA???????
+MANO, MANO, Nós fzemos uma lista de vets, MANO
+É QUE ATÉ DÁ JEITO PARA AS VACINAS MANO MANO
+_________________________________________________________
+
+4.3.5 Calculate employee satisfaction
+Prompt.employeeID()
+
+Queremos um int
+worker -> <<ABSTRACT>> getSatisfaction() : int
+Vet -> getSatisfação() : int
+TRT->  getSatisfação(): int
+Especie -> getPopulation():int
+           getNumberVets(): int
+TRT -> getSatisfação(): int
+    ->_habitats: List<Habitat>
+Habitat-> getArea(): int
+          getPopulation():int
+          getNumberTratadores()
+          getTrabalhoNoHabit() float
+TREE -> _dificuldadeBase: int
+        getBaseDifficults(): int
+        getEsforçoSazonal(): int
+        _idade: int
+        getAge(): int
+        getEsforçoLimpeza: float
+
+        getTypeOfTree() : int
+        _tipo: int ------------------------> ENUMTYPE { CADUCA, PERENE }
+Hotel: getSeason(): int -------------------> ENUMTYPE { PRIMAVERA VERAO OUTONO INVERNO }
+
+-> TRABALHO NO HABITAT -> AREA, POPULAÇÃO E AS MERDAS QUE ESTÃO EM ÁRVORE 
+
+
+------MENU HABITATS------
+
+4.4.1 VISUALIZAR TODOS OS HABITATS
+HABITAT|idHabitat|nome|area|numeroArvores
+
+Hotel 
+    getAllHabitats(): List<Habitat>
 Habitat
-    -_id:String
-    +getID():String
--exists: continue
--doesn't exist: exception
--add responsibility
-Caretaker
-    -_responsibilities:List<Habitat>
-    +addResponsibility(habitat:Habitat)
+    toString(): String 
+    getAllTrees(): List<Tree>
+Tree
+    toString(): String
+    getCicloBiologico(Seanson: int): String
 
+4.4.2 rEGISTAR nOVO hABITAT
 
+Hotel   getHabitat(id)
+        addHabitat(id, nome, area: int)
+Habitat
+        Habitat(id, nome, area)
+Tratador
+    addHabitat(Habitat: Habitat)
 
+4.4.3 Alterar Area do HABITAT
+    Hotel: SetHabitat(id)
+    Habitat: SetArea(area: int)
+
+4.4.4 Alterar influencia de um habitat sobre uma especie
+    Hotel   getHabitat(id): habitat
+    Habitat: setInfluence(SpecieId, influence: String)
+
+4.4.5  Plantar uma nova arvore num habitat
+Hotel
+    getHabitat(id:String)
+    getTree(id:String)
+    addTree(id,nome,idade,dificulty: int, type:String)
+Tree
+    Tree(id,nome,idade,dificulty: int, type:String)
+Habitat
+    addTree(tree: Tree)
+
+4.4.6 Visualizar todas as arvores de um habitat
+Hotel: getHabitat(id)
+Habitat: getAllTrees():List<Tree>
+Tree: toAtring(): String
 
 
 
