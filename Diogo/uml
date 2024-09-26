@@ -1,0 +1,243 @@
+/'
+repetição de informacao? n era mais facil ter referencia para o hotel em todas as entidades e aceder as listas atraves do hotel?
+falta fazer as <<enumerations>> no UML
+'/
+@startuml po-projeto
+/'
+'/
+HotelManager --> "1" Hotel
+Hotel o-- "*" Animal
+Hotel o-- "*" Species
+Hotel *-- "*" Habitat
+Hotel o-- "*" Vaccine
+Hotel o-- "*" VaccineEvent
+Hotel "1" o-- "*" Employee
+Hotel o-- "*" Tree
+Employee <|-- Veterinarian
+Employee <|-- Groundskeeper
+Habitat o-- "*" Tree
+Habitat "1" o-- "*" Animal
+Habitat *-- "*" Groundskeeper
+Animal "1" o-- "*" VaccineEvent
+Species "1" *-- "*" Animal
+SpeciesInfluence --> "1" Species
+Veterinarian --> "*" Species
+Groundskeeper --> "*" Habitat
+Vaccine "1" o-- "*" VaccineEvent
+
+/'
+advanceSeason() é em Hotel ou HotelManager?
+'/
+class HotelManager {
+    - _hotel:Hotel
+    - _season:int
+    
+    + create()
+    + open()
+    + save()
+    + advanceSeason(): int
+    + getGlobalSatisfaction():int
+}
+/'
+advanceSeason() e _season é em Hotel ou HotelManager?
+addAnimal o speciesID entre como int ou string? o java converte?
+changeAnimalHabitat -> enunciado diz que dá o habitat mas não é erro? nãod everia pedir o habitatID?
+printAnimalSatisfaction ou getAnimalSatisfaction? como se imprime? quere-se o valor?
+'/
+class Hotel {
+    - _hotelModified: booean
+    - _animals : List<Animal>
+    - _employee: List<Employee>
+    - _habitat: List<Habitat>
+    - _trees: List<Trees>
+    - _vacines: List<Vacine>
+    - _vacideEvents: List<vacineEvent>
+    - _currentSeason:int
+
+    - setHotelModified(value:boolean)
+    + advanceSeason():int
+    + getGlobalSatisfaction():int
+    + getAnimal(AnimalId: String) : Animal
+    + addAnimal(id, nome, idEspecie, idHabitat)
+    + addSpecies() /' Argumentos ???? '/
+    + getSpecies(especie) /' aqui??????'/
+    + getSpecies(id): Especie /' conflito getSpecies id ou especie ????????? '/
+    + getHabitat(habitatId: String) : Habitat
+    + getHabitat(): Habitat /'conflito getHabitat??????????'/
+    + addHabitat(id: String, nome: String, area: int)
+    + getEmployee(idEmployee : String) : Employee
+    + addEmployee(id: String, nome: String, emplyeeType: String)
+    + getSeason(): int
+    + getAllHabitats(): List<Habitat>
+    + getTree(id:String)
+    + addTree(id,nome,idade,dificulty: int, type:String)
+    + getAllVacinas():List<Vacine>
+    + getVacine(vacineID:String):Vacine
+    + addVacine(id:String, name:String, species:List<Species>)
+    + addVacineEvent(vacine:Vacine, vet:Veterenarian animal:Animal)
+    + getAllVacinesEvents():List<VacineEvents>
+    + getBadVacineEvent():List<Vacine>
+    
+    
+}
+'---------------------------------------------------------------------------------------------
+/'
+'/
+class Habitat {
+    - _id: String
+    - _nome: String
+    - _area: int
+    - _tratador: List<Tratador>
+    - _trees: List<Tree>
+    - _animals: List<Animal>
+
+    + Habitat(id: String, nome: String, area: int)
+    + removeAnimal(Animal)
+    + addAnimal(Animal)
+    + getNumberSameEspecies(specie: Specie) : int /' //não era mais facil receber id?? '/
+    + getNumberDifferentSpecies(Specie): int /'necessário???'/
+    + getArea(): int
+    + getPopulation() : int
+    + getAdequação(Specie) : int
+    + addTratador(trt: Tratador)
+    + removeTratador(trt: Tratador)
+    + getNumberTratadores(): int
+    + getTrabalhoNoHabit() float
+    + toString(): String 
+    + getAllTrees(): List<Tree>
+    + setArea(area: int)
+    + setInfluence(SpecieId: String , influence: String)
+    + addTree(tree: Tree)
+    + getAllAnimals():List<Animal>
+    
+
+}
+/'
+Não sei bem o que fazer com isto, tenho que rever, é tipo uma matrix 2*n para o habitat
+'/
+/'
+'/
+class Tree {
+    - _id: String
+    - _nome: String
+    - _dificuldadeBase: int
+    - _idade: int
+    - _tipo: int
+    + Tree(id: String, nome_ String, idade: int, dificulty: int, type: String)
+    + getBaseDifficult(): int
+    + getEsforçoSazonal(): int
+    + getAge(): int
+    + getEsforçoLimpeza: float
+    + getTypeOfTree() : int
+    + toString(): String
+    + getCicloBiologico(Season: int): String
+}
+'---------------------------------------------------------------------------------------------
+/'
+getSatisfaction() retorna int ou float
+toString() retorna ANIMAL | ID | nome | idEspecie | historialSaude | idHabital
+'/
+class Animal {
+   - _id: String
+   - _nome: String
+   - _specie: Specie
+   - _habitat: Habitat
+   - _vacineEvents: List<VacineEvent>
+   
+   + toString(): String
+   + animal(id: String, nome: String, especie: Species, habitat: Habitat)
+   + getSpecies(): Species
+   + addVacineEvent(vacineEvent:VacineEvent)
+   + getAllVacineEvents():List<VacineEvent>
+}
+/'
+'/
+class Species {
+    - _id: String
+    - _nome: String
+    - _veterinarios: List<veterinarios>
+    - _animals: List<Animais>
+
+    + Species(id: String, nome: String)
+    + addAnimal(animal: Animal)
+    + getSpecies(): Species /' porque é que a espécie precisa de um getspecies()???'/
+    + addVet(vet: Veterinarian)
+    + removeVet(vet: Veterinarian)
+    + getPopulation():int
+    + getNumberVets(): int
+    + getId():String
+
+
+}
+'---------------------------------------------------------------------------------------------
+/'
+metodos abstratos estão bem implementados?
+getSatisfaction() retorna int ou float, ver se getSatisfaction tem acesso a tudo o que precisa
+_responsibilities como por em Worker? devo por em worker? genericos? tipo Object e depois casting?
+'/
+abstract class Employee {
+    - _id: String
+    - _nome: String 
+    - _hotel: Hotel
+
+    + Employee(id: String, nome: String)
+    + <<abstract>>getType(): String
+    + <<abstract>> getResponsability() : /'retorno???'/
+    + <<abstract>> addResponsability(id: String)
+    + <<abstract>> removeResponsabilidade(id: String)
+    + <<abstract>> getSatisfaction() : int
+    + <<abstract>> getType(): String
+    + <<abstract>> hasResponsibility(responsibilityID:String):boolean
+    + toString(): String
+}
+/'
+'/
+class Veterinarian {
+    -_vacineEvents: list<VacineEvent>
+    -_lista de ids de animais?????????
+    + Veterinarian(id: String, nome: String)
+    + addResponsability(id: String)
+    + removeResponsabilidade(id: String)
+    + getSatisfaction() : int
+    + addVacineEvent(vacineEvent:VacineEvent)
+    + getAllVacineEvents():List<VacineEvent>
+}
+/'
+'/
+class Groundskeeper {
+    - _habitats: List<Habitat>
+    /' porque é que temos uma lista de strings ids e outra de habitats? '/
+    
+    + Groundskeeper(id: String, nome: String)
+    + addResponsability(id: String)
+    + removeResponsabilidade(id: String)
+    + getSatisfaction(): int
+    + addHabitat(Habitat: Habitat)
+
+}
+'---------------------------------------------------------------------------------------------
+/'
+Vaccine() posso receber lista de Species?
+_vacineEvents? devo guardar aqui uma nova lista ou só ter uma referencia para a lista de VacineEvents no hotal ou devo por vacineEvents com uma lista static?
+'/
+class Vaccine {
+    - _id: String
+    - _nome: String
+
+    + Vacine(id:String, name:String, species:List<Species>)
+    + toString(): String
+}
+/'
+'/
+class VaccineEvent {
+   -_vacideID: String 
+   -_vetID: String
+   -_speciesID: String 
+   -_damageToAnimal:int
+   + VacineEvent(vacine:Vacine, vet:Veterenarian, animal:Animal)
+   + calculateEventDamage(vacine:Vacine, animal:Animal)
+   + toString(): String
+}
+
+
+@enduml
