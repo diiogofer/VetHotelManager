@@ -37,7 +37,6 @@ Employee
 
 
 
-
 4.2 Animals
 
 4.2.1 Visualize all animals
@@ -65,6 +64,7 @@ Prompt.speciesName()
 -get animal (null if doesn't exist)
 -get species (null if doesnt exist)
 -get habitat (null if doesn't exist)
+-create species (if doesn't exist)
 -create a new animal and add it to hotel, species and habitat
 
 Hotel - get animal, species, habitat
@@ -73,10 +73,10 @@ Hotel - get animal, species, habitat
     +getHabitat(habitatID:String):Habitat
 Species - create species if doesn't exist
     +Species(speciesID:String, speciesName:String)
-Hotel - add created species
-    +addSpecies(species:Species)
 Animal - create animal if doesn't exist
     +Animal(animalID:String, animalName:String, species:Species, habitat:Habitat)
+Hotel - add created species
+    +addSpecies(species:Species)
 Hotel - add animal to hotel
     +addAnimal(animal:Animal)
 Habitat - add animal to habitat
@@ -133,14 +133,40 @@ Habitat
 4.2.4 Calculate satisfaction of animal
 Prompt.animalID()
 
--no Habitat -> getNumberSameEspecies(specie) : int
--no Animal -> getSpecies(): Species
--no Habitat -> getNumberDifferentSpecies(Specie): int
--no Habitat -> getArea(): int
--no Habitat -> getPopulation()
--no Habitat -> getAdequação(Specie) : int 
+- get animal
+- calculate satisfaction 20 +3*sameSpecies(a,h) - 2*differentSpecies(a,h) + (area(h)/population(h) + adequacy(a,h))
+- return animal's satisfaction rounded to int (math.round())
 
-4.3 <<Abstract>>Employee
+
+Hotel
+    +getAnimal(animalID:String):Animal
+Animal
+    +calculateSatisfaction():int
+Habitat
+    +getNumberOfAnimalsOfSpecies(species:Species):int
+    +getPopulation():int
+    +getArea():int
+    +getAdequacy(species:Species):int
+Species
+    equals(species:Species):boolean
+Adequacy
+    getSpecies():Species
+
+Atributes
+Hotel
+    -_animals:Collection<Animal>
+Animal
+    -_habitat:Habitat
+Habitat
+    -_animals:Collection<Animal>
+    -_area
+    -_speciesAdequacy:Collection<Adequacy>
+Adequacy
+    -_species:Species
+
+
+
+4.3 Employee
 
 4.3.1 Show all employees
 want: type | id | name [| idResponsibilities]
@@ -148,9 +174,21 @@ type: VET or TRT
 idResponsibilites:  VET => speciesID1, speciesID2, ...
                     TRT => habitatID1, habitatID2, ...
 
--Precisamos de uma lista da funcionarios no hotel
--e um toString() para o funcionario
--criar <<ABSTRACT>>getType():String e <<abstract>>getResponsabilidade()
+-get collection of Employees
+-get a string to print from each Employee
+
+Hotel
+    getAllEmployees():Collection<Employee>
+{abstract}Employee
+    toString():String
+    {abstract}getType():String
+    {abstract}getResponsibilitiesToString():String
+Veterinarian
+    getType():String
+    responsibiltiesToString():String
+Keeper
+    getType():String
+    responsibilitiesToString():String
 
 
 4.3.2 Register new employee
@@ -158,11 +196,15 @@ Prompt.employeeID() -> String
 Prompt.employeeName() -> String
 Prompt.employeeType() -> VET or TRT
 
--> no hotel ->getFuncionario(id : String) : Funcionario
--> no hotel-> addFuncionario(id, nome, tipoDeFuncionario) no hotel
--> no funcionario -> (Construtor)Funcionario(id,nome)
--> Veterinário -> (COnstrutor)Veterinario(id, nome)
--> Tratador -> (Construtor)Veterinario(id, nome)
+-get employee (null doesn't exist)
+-create employee
+-add to Collections
+
+Hotel - get employee
+    +getEmployee(employeeID:String):Employee
+    +addEmployee(employeeID:String, employeeName:String, employeeType:String)
+Employee
+
 
 
 4.3.3 Give employee new responsibility
