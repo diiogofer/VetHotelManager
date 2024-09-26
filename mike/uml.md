@@ -46,7 +46,7 @@ want: ANIMAL | idAnimal | nameAnimal | idSpecies | healthHistory | idHabitat
 -print each animal with string from toString();
 
 Hotel - get list of animals
-    +getAllAnimals():List<Animal>
+    +getAllAnimals():Collection<Animal>
 Animal - get String to print
     +toString():String
     +healthHistoryToString():String
@@ -72,9 +72,9 @@ Hotel - get animal, species, habitat
     +getSpecies(speciedID:String):Species
     +getHabitat(habitatID:String):Habitat
 Species - create species if doesn't exist
-    +Species(speciesID:String, speciesName:String)
+    +Species(speciesID:String, speciesName:String, hotel:Hotel)
 Animal - create animal if doesn't exist
-    +Animal(animalID:String, animalName:String, species:Species, habitat:Habitat)
+    +Animal(animalID:String, animalName:String, species:Species, habitat:Habitat, hotel:Hotel)
 Hotel - add created species
     +addSpecies(species:Species)
 Hotel - add animal to hotel
@@ -86,16 +86,19 @@ Species - add animal to species
 
 Atributes
 Hotel
-    -_habitats:List<Habitat>
-    -_animals:List<Animal>
-    -_species:List<Species>
+    -_habitats:Collection<Habitat>
+    -_animals:Collection<Animal>
+    -_species:Collection<Species>
 Habitat
-    -_animals:List<Animal>
+    -_hotel:Hotel
+    -_animals:Collection<Animal>
 Species
-    -_animals:List<Animal>
+    -_hotel:Hotel
+    -_animals:Collection<Animal>
     -_id:String
     -_name:String
 Animal
+    -_hotel:Hotel
     -_id:String
     -_name:String
     -_species:Species
@@ -122,11 +125,11 @@ Habitat
 
 Attributes
 Hotel  
-    -_animals:List<Animal>
+    -_animals:Collection<Animal>
 Animal
     -_habitat:Habitat
 Habitat
-    -_animals:List<Animals>
+    -_animals:Collection<Animals>
 
 
 
@@ -179,16 +182,27 @@ idResponsibilites:  VET => speciesID1, speciesID2, ...
 
 Hotel
     getAllEmployees():Collection<Employee>
-{abstract}Employee
+Employee
     toString():String
-    {abstract}getType():String
-    {abstract}getResponsibilitiesToString():String
+    {abstract}getEmployeeType():String
+    {abstract}responsibilitiesToString():String
 Veterinarian
-    getType():String
+    getEmployeeType():String
     responsibiltiesToString():String
 Keeper
-    getType():String
+    getEmployeeType():String
     responsibilitiesToString():String
+
+Attributes:
+Hotel
+    -_employees:Collection<Employee>
+Employee
+    -_id:String
+    -_name:String
+Veterinarian
+    -_responsibilities:Collection<Species>
+Keeper
+    -_responsibilities:Collection<Habitat>
 
 
 4.3.2 Register new employee
@@ -202,13 +216,39 @@ Prompt.employeeType() -> VET or TRT
 
 Hotel - get employee
     +getEmployee(employeeID:String):Employee
-    +addEmployee(employeeID:String, employeeName:String, employeeType:String)
 Employee
+    Employee(employeeID:String, name:String)
+Veterinarian
+    Veterinarian()
+Keeper
+    Keeper()
+Hotel
+    +addEmployee(employeeID:String, employeeName:String, employeeType:String)
 
 
 
 4.3.3 Give employee new responsibility
 Prompt.employeeID()
+
+-get employee
+-get responsibility (species or habitat)
+-add responsibility to employee
+
+Hotel
+    getEmployee(employeeID:String):Employee
+Employee
+    {abstract}addResponsibility(id:String)
+Veterinarian
+    addResponsibility(speciesID:String)
+Hotel
+    getSpecies(id:String)
+Keeper
+    addResponsibility(habitatID:String)
+Hotel
+    getHabitat(id:String)
+
+Atributes
+    
 
 ->getFuncionario(id): funcionario no Hotel
 ->no Funcionario -> <<abstract>>addResponsability(id)
@@ -216,11 +256,11 @@ Prompt.employeeID()
 -> no trt -> addResponsability(id)
 (para isto acontecer o hotel tem de ter um getSpecies(id): Especie, 
 getHabitat(): Habitat, e o Funcionario tem de ter um atributo do tipo hotel)
--> Na Especie ->  _veterinarios: List<veterinarios>
+-> Na Especie ->  _veterinarios: Collection<veterinarios>
               ->  addVet(Vet) (por causa da cena da satisfação)
               -> removeVet(Vet:Vet)
 -> Habitat -> addTratador(trt:Tratador)
-              -_tratador: List<Tratador>
+              -_tratador: Collection<Tratador>
               removerTratador(trt: Tratador)
 
 
@@ -251,7 +291,7 @@ TRT->  getSatisfação(): int
 Especie -> getPopulation():int
            getNumberVets(): int
 TRT -> getSatisfação(): int
-    ->_habitats: List<Habitat>
+    ->_habitats: Collection<Habitat>
 Habitat-> getArea(): int
           getPopulation():int
           getNumberTratadores()
@@ -276,10 +316,10 @@ Hotel: getSeason(): int -------------------> ENUMTYPE { PRIMAVERA VERAO OUTONO I
 HABITAT|idHabitat|nome|area|numeroArvores
 
 Hotel 
-    getAllHabitats(): List<Habitat>
+    getAllHabitats(): Collection<Habitat>
 Habitat
     toString(): String 
-    getAllTrees(): List<Tree>
+    getAllTrees(): Collection<Tree>
 Tree
     toString(): String
     getCicloBiologico(Seanson: int): String
@@ -313,7 +353,7 @@ Habitat
 
 4.4.6 Visualizar todas as arvores de um habitat
 Hotel: getHabitat(id)
-Habitat: getAllTrees():List<Tree>
+Habitat: getAllTrees():Collection<Tree>
 Tree: toString(): String
 
 
@@ -322,7 +362,7 @@ Tree: toString(): String
 -lista de vacinas 
 -toString de cada vacina da lista
 Hotel
-    getAllVacinas():List<Vacine>
+    getAllVacinas():Collection<Vacine>
 Vacine
     toString():String
 
@@ -330,9 +370,9 @@ Vacine
 Hotel
     getVacine(vacineID:String):Vacine
     getSpecies(speciesID:String):Species
-    addVacine(id:String, name:String, species:List<Species>)
+    addVacine(id:String, name:String, species:Collection<Species>)
 Vacine
-    Vacine(id:String, name:String, species:List<Species>)
+    Vacine(id:String, name:String, species:Collection<Species>)
 
 4.5.3 VACINAR ANIMAL
 -verificar se vacina existe
@@ -366,7 +406,7 @@ Veterenarian
 -obter lista de vacinas
 -toString de cada vacina
 Hotel
-    getAllVacinesEvents():List<VacineEvents>
+    getAllVacinesEvents():Collection<VacineEvents>
 VacineEvent
     toString():String
 
@@ -378,7 +418,7 @@ VacineEvent
 Hotel
     getHabitat(habitatID:String):Habitat
 Habitat
-    getAllAnimals():List<Animal>
+    getAllAnimals():Collection<Animal>
 Animal
     toString():String
 
@@ -390,7 +430,7 @@ Animal
 Hotel
     getAnimal(animalID:String):Animal
 Animal
-    getAllVacineEvents():List<VacineEvent>
+    getAllVacineEvents():Collection<VacineEvent>
 VacineEvent
     toString():String
 
@@ -404,7 +444,7 @@ Hotel
 Employee
     {abstract} getType():String                    VET ou TRT
 Veterenarian
-    getAllVacineEvents():List<VacineEvent>
+    getAllVacineEvents():Collection<VacineEvent>
 VacineEvent
     toString():String
 
@@ -412,6 +452,6 @@ VacineEvent
 -obter lista de vacinas
 -filtrar as que dano > 0
 Hotel
-    getBadVacineEvent():List<Vacine>
+    getBadVacineEvent():Collection<Vacine>
 
 
