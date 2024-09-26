@@ -149,11 +149,12 @@ Habitat
     +getNumberOfAnimalsOfSpecies(species:Species):int
     +getPopulation():int
     +getArea():int
-    +getAdequacy(species:Species):int
+    +getAdequacy(species:Species):Adequacy
 Species
     equals(species:Species):boolean
 Adequacy
     getSpecies():Species
+    getValue():int
 
 Atributes
 Hotel
@@ -166,6 +167,7 @@ Habitat
     -_speciesAdequacy:Collection<Adequacy>
 Adequacy
     -_species:Species
+    -_value:int
 
 
 
