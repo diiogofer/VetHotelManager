@@ -217,7 +217,7 @@ Prompt.employeeType() -> VET or TRT
 Hotel - get employee
     +getEmployee(employeeID:String):Employee
 Employee
-    Employee(employeeID:String, name:String)
+    Employee(employeeID:String, name:String, hotel:Hotel)
 Veterinarian
     Veterinarian()
 Keeper
@@ -225,10 +225,22 @@ Keeper
 Hotel
     +addEmployee(employeeID:String, employeeName:String, employeeType:String)
 
+Attributes
+Hotel
+    -_employees:Collection<Employee>
+Employee
+    -_id:String
+    -_name: String
+    -_hotel:Hotel
+Veterinarian
+    -_responsibilities:Collection<Species>
+Keeper
+    -_responsibilities:Collection<Habitat>
 
 
-4.3.3 Give employee new responsibility
+4.3.3 Give employee new responsibility - ?????? NOT SURE usar overload com ID ou se fazemos instanceof? exception pode ser lançada dentro do addResponsibility?
 Prompt.employeeID()
+Prompt.responsibilityKey
 
 -get employee
 -get responsibility (species or habitat)
@@ -242,73 +254,122 @@ Veterinarian
     addResponsibility(speciesID:String)
 Hotel
     getSpecies(id:String)
+Species
+    addVeterinarian(vet:Veterinarian)
 Keeper
     addResponsibility(habitatID:String)
 Hotel
     getHabitat(id:String)
+Habitat
+    addKeeper(keeper:Keeper)
 
 Atributes
-    
-
-->getFuncionario(id): funcionario no Hotel
-->no Funcionario -> <<abstract>>addResponsability(id)
-->no vet -> addResponsability(id) 
--> no trt -> addResponsability(id)
-(para isto acontecer o hotel tem de ter um getSpecies(id): Especie, 
-getHabitat(): Habitat, e o Funcionario tem de ter um atributo do tipo hotel)
--> Na Especie ->  _veterinarios: Collection<veterinarios>
-              ->  addVet(Vet) (por causa da cena da satisfação)
-              -> removeVet(Vet:Vet)
--> Habitat -> addTratador(trt:Tratador)
-              -_tratador: Collection<Tratador>
-              removerTratador(trt: Tratador)
+Hotel
+    -_employees:Collection<Employee>
+    -_species:Collection<Species>
+Veterinarian
+    -_responsibilities:Collection<Species>
+Keeper
+    -_responsibilities:Collection<Habitat>
+Species
+    -_veterinarians:Collection<Veterinarian>
+Habitat
+    -_keepers:Collection<Keeper>
 
 
 
 4.3.4 Remove responsibility from employee
 Prompt.employeeID()
+Prompt.responsibilityKey()
 
-Hotel -> getFuncionario(id): Funcionario
-Funcionario -> <<abstract>> removeResponsabilidade(id) -> getResponsabilidade()
-Vet -> removeResponsabilidade(id) -> getResponsabilidade(id)
-Trt _> removeResponsabilidade(id) -> getResponsabilidade(id)
-Na especie -> removeVet(Vet:veterinario)
+-get employee
+-get responsibility (species or habitat)
+-remove responsibility to employee
 
+Hotel
+    getEmployee(employeeID:String):Employee
+Employee
+    {abstract}removeResponsibility(id:String)
+Veterinarian
+    removeResponsibility(speciesID:String)
+Hotel
+    getSpecies(id:String)
+Species
+    removeVeterinarian(vet:Veterinarian)
+Keeper
+    removeResponsibility(habitatID:String)
+Hotel
+    getHabitat(id:String)
+Habitat
+    removeKeeper(keeper:Keeper)
 
-_________?????????????DUVIDA????????????????_____________
-MANO, Encontrar NVETERINARIOS DA ESPÉCIE MELHOR MANEIRA???????
-MANO, MANO, Nós fzemos uma lista de vets, MANO
-É QUE ATÉ DÁ JEITO PARA AS VACINAS MANO MANO
-_________________________________________________________
+Atributes
+Hotel
+    -_employees:Collection<Employee>
+    -_species:Collection<Species>
+Veterinarian
+    -_responsibilities:Collection<Species>
+Keeper
+    -_responsibilities:Collection<Habitat>
+Species
+    -_veterinarians:Collection<Veterinarian>
+Habitat
+    -_keepers:Collection<Keeper>
+
 
 4.3.5 Calculate employee satisfaction
 Prompt.employeeID()
+VET: 20 - (for each Species in _responsibilities) += population(species) / n_vets(can treat species)
+KEEP: 300 - (for each Habitat in _responsibilities) += habitat_work(habitat) / n_keepers(habitat)
+    habitat_work = area(habitat) + 3* population(habitat) + (for each Tree in _trees) += cleaningEffort(tree)
+    cleaning_effort(tree) = base_effort(tree) + seazonal_effort(tree) + log(age(tree) + 1)
+-get employee
+-calculate satisfaction of employee
+-return satisfaction (int Math.round)
 
-Queremos um int
-worker -> <<ABSTRACT>> getSatisfaction() : int
-Vet -> getSatisfação() : int
-TRT->  getSatisfação(): int
-Especie -> getPopulation():int
-           getNumberVets(): int
-TRT -> getSatisfação(): int
-    ->_habitats: Collection<Habitat>
-Habitat-> getArea(): int
-          getPopulation():int
-          getNumberTratadores()
-          getTrabalhoNoHabit() float
-TREE -> _dificuldadeBase: int
-        getBaseDifficults(): int
-        getEsforçoSazonal(): int
-        _idade: int
-        getAge(): int
-        getEsforçoLimpeza: float
+Hotel
+    getEmployee(employeeID:String):Employee
+Employee
+    {abstract} calculateSatisfaction():int
+Veterinarian
+    calculateSatisfaction():int
+Species
+    getNumberOfAnimals():int
+    getNumberOfVets():int
+Keeper
+    calculateSatisfaction():int
+Habitat
+    calculateWork():float
+    getNumberOfKeepers():int
+Tree
+    getCleaningEffort():float
+    getSeazonalEffort():int
+    getAge():int
+Hotel
+    getSeason():int
 
-        getTypeOfTree() : int
-        _tipo: int ------------------------> ENUMTYPE { CADUCA, PERENE }
-Hotel: getSeason(): int -------------------> ENUMTYPE { PRIMAVERA VERAO OUTONO INVERNO }
 
--> TRABALHO NO HABITAT -> AREA, POPULAÇÃO E AS MERDAS QUE ESTÃO EM ÁRVORE 
-
+Attributes
+Hotel
+    -_employees:Collection<Employee>
+Veterinarian
+    -_responsibilities:Collection<Species>
+Species
+    -_animals:Collection<Animal>
+    -_veterinarians:Collection<Veterinarian>
+Keep
+    -_responsibilities:Collection<Habitat>
+Habitat
+    -_animals:Collection<Animal>
+    -_keepers:Collection<Keepers>
+    -_area:int
+Hotel
+    -_season:Season                             ??? enum Season?
+Tree:
+    -_hotel:Hotel
+    -_baseCleaningDifficulty:int
+    -_treeType:TreeType                         ??? enum TreeType?
+    -_ageInSeasons:int
 
 ------MENU HABITATS------
 
