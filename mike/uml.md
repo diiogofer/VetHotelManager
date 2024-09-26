@@ -1,28 +1,105 @@
-25/09
--tem que ser ver se hotel foi alterado
+4.1 MAIN
+-verificar nomes usados no esqueleto
+
+4.1.1 SALVAGUARDAR ESTADO
+-verificar isto tudo com o prof/esqueleto
+HotelManager
+    create()
+    open()
+    save()
+
+Hotel
+    _hotelModified:boolean
+    (private) setHotelModified(value:boolean)
+
+4.1.2 AVANÇAR ESTACAO
+-avançar estacao do ano
+-print estacao actual
+HotelManager
+    advanceSeason():int
+Hotel
+    advanceSeason():int
+    _currentSeason:int
+Tree
+    advanceSeason()
+
+4.1.3 SATISFACAO GLOBAL
+HotelManage
+    getGlobalSatisfaction():int
+Hotel
+    getGlobalSatisfaction():int
+Animal
+    4.2.4
+Employee
+    4.3.5
+
+4.1.4 CONSULTAS ?????
+
+
+
+
 4.2 Animals
 
 4.2.1 Visualize all animals
 want: ANIMAL | idAnimal | nameAnimal | idSpecies | healthHistory | idHabitat
 
--Precisamos de uma lista da animais
--e um toString() para o animal
+-get list of animals
+-print each animal with string from toString();
+
+Hotel - get list of animals
+    +getAllAnimals():List<Animal>
+Animal - get String to print
+    +toString():String
+    +healthHistoryToString():String
+Species
+    +getID():String
 
 
 4.2.2 Register new animal
 Prompt.animalID()
 Prompt.animalName()
 Prompt.speciesID()
+Prompt.habitatID
 Prompt.speciesName()
 
--precisamos de um getAnimal(Animal id): -> para saber se o animal já existe
--precisamos de um addAnimal(id, nome, idEspecie, idHabitat) no hotel
--getSpecies(especie) -> para saber se a especie existe
--addSpecies() no Hotel
--Species (Construtor) recbee(id, Nome)
--na especie meter um addAnimal(animal)
--contrutor animal -> ( id, nome, Especie, Habitat)
+-get animal (null if doesn't exist)
+-get species (null if doesnt exist)
+-get habitat (null if doesn't exist)
+-create a new animal and add it to hotel, species and habitat
 
+Hotel - get animal, species, habitat
+    +getAnimal(animalID:String):Animal
+    +getSpecies(speciedID:String):Species
+    +getHabitat(habitatID:String):Habitat
+Species - create species if doesn't exist
+    +Species(speciesID:String, speciesName:String)
+Hotel - add created species
+    +addSpecies(species:Species)
+Animal - create animal if doesn't exist
+    +Animal(animalID:String, animalName:String, species:Species, habitat:Habitat)
+Hotel - add animal to hotel
+    +addAnimal(animal:Animal)
+Habitat - add animal to habitat
+    +addAnimal(animal:Animal)
+Species - add animal to species
+    +addAnimal(animal:Animal)
+
+Atributes
+Hotel
+    -_habitats:List<Habitat>
+    -_animals:List<Animal>
+    -_species:List<Species>
+Habitat
+    -_animals:List<Animal>
+Species
+    -_animals:List<Animal>
+    -_id:String
+    -_name:String
+Animal
+    -_id:String
+    -_name:String
+    -_species:Species
+    -_habitat:Habitat
 
 
 
@@ -30,9 +107,26 @@ Prompt.speciesName()
 Prompt.animalID()
 Promp.habitatID()
 
--precisamos de getAnimal(animalId) no Hotel
--getHabitat(habitatId) no hotel
--no habitat -> removeAnimal(Animal) e addAnimal(Animal)
+-get animal
+-get habitat
+-remove and add animal to habitat
+
+Hotel
+    +getAnimal(animalID:String)
+    +getHabitat(habitatID:String)
+Animal
+    +setHabitat(newHabitat:Habitat)
+Habitat
+    +addAnimal(animal:Animal)
+    +removeAnimal(animal:Animal)
+
+Attributes
+Hotel  
+    -_animals:List<Animal>
+Animal
+    -_habitat:Habitat
+Habitat
+    -_animals:List<Animals>
 
 
 
@@ -178,8 +272,104 @@ Habitat
 4.4.6 Visualizar todas as arvores de um habitat
 Hotel: getHabitat(id)
 Habitat: getAllTrees():List<Tree>
-Tree: toAtring(): String
+Tree: toString(): String
 
 
+4.5
+4.5.1
+-lista de vacinas 
+-toString de cada vacina da lista
+Hotel
+    getAllVacinas():List<Vacine>
+Vacine
+    toString():String
+
+4.5.2
+Hotel
+    getVacine(vacineID:String):Vacine
+    getSpecies(speciesID:String):Species
+    addVacine(id:String, name:String, species:List<Species>)
+Vacine
+    Vacine(id:String, name:String, species:List<Species>)
+
+4.5.3 VACINAR ANIMAL
+-verificar se vacina existe
+-verificar se emplyee existe e se é veterenario
+-verificar que animal existe e obetr speciesID
+-verificar que veterenarian tem a responsabilidade
+-criar VacineEvent
+Hotel
+    getVacine(vacineID:String):Vacine
+    getEmployee(employeeID:String):Employee
+    getAnimal(animalID:String):Animal
+Animal
+    getSpecies():Species
+Species
+    getID():String
+Employee
+    {abstract} getType():String                    VET ou TRT
+    {abstract} hasResponsibility(responsibilityID:String):boolean
+Hotel
+    addVacineEvent(vacine:Vacine, vet:Veterenarian animal:Animal)       Ver onde é preciso adicionar estes eventos
+VacineEvent
+    VacineEvent(vacine:Vacine, vet:Veterenarian, animal:Animal)
+    calculateEventDamage(vacine:Vacine, animal:Animal)
+    no fim o VacineEvent vai ter: _vacideID:String, _vetID:String, _speciesID:String, _damageToAnimal:int
+Animal
+    addVacineEvent(vacineEvent:VacineEvent)
+Veterenarian
+    addVacineEvent(vacineEvent:VacineEvent)
+
+4.5.4
+-obter lista de vacinas
+-toString de cada vacina
+Hotel
+    getAllVacinesEvents():List<VacineEvents>
+VacineEvent
+    toString():String
+
+4.6
+4.6.1
+-obter habitat
+-obter lista de animal no habitat
+-animal toString
+Hotel
+    getHabitat(habitatID:String):Habitat
+Habitat
+    getAllAnimals():List<Animal>
+Animal
+    toString():String
+
+4.6.2
+-obter animal
+-obter vacineEvents do animal
+-vacineEvent toString() para cada evento
+
+Hotel
+    getAnimal(animalID:String):Animal
+Animal
+    getAllVacineEvents():List<VacineEvent>
+VacineEvent
+    toString():String
+
+4.6.3
+-obter veterenario
+-obter vacineEvents do Veterenario
+-vacineEvent toString() para cada evento
+
+Hotel
+    getEmployee(employeeID):Employee
+Employee
+    {abstract} getType():String                    VET ou TRT
+Veterenarian
+    getAllVacineEvents():List<VacineEvent>
+VacineEvent
+    toString():String
+
+4.6.4
+-obter lista de vacinas
+-filtrar as que dano > 0
+Hotel
+    getBadVacineEvent():List<Vacine>
 
 
