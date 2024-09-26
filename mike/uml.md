@@ -345,7 +345,7 @@ Habitat
     getNumberOfKeepers():int
 Tree
     getCleaningEffort():float
-    getSeazonalEffort():int
+    getSeazonalEffort(season:Season, treeType:TreeType):int
     getAge():int
 Hotel
     getSeason():int
@@ -373,10 +373,11 @@ Tree:
     -_treeType:TreeType                         ??? enum TreeType?
     -_ageInSeasons:int
 
-------MENU HABITATS------
+4.4 Habitat
 
-4.4.1 VISUALIZAR TODOS OS HABITATS
+4.4.1 Show all habitats
 HABITAT|idHabitat|nome|area|numeroArvores
+ÁRVORE|idArvore|nomeArvore|idadeArvore|dificuldadeBaseLimpeza|tipoArvore|cicloBiologico 
 
 Hotel 
     getAllHabitats(): Collection<Habitat>
@@ -384,45 +385,160 @@ Habitat
     toString(): String 
     getAllTrees(): Collection<Tree>
 Tree
-    toString(): String
-    getCicloBiologico(Seanson: int): String
-
-4.4.2 rEGISTAR nOVO hABITAT
-
-Hotel   getHabitat(id)
-        addHabitat(id, nome, area: int)
-Habitat
-        Habitat(id, nome, area)
-Tratador
-    addHabitat(Habitat: Habitat)
-
-4.4.3 Alterar Area do HABITAT
-    Hotel: SetHabitat(id)
-    Habitat: SetArea(area: int)
-
-4.4.4 Alterar influencia de um habitat sobre uma especie
-    Hotel   getHabitat(id): habitat
-    Habitat: setInfluence(SpecieId, influence: String)
-
-4.4.5  Plantar uma nova arvore num habitat
+    +toString(): String
+    -calculateAge():int
+    -getBiologicalCycle(season:Season):String
 Hotel
-    getHabitat(id:String)
-    getTree(id:String)
-    addTree(id,nome,idade,dificulty: int, type:String)
-Tree
-    Tree(id,nome,idade,dificulty: int, type:String)
+    getSeason():Season
+
+Attributes
+Hotel
+    -_habitats:Collection<Habitat>
+    -_season:Season
 Habitat
-    addTree(tree: Tree)
+    -_id:String
+    -_name:String
+    -_trees:Collection<Tree>
+    -_area:int
+Tree
+    -_id:String
+    -_name:String
+    -_ageInSeasons:int
+    -_baseCleaningDIfficulty:int
+    -_treeType:TreeType
+    -_hotel:Hotel
 
-4.4.6 Visualizar todas as arvores de um habitat
-Hotel: getHabitat(id)
-Habitat: getAllTrees():Collection<Tree>
-Tree: toString(): String
+
+4.4.2 Register new habitat
+Prompt.habitatID()
+Prompt.habitatName()
+Prompt.habitatArea()
+
+-get habitat (null doesn't exist)
+-create habitat (if doesn't exist)
+-add habitat to Collections
+
+Hotel
+    getHabitat(habitatID:String):Habitat
+Habitat
+    Habitat(id:String, name:String, area:int, hotel:Hotel)
+Hotel
+    addHabitat(habitat:Habitat)
+
+Attributes:
+Hotel
+    -_habitats:Collection<Habitat>
+Habitat
+    -_id:String
+    -_name:String
+    -_area:int
+    -_hotel:Hotel
 
 
-4.5
-4.5.1
--lista de vacinas 
+4.4.3 Change habitat area
+Prompt.habitatID()
+Prompt.habitatArea()
+
+-get habitat
+-change area
+
+Hotel
+    getHabitat(habitatID:String):Habitat
+Habitat
+    setArea(newArea:int)
+
+Attribute
+Habitat
+    -_area:int
+
+
+4.4.4 Change habitat adequacy to species
+Prompt.habitatID()
+Prompt.speciesID()
+Prompt.habitatInfluence()
+
+-get habitat
+-get species
+-get adequacy for species
+-change adequacy
+or
+-create adequacy
+
+Hotel
+    getHabitat(habitatID:String):Habitat
+    getSpecies(speciesID:String):Species
+Habitat
+    getAdequacy(species:Species):Adequacy
+Adequacy
+    setValue(newValue:String)
+    Adequacy(species:Species, value:int)
+
+Attributes
+Hotel
+    -_habitats:Collection<Habitat>
+    -_species:Collection<Species>
+Habitat
+    -_adequacies:Collection<Adequacy>
+Adequacy
+    -_species:Species
+    -_value:int
+
+4.4.5  Plant new tree in habitat
+Prompt.habitatID()
+Prompt.treeID()
+Prompt.treeName()
+Prompt.treeAge()        int
+Prompt.treeDifficulty() int
+Prompt.treeType()
+
+-get habitat
+-get tree
+-create tree
+-add tree to habitat
+
+Hotel
+    getHabitat(habitatID:String):Habitat
+    getTree(treeID:String):Tree
+Tree
+    Tree(habitat:Habitat, treeID:String, treeName:String, treeAge:int, treeDifficulty:int, hotel:Hotel)
+PereneTree
+    PereneTree(habitat:Habitat, treeID:String, treeName:String, treeAge:int, treeDifficulty:int, hotel:Hotel)
+CaducaTree
+    CaducaTree(habitat:Habitat, treeID:String, treeName:String, treeAge:int, treeDifficulty:int, hotel:Hotel)
+Hotel
+    addTree(tree:Tree)
+Habitat
+    addTree(tree:Tree)
+
+Attributes
+
+
+4.4.6 Print all trees in habitat
+ARVORE|id|name|age|baseDifficulty|type|bioCycle
+
+-get all trees
+-tree to String
+
+Hotel
+    getAllTrees():Collection<Tree>
+Tree
+    toString()
+    {abstract} getTreeType():String
+    {abstract} getBioCycle():String
+Caduca
+    getTreeType():String
+    getBioCycle(season:Season):String
+Perene
+    getTreeType():String
+    getBioCycle(season:Season):String
+
+Attributes
+
+
+4.5 Vacinas
+4.5.1 Visualize all vacines
+
+-list all vacines 
 -toString de cada vacina da lista
 Hotel
     getAllVacinas():Collection<Vacine>
