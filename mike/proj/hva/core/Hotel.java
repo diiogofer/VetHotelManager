@@ -28,4 +28,13 @@ public class Hotel implements Serializable {
   void importFile(String filename) throws UnrecognizedEntryException, IOException /* FIXME maybe other exceptions */  {
     //FIXME implement method
   }
+
+  //Register
+  public void registerSpecies(String id, String name) throws DuplicateSpeciesKeyException, DuplicateSpeciesNameException {}
+  public void registerTree(String id, String name, String age, String baseDifficulty, String treeType) throws DuplicateTreeKeyException {}
+  public void registerHabitat(String id, String name, String area) throws DuplicateHabitatKeyException {}
+  public void registerHabitat(String id, String name, String area, String[] treeIds) throws DuplicateHabitatKeyException {}
+  public void registerAnimal(String animalId, String name, String speciesId, String habitatId) throws DuplicateAnimalKeyException {}
+  public void registerEmployee(String id, String name, String[] responsibilityID, String employeeType) throws DuplicateEmployeeKeyException {}
+  public void registerVaccine(String id, String name, String[] speciesIds) throws DuplicateVaccineKeyException {}
 }
