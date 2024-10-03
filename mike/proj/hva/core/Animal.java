@@ -5,15 +5,14 @@ public class Animal {
     private String _name;
     private Species _species;
     private Habitat _habitat;
-    private Hotel _hotel;
 
-    public Animal(String identifier, String name, Species species, Habitat habitat, Hotel hotel) {
+    Animal(String identifier, String name, Species species, Habitat habitat) {
         _identifier = identifier;
         _name = name;
         _species = species;
         _habitat = habitat;
-        _hotel = hotel;
     }
+    String getId() {return _identifier;}
 
     @Override
     public int hashCode() {return _identifier.hashCode();}

@@ -5,9 +5,9 @@ import java.util.*;
 public class Keeper extends Employee {
     private Map<String, Habitat> _responsibilities;
 
-    Keeper(String identifier, String name, Hotel hotel) {
-        super(identifier, name, hotel);
-        _responsibilities = new HashMap<>();
+    Keeper(String identifier, String name, Map<String, Habitat> habitats) {
+        super(identifier, name);
+        _responsibilities = habitats;
     }
 
     @Override

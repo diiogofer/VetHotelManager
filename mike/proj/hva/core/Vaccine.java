@@ -5,17 +5,14 @@ import java.util.*;
 public class Vaccine {
     private final String _identifier;
     private String _name;
-    private Map<String, Species> _species = new HashMap<>();
+    private Map<String, Species> _speciesMap;
     private List<VaccineEvent> _vaccineEvents = new ArrayList<>();
 
-    Vaccine(String identifier, String name, List<Species> speciesList) {
+    Vaccine(String identifier, String name, Map<String, Species> speciesMap) {
         _identifier = identifier;
         _name = name;
-        for (Species s : speciesList) {
-            _species.put(s.getIdentifier(), s);
-        }
+        _speciesMap = speciesMap;
     }
 
-    // VaccineEvent createVaccineEvent() {}
-    
+    String getId() {return _identifier;}    
 }

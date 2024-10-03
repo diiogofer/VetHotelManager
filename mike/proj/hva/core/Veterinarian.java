@@ -5,9 +5,9 @@ import java.util.*;
 public class Veterinarian extends Employee{
     private Map<String, Species> _responsibilities;
 
-    Veterinarian(String identifier, String name, Hotel hotel) {
-        super(identifier, name, hotel);
-        _responsibilities = new HashMap<>();
+    Veterinarian(String identifier, String name, Map<String, Species> responsibilities) {
+        super(identifier, name);
+        _responsibilities = responsibilities;
     }
 
     @Override

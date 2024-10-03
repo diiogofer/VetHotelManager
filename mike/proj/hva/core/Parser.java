@@ -80,7 +80,7 @@ public class Parser {
             }
             String[] responsibilitiesIds = components.length == 3 ? new String[0] : components[3].split(",");
             _hotel.registerEmployee(components[1], components[2], responsibilitiesIds, employeeType);
-        } catch (DuplicateEmployeeKeyException | UnknownSpeciesKeyException | UnknownEmployeeTypeException ex) {
+        } catch (DuplicateEmployeeKeyException | UnknownSpeciesKeyException | UnknownEmployeeTypeException | UnknownHabitatKeyException ex) {
             throw new UnrecognizedEntryException("tipo de entrada inválido");
         }
     }

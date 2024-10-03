@@ -14,7 +14,9 @@ abstract class Tree {
         _baseCleaningDifficulty = baseCleaningDifficulty;
         _hotel = hotel;
     }
-
+    
+    String getId() {return _identifier;}
+    String getName() {return _name;}
     int getAge() {return _ageInSeasons / 4;}
     Hotel getHotel() {return _hotel;}
 

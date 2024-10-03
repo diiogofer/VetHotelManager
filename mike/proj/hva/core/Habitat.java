@@ -6,18 +6,17 @@ public class Habitat {
     private final String _identifier;
     private String _name;
     private int _area;
-    private Hotel _hotel;
     private Map<String, Animal> _animals = new HashMap<>();
     private List<Tree> _trees = new ArrayList<>();
     private Map<Species, Integer> _adequacies = new HashMap<>();
     private int _numberKeepers;
     
-    Habitat(String identifier, String name, int area, Hotel hotel) {
+    Habitat(String identifier, String name, int area) {
         _identifier = identifier;
         _name = name;
         _area = area;
-        _hotel = hotel;
     }
+    String getId() {return _identifier;}
 
     @Override
     public int hashCode() {return _identifier.hashCode();}
