@@ -39,4 +39,5 @@ public class Species {
 
     int getPopulation() {return _population;}
     int getNumberQualifiedVets() {return _numberQualifiedVets;}
+    String getIdentifier() {return _identifier;}
 }
