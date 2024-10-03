@@ -5,8 +5,8 @@ public abstract class HotelEntity {
     private String _name;
 
     public HotelEntity(String id, String name) {
-        this._id = id;
-        this._name = name;
+        _id = id;
+        _name = name;
     }
 
     protected String name(){
