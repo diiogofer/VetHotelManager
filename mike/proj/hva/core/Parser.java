@@ -1,7 +1,6 @@
 package hva.core;
 
 import java.io.*;
-import java.util.*;
 
 import hva.core.exception.*;
 
@@ -25,8 +24,8 @@ public class Parser {
             case "ÁRVORE" -> parseTree(components);
             case "HABITAT" -> parseHabitat(components);
             case "ANIMAL" -> parseAnimal(components);
-            case "TRATADOR" -> parseKeeper(components);
-            case "VETERINÁRIO" -> parseVet(components);
+            case "TRATADOR" -> parseEmployee(components);
+            case "VETERINÁRIO" -> parseEmployee(components);
             case "VACINA" -> parseVaccine(components);
             default -> throw new UnrecognizedEntryException("tipo de entrada inválido: " + components[0]);
         }
@@ -42,23 +41,56 @@ public class Parser {
 
     private void parseTree(String[] components) throws UnrecognizedEntryException {
         try {
-            _hotel.registerTree(components[1], components[2], components[3], components[4], components[0]);
-        } catch (DuplicateTreeKeyException ex) {
+            TreeType treeType;
+            switch(components[5]) {
+                case "CADUCA" -> treeType = TreeType.CADUCA;
+                case "PERENE" -> treeType = TreeType.PERENE;   
+                default -> throw new UnknownTreeTypeException();   
+            }
+            _hotel.registerTree(components[1], components[2], components[3], components[4], treeType);
+        } catch (DuplicateTreeKeyException | UnknownTreeTypeException ex) {
             throw new UnrecognizedEntryException("tipo de entrada inválido");
         }
     }
 
     private void parseHabitat(String[] components) throws UnrecognizedEntryException {
         try {
-            if(components.length == 4)
-                _hotel.registerHabitat(components[1], components[2], components[3]);
-            else {
-                String[] treeIds = new String[components.length - 4];
-                for(int i = 3; i < components.length; i++) {
-                    treeIds[i-3] = components[i];
-                }
-                _hotel.registerHabitat(components[1], components[2], components[3], treeIds);
-            }    
+            String[] treeIds = components.length == 4 ? new String[0] : components[4].split(",");
+            _hotel.registerHabitat(components[1], components[2], components[3], treeIds);
+        } catch (DuplicateHabitatKeyException | UnknownTreeKeyException ex) {
+            throw new UnrecognizedEntryException("tipo de entrada inválido");
+        }
+    }
+
+    private void parseAnimal(String[] components) throws UnrecognizedEntryException {
+        try {
+            _hotel.registerAnimal(components[1], components[2], components[3], components[4]);
+        } catch (DuplicateAnimalKeyException | UnknownHabitatKeyException | UnknownSpeciesKeyException ex) {
+            throw new UnrecognizedEntryException("tipo de entrada inválido");
+        }
+    }
+
+    private void parseEmployee(String[] components) throws UnrecognizedEntryException {
+        try {
+            EmployeeType employeeType;
+            switch(components[0]) {
+                case "TRATADOR" -> employeeType = EmployeeType.KEEPER;
+                case "VETERINÁRIO" -> employeeType = EmployeeType.VETERINARIAN;   
+                default -> throw new UnknownEmployeeTypeException();   
+            }
+            String[] responsibilitiesIds = components.length == 3 ? new String[0] : components[3].split(",");
+            _hotel.registerEmployee(components[1], components[2], responsibilitiesIds, employeeType);
+        } catch (DuplicateEmployeeKeyException | UnknownSpeciesKeyException | UnknownEmployeeTypeException ex) {
+            throw new UnrecognizedEntryException("tipo de entrada inválido");
+        }
+    }
+
+    private void parseVaccine(String[] components) throws UnrecognizedEntryException {
+        try {
+            String[] speciesIds = components.length == 4 ? components[3].split(",") : new String[0];
+            _hotel.registerVaccine(components[1], components[2], speciesIds);
+        } catch (DuplicateVaccineKeyException | UnknownSpeciesKeyException ex) {
+            throw new UnrecognizedEntryException("tipo de entrada inválido");
         }
     }
 

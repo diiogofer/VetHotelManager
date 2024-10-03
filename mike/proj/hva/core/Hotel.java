@@ -2,7 +2,6 @@ package hva.core;
 
 import hva.core.exception.*;
 import java.io.*;
-import java.util.*;
 // FIXME import classes
 
 public class Hotel implements Serializable {
@@ -31,10 +30,9 @@ public class Hotel implements Serializable {
 
   //Register
   public void registerSpecies(String id, String name) throws DuplicateSpeciesKeyException, DuplicateSpeciesNameException {}
-  public void registerTree(String id, String name, String age, String baseDifficulty, String treeType) throws DuplicateTreeKeyException {}
-  public void registerHabitat(String id, String name, String area) throws DuplicateHabitatKeyException {}
-  public void registerHabitat(String id, String name, String area, String[] treeIds) throws DuplicateHabitatKeyException {}
-  public void registerAnimal(String animalId, String name, String speciesId, String habitatId) throws DuplicateAnimalKeyException {}
-  public void registerEmployee(String id, String name, String[] responsibilityID, String employeeType) throws DuplicateEmployeeKeyException {}
-  public void registerVaccine(String id, String name, String[] speciesIds) throws DuplicateVaccineKeyException {}
+  public void registerTree(String id, String name, String age, String baseDifficulty, TreeType treeType) throws DuplicateTreeKeyException {}
+  public void registerHabitat(String id, String name, String area, String[] treeIds) throws DuplicateHabitatKeyException, UnknownTreeKeyException {}
+  public void registerAnimal(String animalId, String name, String speciesId, String habitatId) throws DuplicateAnimalKeyException, UnknownSpeciesKeyException, UnknownHabitatKeyException {}
+  public void registerEmployee(String id, String name, String[] responsibilityID, EmployeeType employeeType) throws DuplicateEmployeeKeyException, UnknownSpeciesKeyException {}
+  public void registerVaccine(String id, String name, String[] speciesIds) throws DuplicateVaccineKeyException, UnknownSpeciesKeyException {}
 }
