@@ -15,6 +15,8 @@ abstract class Tree {
         _hotel = hotel;
     }
 
+    int getAge() {return _ageInSeasons / 4;}
+    Hotel getHotel() {return _hotel;}
 
     @Override
     public int hashCode() {return _identifier.hashCode();}
@@ -24,5 +26,11 @@ abstract class Tree {
         if(!(object instanceof Tree)) return false;
         Tree tree = (Tree)object;
         return _identifier.equals(tree._identifier);
+    }
+
+    int getBaseCleaningDifficulty() {return _baseCleaningDifficulty;}
+    abstract int getSeasonalCleaningEffort(Season season);
+    public double calculateCleaningEffort() {
+        return _baseCleaningDifficulty * getSeasonalCleaningEffort(_hotel.getSeason()) * Math.log(getAge() + 1);
     }
 }
