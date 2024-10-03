@@ -1,5 +1,8 @@
 package hva.core;
 
-public class VaccinationResult {
-    
+public enum VaccinationResult {
+    NORMAL,
+    CONFUSION,
+    ACCIDENT,
+    ERROR;
 }
