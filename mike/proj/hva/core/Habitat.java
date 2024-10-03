@@ -1,15 +1,16 @@
 package hva.core;
 
-import java.util.HashMap;
+import java.util.*;
 
 public class Habitat {
     private final String _identifier;
     private String _name;
     private int _area;
     private Hotel _hotel;
-    private HashMap<String, Animal> _animals = new HashMap<>();
-    // Tree collection type depends on how I want to print them
-    private HashMap<Species, Integer> _adequacies = new HashMap<>();
+    private Map<String, Animal> _animals = new HashMap<>();
+    private List<Tree> _trees = new ArrayList<>();
+    private Map<Species, Integer> _adequacies = new HashMap<>();
+    private int _numberKeepers;
     
     Habitat(String identifier, String name, int area, Hotel hotel) {
         _identifier = identifier;
@@ -39,4 +40,13 @@ public class Habitat {
         Integer value = _adequacies.get(species);
         return value == null ?  0 : value;
     }
+    double calculateWork() {
+        double work = 0;
+        work += _area + 3 * _animals.size();
+        for(Tree t : _trees) {
+            work += t.calculateCleaningEffort();
+        }
+        return work;
+    }
+    int getNumberKeepers() {return _numberKeepers;}
 }

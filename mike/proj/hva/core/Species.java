@@ -1,12 +1,15 @@
 package hva.core;
 
-import hva.core.exception.NoIdentifierException;
-import hva.core.exception.NoNameException;
+import java.util.*;
+import hva.core.exception.*;
 
 public class Species {
     private final String _identifier;                                       //Unique
     private final String _name;                                             //Unique
     private Hotel _hotel;
+    private int _population;
+    private int _numberQualifiedVets;
+
 
     
     Species(String identifier, String name, Hotel hotel) throws NoIdentifierException, NoNameException{
@@ -15,6 +18,8 @@ public class Species {
         _identifier = identifier;
         _name = name;
         _hotel = hotel;
+        _population = 0;
+        _numberQualifiedVets = 0;
     }
 
     @Override
@@ -31,4 +36,7 @@ public class Species {
         Species species = (Species)object;
         return _identifier.equals(species._identifier) && _name.equals(species._name);
     }
+
+    int getPopulation() {return _population;}
+    int getNumberQualifiedVets() {return _numberQualifiedVets;}
 }
