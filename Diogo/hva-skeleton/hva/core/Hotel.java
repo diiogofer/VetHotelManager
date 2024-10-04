@@ -1,5 +1,8 @@
 package hva.core;
 
+import hva.app.exception.DuplicateAnimalKeyException;
+import hva.app.exception.UnknownHabitatKeyException;
+import hva.app.exception.UnknownSpeciesKeyException;
 import hva.core.exception.*;
 import java.io.*;
 import java.util.*;
@@ -8,12 +11,31 @@ import java.util.*;
 public class Hotel implements Serializable {
   
   private Season _season;
-  
+  private Map<String, Animal> _animals = new HashMap<>();
+  private Map<String, Species> _species = new HashMap<>();
+  private Map<String, Habitat> _habitats = new HashMap<>();
+
+  Hotel() {
+    _season = Season.SPRING;
+  }
+
   Season getSeason() {
     return _season;
   }
+  
+  public void registerAnimal(String animald, String name, String speciesId, String habitatId) throws DuplicateAnimalKeyException, UnknownSpeciesKeyException, UnknownHabitatKeyException {
+    if(_animals.containsKey(animald)) throw new DuplicateAnimalKeyException();
+    Species species = _species.get(speciesId);
+    if (species == null) throw new UnknownSpeciesKeyException();
+    Habitat habitat = _habitats.get(habitatId);
+    if (habitat == null) throw new UnknownHabitatKeyException();
+    Animal animal = new Animal(animald, name, species, habitat);
+    addAnimal(animal);
+  }
 
-
+  private void addAnimal(Animal animal) {
+    _animals.put(animal.id(), animal);
+  }
   
   @Serial
   private static final long serialVersionUID = 202407081733L;
