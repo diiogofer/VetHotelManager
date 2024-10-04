@@ -18,7 +18,10 @@ public abstract class HotelEntity {
     }
 
     @Override
-    public abstract int hashCode();
+    public int hashCode(){
+        return _id.hashCode();
+    }
+
 
     @Override
     public abstract boolean equals(Object obj);

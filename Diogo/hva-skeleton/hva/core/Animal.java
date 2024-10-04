@@ -21,16 +21,12 @@ public class Animal extends HotelEntity {
 
     double calculateSatisfaction() {
         int sameSpecies = _habitat.getPopulationSameSpecies(_species);
-        int totalPopulation = _habitat.getPopulation(_species);
+        int totalPopulation = _habitat.getPopulation();
         int area = _habitat.getArea();
         int adequacy = _habitat.getAdequacyValue(_species);
         return 20 + 3 * sameSpecies - 2 * (totalPopulation - sameSpecies) + (area / totalPopulation) + adequacy;
     }
 
-    @Override
-    public int hashCode() {
-        return super.id().hashCode();
-    }
 
     @Override
     public boolean equals(Object obj) {

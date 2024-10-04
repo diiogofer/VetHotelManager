@@ -5,14 +5,28 @@ import java.util.Set;
 
 public class Species extends HotelEntity{
     private Set<Animal> _animais;
+    private Set<Veterinarian> _qualifiedVets; // set ou lista normal?
 
-    Species(String speciesId, String speciesName){
+    Species(String speciesId, String speciesName) {
         super(speciesId, speciesName);
         _animais = new HashSet<>();
+        _qualifiedVets = new HashSet<>();
     }
 
     public void addAnimal(Animal animal) {
         _animais.add(animal);
+    }
+
+    public void addQualifiedVet(Veterinarian veterinarian) {
+        _qualifiedVets.add(veterinarian);
+    }
+
+    int getPopulation() {
+        return _animais.size();
+    }
+
+    int getNumberQualifiedVets() { 
+        return _qualifiedVets.size();
     }
 
     @Override

@@ -25,11 +25,6 @@ abstract class Tree extends HotelEntity{
     }
     
     @Override
-    public int hashCode() {
-        return super.id().hashCode();
-    }
-
-    @Override
     public boolean equals(Object obj) {
         if (this == obj) 
             return true;

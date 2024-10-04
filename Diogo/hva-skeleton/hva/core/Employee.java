@@ -1,5 +1,11 @@
 package hva.core;
 
-public class Employee {
+public abstract class Employee extends HotelEntity {
+
+    Employee(String id, String name) {
+        super(id, name);
+    }
+
+    abstract int calculateSatisfaction();
     
 }

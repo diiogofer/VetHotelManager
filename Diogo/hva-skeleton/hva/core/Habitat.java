@@ -7,6 +7,7 @@ public class Habitat extends HotelEntity {
     private Map<String, Animal> _animals;
     private List<Tree> _trees;
     private Map<Species, Integer> _speciesAdequacy;
+    private List<Zookeeper> _zookeepers;
 
     Habitat(String habitatId, String habitatName,int area){
         super(habitatId, habitatName);
@@ -14,6 +15,7 @@ public class Habitat extends HotelEntity {
         _animals = new HashMap<>();
         _trees = new ArrayList<>();
         _speciesAdequacy = new HashMap<>();
+        _zookeepers = new ArrayList<>();
     }
 
     int getArea(){
@@ -22,6 +24,14 @@ public class Habitat extends HotelEntity {
 
     void addAnimal(Animal animal) {
         _animals.put(animal.id(), animal);
+    }
+
+    void addTree(Tree tree) {
+        _trees.add(tree);
+    }
+    
+    void addZookeeper(Zookeeper zookeeper) {
+        _zookeepers.add(zookeeper);
     }
 
     int getPopulationSameSpecies(Species species) {
@@ -33,7 +43,7 @@ public class Habitat extends HotelEntity {
         return counter - 1;
     }
     
-    int getPopulation(Species species) { 
+    int getPopulation() { 
         return _animals.size();
     }
 
@@ -42,11 +52,16 @@ public class Habitat extends HotelEntity {
         return value == null ?  0 : value;
     }
     
+    double calculateWork() {
+        double work = _area + 3 * _animals.size();
+        for(Tree tree : _trees) {
+            work += tree.calculateCleaningEffort();
+        }
+        return work;
+    }
 
-
-    @Override
-    public int hashCode() {
-        return super.id().hashCode();
+    int getNumberKeepers(){
+        return _zookeepers.size();
     }
 
     @Override
