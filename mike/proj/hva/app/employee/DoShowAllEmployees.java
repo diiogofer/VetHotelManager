@@ -17,7 +17,6 @@ class DoShowAllEmployees extends Command<Hotel> {
   
   @Override
   protected void execute() {
-    //FIXME implement command
     List<Employee> list = _receiver.getAllEmployees();
     for(Employee e : list) {_display.addLine(e);}
   }

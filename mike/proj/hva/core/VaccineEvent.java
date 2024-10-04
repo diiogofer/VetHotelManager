@@ -6,5 +6,6 @@ public class VaccineEvent {
     private VaccineEventDamage _damage;
 
     // private int calculateDamage() {}
+    public VaccineEventDamage getDamage() {return _damage;}
 
 }
