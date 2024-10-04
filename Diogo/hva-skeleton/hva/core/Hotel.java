@@ -6,7 +6,15 @@ import java.util.*;
 // FIXME import classes
 
 public class Hotel implements Serializable {
+  
+  private Season _season;
+  
+  Season getSeason() {
+    return _season;
+  }
 
+
+  
   @Serial
   private static final long serialVersionUID = 202407081733L;
   

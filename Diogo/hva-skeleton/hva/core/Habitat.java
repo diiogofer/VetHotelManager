@@ -21,7 +21,7 @@ public class Habitat extends HotelEntity {
     }
 
     void addAnimal(Animal animal) {
-        _animals.put(animal.id(), animal); // isto não devia dar erro !!
+        _animals.put(animal.id(), animal);
     }
 
     int getPopulationSameSpecies(Species species) {
