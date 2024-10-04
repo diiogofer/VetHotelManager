@@ -19,6 +19,10 @@ public class Animal extends HotelEntity {
         return _species;
     }
 
+    void addVaccineApplication(VaccineApplication vaccineApplication){
+        _vaccines.add(vaccineApplication);
+    }
+
     double calculateSatisfaction() {
         int sameSpecies = _habitat.getPopulationSameSpecies(_species);
         int totalPopulation = _habitat.getPopulation();
