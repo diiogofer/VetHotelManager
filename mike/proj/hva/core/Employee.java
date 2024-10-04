@@ -1,6 +1,6 @@
 package hva.core;
 
-abstract class Employee {
+abstract class Employee implements Identifiable{
     private final String _identifier;
     private String _name;
 
@@ -8,7 +8,9 @@ abstract class Employee {
         _identifier = identifier;
         _name = name;
     }
-    String getId() {return _identifier;}
+    
+    @Override
+    public String getId() {return _identifier;}
 
     @Override
     public int hashCode() {return _identifier.hashCode();}

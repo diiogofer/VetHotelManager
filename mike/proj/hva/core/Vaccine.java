@@ -2,7 +2,7 @@ package hva.core;
 
 import java.util.*;
 
-public class Vaccine {
+public class Vaccine implements Identifiable{
     private final String _identifier;
     private String _name;
     private Map<String, Species> _speciesMap;
@@ -13,6 +13,6 @@ public class Vaccine {
         _name = name;
         _speciesMap = speciesMap;
     }
-
-    String getId() {return _identifier;}    
+    @Override
+    public String getId() {return _identifier;}    
 }

@@ -3,6 +3,7 @@ package hva.core;
 import hva.core.exception.*;
 import java.io.*;
 import java.util.*;
+import hva.core.sorter.*;
 
 public class Hotel implements Serializable {
 
@@ -112,5 +113,44 @@ public class Hotel implements Serializable {
   private void addAnimal(Animal animal) {_animals.put(animal.getId(), animal);}
   private void addEmployee(Employee employee) {_employees.put(employee.getId(), employee);}
   private void addVaccine(Vaccine vaccine) {_vaccines.put(vaccine.getId(), vaccine);}
+
+  //GetAll
+  public <T extends Identifiable> List<T> getAllEntities(Map<String, T> entities) {
+    List<T> list = new ArrayList<>(entities.values());
+    Collections.sort(list, new SortById<T>());
+    return Collections.unmodifiableList(list);
+  }
+  public List<Habitat> getAllHabitats() {
+    return getAllEntities(_habitats);  
+  }
+  public List<Animal> getAllAnimals() {
+    return getAllEntities(_animals);   
+  }
+  public List<Employee> getAllEmployees() {
+    return getAllEntities(_employees); 
+  }
+  public List<Vaccine> getAllVaccines() {
+    return getAllEntities(_vaccines);  
+  }
+  // public List<Habitat> getAllHabitats() {
+  //   List<Habitat> list = new ArrayList<>(_habitats.values());
+  //   Collections.sort(list, new SortById<Habitat>()); 
+  //   return Collections.unmodifiableList(list);
+  // }
+  // public List<Animal> getAllAnimals() {
+  //   List<Animal> list = new ArrayList<>(_animals.values());
+  //   Collections.sort(list, new SortById<Animal>());
+  //   return Collections.unmodifiableList(list);
+  // }
+  // public List<Employee> getAllEmployees() {
+  //   List<Employee> list = new ArrayList<>(_employees.values());
+  //   Collections.sort(list, new SortById<Employee>()); 
+  //   return Collections.unmodifiableList(list);
+  // }
+  // public List<Vaccine> getAllVaccines() {
+  //   List<Vaccine> list = new ArrayList<>(_vaccines.values());
+  //   Collections.sort(list, new SortById<Vaccine>()); 
+  //   return Collections.unmodifiableList(list);
+  // }
 }
 

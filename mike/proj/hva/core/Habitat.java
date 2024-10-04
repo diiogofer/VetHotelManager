@@ -2,7 +2,7 @@ package hva.core;
 
 import java.util.*;
 
-public class Habitat {
+public class Habitat implements Identifiable{
     private final String _identifier;
     private String _name;
     private int _area;
@@ -16,7 +16,8 @@ public class Habitat {
         _name = name;
         _area = area;
     }
-    String getId() {return _identifier;}
+    @Override
+    public String getId() {return _identifier;}
 
     @Override
     public int hashCode() {return _identifier.hashCode();}
@@ -31,7 +32,7 @@ public class Habitat {
     int getPopulationSameSpecies(Species species) {
         int counter = 0;
         for(Animal animal : _animals.values()) {if((animal.getSpecies()).equals(species)) counter++;}
-        return counter;
+        return counter - 1;
     }
     int getPopulation(Species species) { return _animals.size();}
     int getArea() {return _area;}

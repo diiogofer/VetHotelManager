@@ -1,6 +1,6 @@
 package hva.core;
 
-public class Animal {
+public class Animal implements Identifiable{
     private final String _identifier;                                     //Unique
     private String _name;
     private Species _species;
@@ -12,7 +12,9 @@ public class Animal {
         _species = species;
         _habitat = habitat;
     }
-    String getId() {return _identifier;}
+    
+    @Override
+    public String getId() {return _identifier;}
 
     @Override
     public int hashCode() {return _identifier.hashCode();}
