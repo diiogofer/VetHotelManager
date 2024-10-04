@@ -17,6 +17,8 @@ public class Hotel implements Serializable {
 
   Season getSeason() {return _season;}
 
+  Hotel() {_season = Season.PRIMAVERA;}
+
   @Serial
   private static final long serialVersionUID = 202407081733L;
   

@@ -1,13 +1,14 @@
 package hva.core;
 
 import java.util.*;
+import hva.core.sorter.*;
 
 public class Habitat implements Identifiable{
     private final String _identifier;
     private String _name;
     private int _area;
     private Map<String, Animal> _animals = new HashMap<>();
-    private List<Tree> _trees = new ArrayList<>();
+    private Map<String, Tree> _trees = new HashMap<>();
     private Map<Species, Integer> _adequacies = new HashMap<>();
     private int _numberKeepers;
     
@@ -43,10 +44,18 @@ public class Habitat implements Identifiable{
     double calculateWork() {
         double work = 0;
         work += _area + 3 * _animals.size();
-        for(Tree t : _trees) {
+        for(Tree t : _trees.values()) {
             work += t.calculateCleaningEffort();
         }
         return work;
     }
     int getNumberKeepers() {return _numberKeepers;}
+
+    public List<Tree> getAllTrees() {
+        List<Tree> treeList = new ArrayList<>(_trees.values());
+        Collections.sort(treeList, new SortById<Tree>());
+        return Collections.unmodifiableList(treeList);
+    }
+
+    public String toString() {return "HABITAT|" + _identifier + "|" + _name + "|" + _area + "|" + _trees.size();}
 }

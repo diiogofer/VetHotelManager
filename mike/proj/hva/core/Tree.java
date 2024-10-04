@@ -1,6 +1,6 @@
 package hva.core;
 
-abstract class Tree {
+public abstract class Tree implements Identifiable{
     private final String _identifier;
     private String _name;
     private int _ageInSeasons;
@@ -15,7 +15,7 @@ abstract class Tree {
         _hotel = hotel;
     }
     
-    String getId() {return _identifier;}
+    public String getId() {return _identifier;}
     String getName() {return _name;}
     int getAge() {return _ageInSeasons / 4;}
     Hotel getHotel() {return _hotel;}
@@ -29,10 +29,16 @@ abstract class Tree {
         Tree tree = (Tree)object;
         return _identifier.equals(tree._identifier);
     }
+    abstract String treeTypeToString();
 
     int getBaseCleaningDifficulty() {return _baseCleaningDifficulty;}
     abstract int getSeasonalCleaningEffort(Season season);
     public double calculateCleaningEffort() {
         return _baseCleaningDifficulty * getSeasonalCleaningEffort(_hotel.getSeason()) * Math.log(getAge() + 1);
+    }
+    abstract BiologicalCycle getBiologicalCycle(Season season);
+    public String toString() {
+        return "ÁRVORE|" + _identifier + "|" + _name + "|" + getAge() + "|" + _baseCleaningDifficulty + 
+            "|" + treeTypeToString() + "|" + getBiologicalCycle(_hotel.getSeason());
     }
 }
