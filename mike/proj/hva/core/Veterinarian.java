@@ -2,6 +2,8 @@ package hva.core;
 
 import java.util.*;
 
+import hva.core.sorter.SortById;
+
 public class Veterinarian extends Employee{
     private Map<String, Species> _responsibilities;
 
@@ -18,5 +20,20 @@ public class Veterinarian extends Employee{
         }
         sat += 20;
         return (int)Math.round(sat);
+    }
+    @Override
+    String getEmployeeTypeToString() {
+        return "VET";
+    }
+    @Override
+    String getResponsibilitiesToString() {
+        String responsibilityString = "";
+        List<Species> responsibilityList = new ArrayList<>(_responsibilities.values());
+        Collections.sort(responsibilityList, new SortById<>());
+        for(Species s : responsibilityList) {
+            String id = s.getId();
+            responsibilityString += responsibilityString.length() == 0 ? id : "," + id;
+        }
+        return responsibilityString;
     }
 }

@@ -2,6 +2,8 @@ package hva.core;
 
 import java.util.*;
 
+import hva.core.sorter.SortById;
+
 public class Keeper extends Employee {
     private Map<String, Habitat> _responsibilities;
 
@@ -19,5 +21,19 @@ public class Keeper extends Employee {
         sat += 300;
         return (int)Math.round(sat);
     }
-
+    @Override
+    String getEmployeeTypeToString() {
+        return "TRT";
+    }
+    @Override
+    String getResponsibilitiesToString() {
+        String responsibilityString = "";
+        List<Habitat> responsibilityList = new ArrayList<>(_responsibilities.values());
+        Collections.sort(responsibilityList, new SortById<>());
+        for(Habitat h : responsibilityList) {
+            String id = h.getId();
+            responsibilityString += responsibilityString.length() == 0 ? id : "," + id;
+        }
+        return responsibilityString;
+    }
 }

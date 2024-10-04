@@ -1,6 +1,6 @@
 package hva.core;
 
-abstract class Employee implements Identifiable{
+public abstract class Employee implements Identifiable{
     private final String _identifier;
     private String _name;
 
@@ -16,4 +16,16 @@ abstract class Employee implements Identifiable{
     public int hashCode() {return _identifier.hashCode();}
 
     abstract int calculateSatisfaction();
+    abstract String getEmployeeTypeToString();
+    abstract String getResponsibilitiesToString();
+
+    public String toString() {
+        String resposibilityString = getResponsibilitiesToString();
+        if (resposibilityString.length() == 0) {
+            return getEmployeeTypeToString() + "|" + _identifier + 
+                "|" +_name;
+        }
+        return getEmployeeTypeToString() + "|" + _identifier + 
+            "|" +_name + "|" + getResponsibilitiesToString();
+    }
 }
