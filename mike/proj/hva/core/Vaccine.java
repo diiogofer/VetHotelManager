@@ -14,5 +14,15 @@ public class Vaccine implements Identifiable{
         _speciesMap = speciesMap;
     }
     @Override
-    public String getId() {return _identifier;}    
+    public String getId() {return _identifier;}
+    
+    public String toString() {
+        String speciesString = "";
+        for(Species s : _speciesMap.values()) {
+            speciesString += speciesString.length() == 0 ? s.getId() : "," + s.getId();
+        }
+        String ret = "VACINA|" + _identifier + "|" + _name + "|" + _vaccineEvents.size();
+        if(speciesString.length() == 0) return ret;
+        return ret + "|" + speciesString;
+    }
 }
