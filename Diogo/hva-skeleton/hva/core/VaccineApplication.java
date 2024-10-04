@@ -8,10 +8,11 @@ public class VaccineApplication {
     private Animal _animal;
     private VaccinationResult _damage;
 
-    public VaccineApplication(Veterinarian veterinarian, Animal animal) {
+    public VaccineApplication(Veterinarian veterinarian, Animal animal, Vaccine vaccine) {
         _veterinarian = veterinarian;
         _animal = animal;
-        _damage = VaccinationResult.NORMAL; // valor padrão (acho eu)
+        _vaccine = vaccine;
+        _damage = VaccinationResult.getResultFromDamage(calculateDamage(), _vaccine.getVaccineSpecies().contains(animal.getSpecies()));
     }
 
     public int calculateDamage() {
