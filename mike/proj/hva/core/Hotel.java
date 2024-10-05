@@ -60,6 +60,11 @@ public class Hotel implements Serializable {
     Habitat habitat = new Habitat(id, name, Integer.parseInt(area));
     addHabitat(habitat);
   }
+  public void registerHabitat(String id, String name, int area) throws DuplicateHabitatKeyException{
+    if(_habitats.containsKey(id)) throw new DuplicateHabitatKeyException();
+    Habitat habitat = new Habitat(id, name, area);
+    addHabitat(habitat);
+  }
   public void registerAnimal(String animald, String name, String speciesId, String habitatId) throws DuplicateAnimalKeyException, UnknownSpeciesKeyException, UnknownHabitatKeyException {
     if(_animals.containsKey(animald)) throw new DuplicateAnimalKeyException();
     Species species = _species.get(speciesId);
