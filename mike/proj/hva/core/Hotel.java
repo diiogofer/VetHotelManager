@@ -56,9 +56,10 @@ public class Hotel implements Serializable {
     addTree(tree);
   }
   public void registerHabitat(String id, String name, String area, String[] treeIds) throws DuplicateHabitatKeyException, UnknownTreeKeyException {
-    if(_habitats.containsKey(id)) throw new DuplicateHabitatKeyException();
-    Habitat habitat = new Habitat(id, name, Integer.parseInt(area));
-    addHabitat(habitat);
+    registerHabitat(id, name, Integer.parseInt(area));
+    for(String treeId : treeIds) {
+      if (!_trees.keySet().contains(treeId)) throw new UnknownTreeKeyException();
+    }
   }
   public void registerHabitat(String id, String name, int area) throws DuplicateHabitatKeyException{
     if(_habitats.containsKey(id)) throw new DuplicateHabitatKeyException();
