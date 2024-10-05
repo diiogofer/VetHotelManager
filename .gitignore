@@ -26,3 +26,5 @@ replay_pid*
 # unwanted test files
 *.diff
 *.outhyp
+# serialized objects
+*.dat
