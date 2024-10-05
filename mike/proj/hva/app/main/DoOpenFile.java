@@ -1,6 +1,9 @@
 package hva.app.main;
 
 import hva.core.HotelManager;
+
+import java.io.IOException;
+
 import hva.app.exception.FileOpenFailedException;
 import hva.core.exception.UnavailableFileException;
 import pt.tecnico.uilib.forms.Form;
@@ -14,6 +17,7 @@ import pt.tecnico.uilib.menus.CommandException;
 class DoOpenFile extends Command<HotelManager> {
   DoOpenFile(HotelManager receiver) {
     super(Label.OPEN_FILE, receiver);
+    addStringField("filename", Prompt.openFile());
   }
 
   @Override
@@ -25,5 +29,10 @@ class DoOpenFile extends Command<HotelManager> {
       throw new FileOpenFailedException(efe);
       }
     */
+    try{
+      _receiver.load(stringField("filename"));
+    } catch (UnavailableFileException | IOException | ClassNotFoundException ex) {
+      throw new FileOpenFailedException(ex);
+    }
   }
 }

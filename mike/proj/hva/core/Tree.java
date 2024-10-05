@@ -1,6 +1,8 @@
 package hva.core;
 
-public abstract class Tree implements Identifiable{
+import java.io.Serializable;
+
+public abstract class Tree implements Identifiable, Serializable{
     private final String _identifier;
     private String _name;
     private int _ageInSeasons;

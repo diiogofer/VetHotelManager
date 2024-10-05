@@ -1,9 +1,10 @@
 package hva.core;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Animal implements Identifiable{
+public class Animal implements Identifiable, Serializable{
     private final String _identifier;                                     //Unique
     private String _name;
     private Species _species;

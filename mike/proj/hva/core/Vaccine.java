@@ -1,8 +1,9 @@
 package hva.core;
 
+import java.io.Serializable;
 import java.util.*;
 
-public class Vaccine implements Identifiable{
+public class Vaccine implements Identifiable, Serializable{
     private final String _identifier;
     private String _name;
     private Map<String, Species> _speciesMap;

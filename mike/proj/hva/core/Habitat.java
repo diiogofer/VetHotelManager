@@ -1,9 +1,10 @@
 package hva.core;
 
+import java.io.Serializable;
 import java.util.*;
 import hva.core.sorter.*;
 
-public class Habitat implements Identifiable{
+public class Habitat implements Identifiable, Serializable{
     private final String _identifier;
     private String _name;
     private int _area;

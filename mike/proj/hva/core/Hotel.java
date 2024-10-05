@@ -22,10 +22,6 @@ public class Hotel implements Serializable {
   @Serial
   private static final long serialVersionUID = 202407081733L;
   
-  // FIXME define attributes
-  // FIXME define contructor(s)
-  // FIXME define more methods
-  
   /**
    * Read text input file and create corresponding domain entities.
    * 

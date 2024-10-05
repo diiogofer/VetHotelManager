@@ -1,6 +1,8 @@
 package hva.core;
 
-public class VaccineEvent {
+import java.io.Serializable;
+
+public class VaccineEvent implements Serializable {
     private Animal _animal;
     private Veterinarian _vet;
     private VaccineEventDamage _damage;

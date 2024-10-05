@@ -1,6 +1,8 @@
 package hva.core;
 
-public class Species implements Identifiable{
+import java.io.Serializable;
+
+public class Species implements Identifiable, Serializable{
     private final String _identifier;                                       //Unique
     private final String _name;                                             //Unique
     private int _population;
