@@ -1,12 +1,12 @@
 package hva.core;
 
-import hva.app.exception.DuplicateAnimalKeyException;
-import hva.app.exception.UnknownHabitatKeyException;
-import hva.app.exception.UnknownSpeciesKeyException;
+import hva.app.exception.*;
 import hva.core.exception.*;
 import java.io.*;
 import java.util.*;
 // FIXME import classes
+
+
 
 public class Hotel implements Serializable {
   
@@ -23,19 +23,6 @@ public class Hotel implements Serializable {
     return _season;
   }
   
-  public void registerAnimal(String animald, String name, String speciesId, String habitatId) throws DuplicateAnimalKeyException, UnknownSpeciesKeyException, UnknownHabitatKeyException {
-    if(_animals.containsKey(animald)) throw new DuplicateAnimalKeyException();
-    Species species = _species.get(speciesId);
-    if (species == null) throw new UnknownSpeciesKeyException();
-    Habitat habitat = _habitats.get(habitatId);
-    if (habitat == null) throw new UnknownHabitatKeyException();
-    Animal animal = new Animal(animald, name, species, habitat);
-    addAnimal(animal);
-  }
-
-  private void addAnimal(Animal animal) {
-    _animals.put(animal.id(), animal);
-  }
   
   @Serial
   private static final long serialVersionUID = 202407081733L;
@@ -52,6 +39,7 @@ public class Hotel implements Serializable {
    * @throws IOException if there is an IO erro while processing the text file
    **/
   void importFile(String filename) throws UnrecognizedEntryException, IOException /* FIXME maybe other exceptions */  {
-    //FIXME implement method
+    Parser _parser = new Parser(this);
+    _parser.parseFile(filename);
   }
 }
