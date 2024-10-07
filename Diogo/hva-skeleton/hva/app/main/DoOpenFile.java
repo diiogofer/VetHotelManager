@@ -25,7 +25,7 @@ class DoOpenFile extends Command<HotelManager> {
       try {
         _receiver.load(stringField("filename"));
       } catch (UnavailableFileException | IOException | ClassNotFoundException ex) {
-      throw new FileOpenFailedException(efe);
+      throw new FileOpenFailedException(ex);
       }
   }
 }
