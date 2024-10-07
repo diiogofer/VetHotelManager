@@ -8,6 +8,7 @@ public class VaccineEvent implements Serializable {
     private VaccineEventDamage _damage;
 
     // private int calculateDamage() {}
-    public VaccineEventDamage getDamage() {return _damage;}
-
+    VaccineEventDamage getDamage() {return _damage;}
+    Animal getAnimal() {return _animal;}
+    Veterinarian getVet() {return _vet;}
 }

@@ -9,7 +9,7 @@ public class Parser {
 
   Parser(Hotel h) {_hotel = h;}
 
-  public void parseFile(String filename) throws IOException, UnrecognizedEntryException, DuplicateFieldException, UnknownFieldException {
+  void parseFile(String filename) throws IOException, UnrecognizedEntryException, DuplicateFieldException, UnknownFieldException {
     try(BufferedReader reader = new BufferedReader(new FileReader(filename))) {
       String line;
       while((line = reader.readLine()) != null) parseLine(line);

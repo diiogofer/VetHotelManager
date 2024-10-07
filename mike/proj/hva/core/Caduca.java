@@ -10,11 +10,11 @@ public class Caduca extends Tree {
         BiologicalCycle.SEMFOLHAS
     };
 
-    public Caduca(String identifier, String name, int ageInYears, int baseCleaningDifficulty, Hotel hotel) {
+    Caduca(String identifier, String name, int ageInYears, int baseCleaningDifficulty, Hotel hotel) {
         super(identifier, name,ageInYears,baseCleaningDifficulty, hotel);
     }
      @Override
-    public int getSeasonalCleaningEffort(Season season) {
+    int getSeasonalCleaningEffort(Season season) {
         return _seasonalEffort[season.getValue()];
     }
     @Override
