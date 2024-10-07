@@ -1,7 +1,5 @@
 package hva.app;
 
-import java.io.IOException;
-
 import hva.core.exception.*;
 import pt.tecnico.uilib.Dialog;
 
@@ -16,10 +14,6 @@ public class App {
           manager.importFile(datafile);
         } catch (ImportFileException e) {
           e.printStackTrace();
-        } catch (UnrecognizedEntryException | DuplicateFieldException | UnknownFieldException ex) {
-          ex.getMessage();
-        } catch (IOException ioe) {
-          ioe.printStackTrace();
         }
       }
       (new hva.app.main.Menu(manager)).open();

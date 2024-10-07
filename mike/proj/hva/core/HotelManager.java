@@ -72,11 +72,11 @@ public class HotelManager {
    * @throws ImportFileException if some error happens during the processing of the
    * import file.
    **/
-  public void importFile(String filename) throws ImportFileException, IOException, UnrecognizedEntryException, DuplicateFieldException, UnknownFieldException {
+  public void importFile(String filename) throws ImportFileException {
     _hotel = new Hotel();
     try {
       _hotel.importFile(filename);
-    } catch (IOException | UnrecognizedEntryException /* FIXME maybe other exceptions */ e) {
+    } catch (IOException | UnrecognizedEntryException | DuplicateFieldException | UnknownFieldException e) {
       throw new ImportFileException(filename, e);
     }
   } 
