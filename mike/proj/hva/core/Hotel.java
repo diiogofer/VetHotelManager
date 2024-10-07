@@ -3,7 +3,6 @@ package hva.core;
 import hva.core.exception.*;
 import java.io.*;
 import java.util.*;
-import hva.core.sorter.*;
 
 public class Hotel implements Serializable {
 
@@ -147,9 +146,9 @@ public class Hotel implements Serializable {
   private void addVaccine(Vaccine vaccine) {_vaccines.put(vaccine.getId(), vaccine);}
 
   //GetAll
-  public <T extends Identifiable> List<T> getAllEntities(Map<String, T> entities) {
+  public <T extends Identified> List<T> getAllEntities(Map<String, T> entities) {
     List<T> list = new ArrayList<>(entities.values());
-    Collections.sort(list, new SortById<T>());
+    Collections.sort(list);
     return Collections.unmodifiableList(list);
   }
   public List<Habitat> getAllHabitats() {

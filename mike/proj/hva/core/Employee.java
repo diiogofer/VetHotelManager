@@ -1,19 +1,12 @@
 package hva.core;
 
-public abstract class Employee implements Identifiable{
-    private final String _identifier;
+public abstract class Employee extends Identified{
     private String _name;
 
     Employee(String identifier, String name) {
-        _identifier = identifier;
+        super(identifier);
         _name = name;
     }
-    
-    @Override
-    public String getId() {return _identifier;}
-
-    @Override
-    public int hashCode() {return _identifier.hashCode();}
 
     abstract int calculateSatisfaction();
     abstract String getEmployeeTypeToString();
@@ -22,10 +15,10 @@ public abstract class Employee implements Identifiable{
     public String toString() {
         String resposibilityString = getResponsibilitiesToString();
         if (resposibilityString.length() == 0) {
-            return getEmployeeTypeToString() + "|" + _identifier + 
+            return getEmployeeTypeToString() + "|" + getId() + 
                 "|" +_name;
         }
-        return getEmployeeTypeToString() + "|" + _identifier + 
+        return getEmployeeTypeToString() + "|" + getId() + 
             "|" +_name + "|" + getResponsibilitiesToString();
     }
 }

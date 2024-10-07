@@ -1,11 +1,8 @@
 package hva.core;
 
-import java.io.Serializable;
 import java.util.*;
-import hva.core.sorter.*;
 
-public class Habitat implements Identifiable, Serializable{
-    private final String _identifier;
+public class Habitat extends Identified{
     private String _name;
     private int _area;
     private Map<String, Animal> _animals = new HashMap<>();
@@ -14,21 +11,9 @@ public class Habitat implements Identifiable, Serializable{
     private int _numberKeepers;
     
     Habitat(String identifier, String name, int area) {
-        _identifier = identifier;
+        super(identifier);
         _name = name;
         _area = area;
-    }
-    @Override
-    public String getId() {return _identifier;}
-
-    @Override
-    public int hashCode() {return _identifier.hashCode();}
-
-    @Override
-    public boolean equals(Object object) {
-        if(!(object instanceof Habitat)) return false;
-        Habitat habitat = (Habitat)object;
-        return _identifier.equals(habitat._identifier);
     }
 
     int getPopulationSameSpecies(Species species) {
@@ -59,9 +44,9 @@ public class Habitat implements Identifiable, Serializable{
 
     public List<Tree> getAllTrees() {
         List<Tree> treeList = new ArrayList<>(_trees.values());
-        Collections.sort(treeList, new SortById<Tree>());
+        Collections.sort(treeList);
         return Collections.unmodifiableList(treeList);
     }
 
-    public String toString() {return "HABITAT|" + _identifier + "|" + _name + "|" + _area + "|" + _trees.size();}
+    public String toString() {return "HABITAT|" + getId() + "|" + _name + "|" + _area + "|" + _trees.size();}
 }

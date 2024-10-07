@@ -1,9 +1,6 @@
 package hva.core;
 
-import java.io.Serializable;
-
-public abstract class Tree implements Identifiable, Serializable{
-    private final String _identifier;
+public abstract class Tree extends Identified{
     private String _name;
     private int _ageInSeasons;
     private int _baseCleaningDifficulty;
@@ -11,7 +8,7 @@ public abstract class Tree implements Identifiable, Serializable{
     private Habitat _habitat;
 
     Tree(String identifier, String name, int ageInYears, int baseCleaningDifficulty, Hotel hotel) {
-        _identifier = identifier;
+        super(identifier);
         _name = name;
         _ageInSeasons = 4 * ageInYears;
         _baseCleaningDifficulty = baseCleaningDifficulty;
@@ -21,19 +18,15 @@ public abstract class Tree implements Identifiable, Serializable{
         if(_habitat != null) _habitat.removeTree(this);
         _habitat = habitat;
     }
-    public String getId() {return _identifier;}
     String getName() {return _name;}
     int getAge() {return _ageInSeasons / 4;}
     Hotel getHotel() {return _hotel;}
 
     @Override
-    public int hashCode() {return _identifier.hashCode();}
-
-    @Override
     public boolean equals(Object object) {
         if(!(object instanceof Tree)) return false;
         Tree tree = (Tree)object;
-        return _identifier.equals(tree._identifier);
+        return getId().equals(tree.getId());
     }
     abstract String treeTypeToString();
 
@@ -44,7 +37,7 @@ public abstract class Tree implements Identifiable, Serializable{
     }
     abstract BiologicalCycle getBiologicalCycle(Season season);
     public String toString() {
-        return "ÁRVORE|" + _identifier + "|" + _name + "|" + getAge() + "|" + _baseCleaningDifficulty + 
+        return "ÁRVORE|" + getId() + "|" + _name + "|" + getAge() + "|" + _baseCleaningDifficulty + 
             "|" + treeTypeToString() + "|" + getBiologicalCycle(_hotel.getSeason());
     }
 }
