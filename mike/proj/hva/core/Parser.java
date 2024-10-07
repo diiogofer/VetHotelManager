@@ -36,7 +36,7 @@ public class Parser {
     try {
 			_hotel.registerSpecies(components[1], components[2]);
 		} catch (DuplicateSpeciesKeyException | DuplicateSpeciesNameException ex) {
-			throw new DuplicateFieldException(ex.getMessage());
+			throw new DuplicateFieldException(ex.getMessage(), ex);
 		}
   }
 
@@ -50,9 +50,9 @@ public class Parser {
 		try {
     	_hotel.registerTree(components[1], components[2], components[3], components[4], treeType);
 		} catch (DuplicateTreeKeyException dtke) {
-			throw new DuplicateFieldException(dtke.getMessage());
+			throw new DuplicateFieldException(dtke.getMessage(), dtke);
 		} catch (UnknownTreeTypeException utte) {
-			throw new UnknownFieldException(utte.getMessage());
+			throw new UnknownFieldException(utte.getMessage(), utte);
 		}
   }
   private void parseHabitat(String[] components) throws DuplicateFieldException {
@@ -60,7 +60,7 @@ public class Parser {
     try {
 			_hotel.registerHabitat(components[1], components[2], components[3], treeIds);
 		} catch (DuplicateHabitatKeyException dhke) {
-			throw new DuplicateFieldException(dhke.getMessage());
+			throw new DuplicateFieldException(dhke.getMessage(), dhke);
 		}
   }
 
@@ -68,7 +68,7 @@ public class Parser {
   	try{
 			_hotel.registerAnimal(components[1], components[2], components[3], components[4]);
 		} catch (DuplicateAnimalKeyException dake) {
-			throw new DuplicateFieldException(dake.getMessage());
+			throw new DuplicateFieldException(dake.getMessage(), dake);
 		} catch (UnknownSpeciesKeyException | UnknownHabitatKeyException ex) {
 			throw new UnknownFieldException(ex.getMessage());
 		}
@@ -85,9 +85,9 @@ public class Parser {
     try {
 			_hotel.registerEmployee(components[1], components[2], responsibilitiesIds, employeeType);
 		} catch (DuplicateEmployeeKeyException deke) {
-			throw new DuplicateFieldException(deke.getMessage());
+			throw new DuplicateFieldException(deke.getMessage(), deke);
 		} catch (UnknownHabitatKeyException | UnknownSpeciesKeyException ex) {
-			throw new UnknownFieldException(ex.getMessage());
+			throw new UnknownFieldException(ex.getMessage(), ex);
 		} 
   }
 
@@ -96,9 +96,9 @@ public class Parser {
     try{
 			_hotel.registerVaccine(components[1], components[2], speciesIds);
 		} catch (DuplicateVaccineKeyException dvke) {
-			throw new DuplicateFieldException(dvke.getMessage());
+			throw new DuplicateFieldException(dvke.getMessage(), dvke);
 		} catch (UnknownVaccineKeyException uvke) {
-			throw new UnknownFieldException(uvke.getMessage());
+			throw new UnknownFieldException(uvke.getMessage(), uvke);
 		}
   }
 }
