@@ -1,6 +1,5 @@
 package hva.core;
 
-import hva.app.exception.DuplicateEmployeeKeyException;
 import hva.core.exception.*;
 import java.io.*;
 import java.util.*;
@@ -67,7 +66,7 @@ public class Hotel implements Serializable {
       if(tree != null) habitat.addTree(tree);
     }
   }
-  
+
   public Habitat registerHabitat(String id, String name, int area) 
     throws DuplicateHabitatKeyException{
     if(_habitatMap.containsKey(id)) throw new DuplicateHabitatKeyException(id);
