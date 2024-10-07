@@ -5,11 +5,14 @@ import java.util.*;
 import hva.core.sorter.SortById;
 
 public class Veterinarian extends Employee{
-    private Map<String, Species> _responsibilities;
+    private Map<String, Species> _responsibilities = new HashMap<>();
 
-    Veterinarian(String identifier, String name, Map<String, Species> responsibilities) {
+    Veterinarian(String identifier, String name, List<Species> responsibilities) {
         super(identifier, name);
-        _responsibilities = responsibilities;
+
+        for (Species s : responsibilities) {
+            _responsibilities.put(s.getId(), s);
+        }
     }
 
     @Override

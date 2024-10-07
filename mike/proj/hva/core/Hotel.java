@@ -67,6 +67,7 @@ public class Hotel implements Serializable {
       if(tree != null) habitat.addTree(tree);
     }
   }
+  
   public Habitat registerHabitat(String id, String name, int area) 
     throws DuplicateHabitatKeyException{
     if(_habitatMap.containsKey(id)) throw new DuplicateHabitatKeyException(id);
@@ -74,6 +75,7 @@ public class Hotel implements Serializable {
     addHabitat(habitat);
     return habitat;
   }
+
   public void registerAnimal(String animalId, String name, String speciesId, String habitatId) 
     throws DuplicateAnimalKeyException, UnknownSpeciesKeyException, UnknownHabitatKeyException {
     if(_animals.containsKey(animalId)) throw new DuplicateAnimalKeyException(animalId);
@@ -84,32 +86,44 @@ public class Hotel implements Serializable {
     Animal animal = new Animal(animalId, name, species, habitat);
     addAnimal(animal);
   }
+
   public void registerEmployee(String id, String name, String[] responsibilityIds, EmployeeType employeeType) 
     throws DuplicateEmployeeKeyException, UnknownHabitatKeyException, UnknownSpeciesKeyException {
     if(_employees.containsKey(id)) throw new DuplicateEmployeeKeyException(id);
     if(employeeType == EmployeeType.KEEPER) {
-      Map<String, Habitat> responsibilities = new HashMap<>();
-      Habitat habitat;
-      for(String responsibilityId : responsibilityIds) {
-        habitat = _habitatMap.get(responsibilityId);
-        if (habitat == null) throw new UnknownHabitatKeyException(responsibilityId);
-        responsibilities.put(habitat.getId(), habitat);
-      }
-      Keeper keeper = new Keeper(id, name, responsibilities);
-      addEmployee(keeper);
+      registerKeeper(id, name, responsibilityIds);
     }
     if(employeeType == EmployeeType.VETERINARIAN) {
-      Map<String, Species> responsibilities = new HashMap<>();
-      Species species;
-      for(String responsibilityId : responsibilityIds) {
-        species = _speciesMap.get(responsibilityId);
-        if (species == null) throw new UnknownSpeciesKeyException(responsibilityId);
-        responsibilities.put(species.getId(), species);
-      }
-      Veterinarian vet = new Veterinarian(id, name, responsibilities);
-      addEmployee(vet);
+      registerVet(id, name, responsibilityIds);
     }
   }
+
+  public void registerKeeper(String id, String name, String[] responsibilityIds) 
+    throws UnknownHabitatKeyException {
+    List<Habitat> responsibilities = new ArrayList<>();
+    Habitat habitat;
+    for(String responsibilityId : responsibilityIds) {
+      habitat = _habitatMap.get(responsibilityId);
+      if (habitat == null) throw new UnknownHabitatKeyException(responsibilityId);
+      responsibilities.add(habitat);
+    }
+    Keeper keeper = new Keeper(id, name, responsibilities);
+    addEmployee(keeper);
+  }
+
+  public void registerVet(String id, String name, String[] responsibilityIds) 
+    throws UnknownSpeciesKeyException {
+    List<Species> responsibilities = new ArrayList<>();
+    Species species;
+    for(String responsibilityId : responsibilityIds) {
+      species = _speciesMap.get(responsibilityId);
+      if (species == null) throw new UnknownSpeciesKeyException(responsibilityId);
+      responsibilities.add(species);
+    }
+    Veterinarian vet = new Veterinarian(id, name, responsibilities);
+    addEmployee(vet);
+  }
+  
   public void registerVaccine(String id, String name, String[] speciesIds) 
     throws DuplicateVaccineKeyException, UnknownVaccineKeyException {
     if(_vaccines.containsKey(id)) throw new DuplicateVaccineKeyException(id);

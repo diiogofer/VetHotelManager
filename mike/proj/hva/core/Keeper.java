@@ -5,11 +5,13 @@ import java.util.*;
 import hva.core.sorter.SortById;
 
 public class Keeper extends Employee {
-    private Map<String, Habitat> _responsibilities;
+    private Map<String, Habitat> _responsibilities = new HashMap<>();
 
-    Keeper(String identifier, String name, Map<String, Habitat> habitats) {
+    Keeper(String identifier, String name, List<Habitat> habitats) {
         super(identifier, name);
-        _responsibilities = habitats;
+        for(Habitat h : habitats) {
+            _responsibilities.put(h.getId(), h);
+        }
     }
 
     @Override
