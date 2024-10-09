@@ -1,96 +1,38 @@
 package hva.app.main;
 
 import hva.core.HotelManager;
-
-import java.io.FileNotFoundException;
 import java.io.IOException;
-
 import hva.app.exception.FileOpenFailedException;
 import hva.core.exception.MissingFileAssociationException;
 import hva.core.exception.UnavailableFileException;
 import pt.tecnico.uilib.forms.Form;
 import pt.tecnico.uilib.menus.Command;
 import pt.tecnico.uilib.menus.CommandException;
-//FIXME add more imports if needed
 
 /**
  * Command to open a file.
  */
- class DoOpenFile extends Command<HotelManager> {
-   DoOpenFile(HotelManager receiver) {
-     super(Label.OPEN_FILE, receiver);
-    
-//     if(_receiver.getHotel().getHotelState()) { // state = true -> quer guardar?  
-//       addBooleanField("state" , Prompt.saveBeforeExit());
-//         // sim && _filename == null -> Form SaveAs
-//         if(booleanField("state") && _receiver.getFileName() == null){
-//           addStringField("saveAs", Prompt.newSaveAs());
-//         }
-//     }
-//     // ficheiro a abrir
-//     addStringField("filename", Prompt.openFile());
-   }
+class DoOpenFile extends Command<HotelManager> {
+  DoOpenFile(HotelManager receiver) {
+    super(Label.OPEN_FILE, receiver);
+  }
 
-   @Override
-   protected final void execute() throws CommandException {
-    // save before exit logic
-    if(_receiver.getHotel().getHotelState() == true){
-      if(Form.confirm(Prompt.saveBeforeExit())){
-        if(_receiver.getFileName() != null){ // se tiver um ficheiro associado faz save
-          try {
-            _receiver.save();
-          } catch (MissingFileAssociationException | IOException ex){
-            throw new FileOpenFailedException(ex);
-          }
-        }
-        else {
-          try{
-            String filename = Form.requestString(Prompt.newSaveAs());
-            _receiver.saveAs(filename);
-          } catch (MissingFileAssociationException | IOException ex){
-            throw new FileOpenFailedException(ex);
-          }
+  protected final void execute() throws CommandException {
+    try {
+      // Save before exit logic
+      if (_receiver.getHotel().getHotelState() && Form.confirm(Prompt.saveBeforeExit())) {
+        if (_receiver.getFileName() == null) {
+          String filename = Form.requestString(Prompt.newSaveAs());
+          _receiver.saveAs(filename);
+        } else {
+          _receiver.save();
         }
       }
-    }
-    // load logic
-    try {
+      // Load logic
       String filename = Form.requestString(Prompt.openFile());
       _receiver.load(filename);
-    } catch (UnavailableFileException ufe){
-    throw new FileOpenFailedException(ufe);
+    } catch (MissingFileAssociationException | IOException | UnavailableFileException ex) {
+      throw new FileOpenFailedException(ex);
     }
   }
- }
-
-
-
-    //     //1 -> Lógica de guardar antes de dar load
-//     if(_receiver.getHotel().getHotelState() && booleanField("state")) { //se estiver modificado e quiser guardar
-//       if(_receiver.getFileName() == null){ //se não tiver ficheiro associado -> save as
-//         try{
-//         _receiver.saveAs(stringField("saveAs"));
-//         } catch (MissingFileAssociationException | IOException ex){
-//           throw new FileOpenFailedException(ex);
-//         }
-//       }
-//       else{ // ficheiro não associado -> save normal
-//         try {
-//           _receiver.save();
-//         } catch (MissingFileAssociationException | IOException ex){
-//           throw new FileOpenFailedException(ex);
-//         }
-//       }
-//     }
-//     // 2 -> dar load
-//     try {
-//       _receiver.load(stringField("filename"));
-//       // _receiver.setFileName(stringField("filename")); // associação do ficheiro
-//     } catch (UnavailableFileException ufe){
-//     throw new FileOpenFailedException(ufe);
-//     }
-//   }
-// }
-// perguntar ao prof se a lógica está certa ou se fui cozinhado~
-// perguntar ao prof se o boolean field no contrutor está necessariamente inicializado quando é usado.
-// (não estourou no que testei mas quero confirmar)
+}
