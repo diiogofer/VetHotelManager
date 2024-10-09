@@ -19,7 +19,6 @@ class DoRegisterAnimal extends Command<Hotel> {
     addStringField("animalName", Prompt.animalName());
     addStringField("speciesId", Prompt.speciesKey());
     addStringField("habitatId", hva.app.habitat.Prompt.habitatKey());
-    addStringField("speciesName", Prompt.speciesName());
   }
   
   @Override
@@ -36,7 +35,7 @@ class DoRegisterAnimal extends Command<Hotel> {
       throw new hva.app.exception.UnknownHabitatKeyException(stringField("habitatId"));
     } catch (hva.core.exception.UnknownSpeciesKeyException ex) {
       try {
-        _receiver.registerSpecies(stringField("speciesId"), stringField("speciesName"));
+        _receiver.registerSpecies(stringField("speciesId"), Form.requestString(Prompt.speciesName()));
         execute();
       } catch (hva.core.exception.DuplicateSpeciesKeyException ex2) {
         //VER ISTO !!!!!!!!!!!!!!!!!!!!!!!!!

@@ -87,10 +87,10 @@ public class Hotel implements Serializable {
   public void registerAnimal(String animalId, String name, String speciesId, String habitatId) 
     throws DuplicateAnimalKeyException, UnknownSpeciesKeyException, UnknownHabitatKeyException {
     if(_animals.containsKey(animalId)) throw new DuplicateAnimalKeyException(animalId);
-    Species species = _speciesMap.get(speciesId);
-    if (species == null) throw new UnknownSpeciesKeyException(speciesId);
     Habitat habitat = _habitatMap.get(habitatId);
     if (habitat == null) throw new UnknownHabitatKeyException(habitatId);
+    Species species = _speciesMap.get(speciesId);
+    if (species == null) throw new UnknownSpeciesKeyException(speciesId);
     Animal animal = new Animal(animalId, name, species, habitat);
     addAnimal(animal);
   }
