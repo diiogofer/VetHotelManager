@@ -18,26 +18,25 @@ class DoNewFile extends Command<HotelManager> {
   }
 
   @Override
-protected final void execute() throws CommandException {
+  protected final void execute() throws CommandException {
     Hotel hotel = _receiver.getHotel();
     
     // If no hotel exists or hotel hasn't changed or saving is not confirmed, create a new hotel and return.
     if (hotel == null || !hotel.getHotelState() || !Form.confirm(Prompt.saveBeforeExit())) {
-        _receiver.createHotel();
-        return;
+      _receiver.createHotel();
+      return;
     }
     try {
-        // Save with or without an existing filename
-        if (_receiver.getFileName() == null) {
-            String filename = Form.requestString(Prompt.newSaveAs());
-            _receiver.saveAs(filename);
-        } else {
-            _receiver.save();
-        }
+      // Save with or without an existing filename
+      if (_receiver.getFileName() == null) {
+        String filename = Form.requestString(Prompt.newSaveAs());
+        _receiver.saveAs(filename);
+      } else {
+        _receiver.save();
+      }
     } catch (MissingFileAssociationException | IOException ex) {
-        throw new FileOpenFailedException(ex);
+      throw new FileOpenFailedException(ex);
     }
-
     _receiver.createHotel();  // Create a new hotel after saving
-}
+  }
 }
