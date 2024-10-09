@@ -11,7 +11,7 @@ import java.io.*;
  **/
 public class HotelManager {
   /** The current zoo hotel */ // Should we initialize this field?
-  private Hotel _hotel = new Hotel();
+  private Hotel _hotel;
   private String _filename;
 
   /**
@@ -22,7 +22,16 @@ public class HotelManager {
    * @throws IOException if there is some error while serializing the state of the network to disk.
    **/
   public void save() throws FileNotFoundException, MissingFileAssociationException, IOException {
-    saveAs(this.getFileName());
+    if (_filename == null) {
+      throw new MissingFileAssociationException();
+    }
+    ObjectOutputStream out = null;
+    try {
+      FileOutputStream fOut = new FileOutputStream(_filename);
+      out = new ObjectOutputStream(fOut);
+      this.getHotel().setChanged(false); // para não guardar um hotel com o changed a true
+      out.writeObject(_hotel);
+    } finally {if (out != null) {out.close();}}
   }
   
   /**
@@ -39,13 +48,7 @@ public class HotelManager {
       throw new MissingFileAssociationException();
     }
     _filename = filename;
-    ObjectOutputStream out = null;
-    try {
-      FileOutputStream fOut = new FileOutputStream(filename);
-      out = new ObjectOutputStream(fOut);
-      this.getHotel().setChanged(false); // para não guardar um hotel com o changed a true
-      out.writeObject(_hotel);
-    } finally {if (out != null) {out.close();}}
+    save();
   }
   
   /**
