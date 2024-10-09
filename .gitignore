@@ -28,3 +28,5 @@ replay_pid*
 *.outhyp
 # serialized objects
 *.dat
+# zone identifiers
+*:Zone.Identifier
