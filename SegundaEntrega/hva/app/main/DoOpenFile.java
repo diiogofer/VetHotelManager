@@ -16,49 +16,81 @@ import pt.tecnico.uilib.menus.CommandException;
 /**
  * Command to open a file.
  */
-class DoOpenFile extends Command<HotelManager> {
-  DoOpenFile(HotelManager receiver) {
-    super(Label.OPEN_FILE, receiver);
+ class DoOpenFile extends Command<HotelManager> {
+   DoOpenFile(HotelManager receiver) {
+     super(Label.OPEN_FILE, receiver);
     
-    // if(_receiver.getHotelState()) { // state = true -> quer guardar?  
-    //   addBooleanField("state" , Prompt.saveBeforeExit());
-    //     // sim && _filename == null -> Form SaveAs
-    //     if(booleanField("state") && _receiver.getFileName() == null){
-    //       addStringField("saveAs", Prompt.newSaveAs());
-    //     }
-    // }
-    // // ficheiro a abrir
-    // addStringField("filename", Prompt.openFile());
-  }
+//     if(_receiver.getHotel().getHotelState()) { // state = true -> quer guardar?  
+//       addBooleanField("state" , Prompt.saveBeforeExit());
+//         // sim && _filename == null -> Form SaveAs
+//         if(booleanField("state") && _receiver.getFileName() == null){
+//           addStringField("saveAs", Prompt.newSaveAs());
+//         }
+//     }
+//     // ficheiro a abrir
+//     addStringField("filename", Prompt.openFile());
+   }
 
-  @Override
-  protected final void execute() throws CommandException {
-    // 1 -> Lógica de guardar antes de dar load
-    // if(_receiver.getHotelState() && booleanField("state")) { //se estiver modificado e quiser guardar
-    //   if(_receiver.getFileName() == null){ //se não tiver ficheiro associado -> save as
-    //     try{
-    //     _receiver.saveAs(stringField("saveAs"));
-    //     } catch (MissingFileAssociationException | IOException ex){
-    //       throw new FileOpenFailedException(ex);
-    //     }
-    //   }
-    //   else{ // ficheiro não associado -> save normal
-    //     try {
-    //       _receiver.save();
-    //     } catch (MissingFileAssociationException | IOException ex){
-    //       throw new FileOpenFailedException(ex);
-    //     }
-    //   }
-    // }
-    // // 2 -> dar load
-    // try {
-    //   _receiver.load(stringField("filename"));
-    //   _receiver.setFileName(stringField("filename")); // associação do ficheiro
-    // } catch (UnavailableFileException ufe){
-    // throw new FileOpenFailedException(ufe);
-    // }
+   @Override
+   protected final void execute() throws CommandException {
+    // save before exit logic
+    if(_receiver.getHotel().getHotelState() == true){
+      if(Form.confirm(Prompt.saveBeforeExit())){
+        if(_receiver.getFileName() != null){ // se tiver um ficheiro associado faz save
+          try {
+            _receiver.save();
+          } catch (MissingFileAssociationException | IOException ex){
+            throw new FileOpenFailedException(ex);
+          }
+        }
+        else {
+          try{
+            String filename = Form.requestString(Prompt.newSaveAs());
+            _receiver.saveAs(filename);
+          } catch (MissingFileAssociationException | IOException ex){
+            throw new FileOpenFailedException(ex);
+          }
+        }
+      }
+    }
+    // load logic
+    try {
+      String filename = Form.requestString(Prompt.openFile());
+      _receiver.load(filename);
+    } catch (UnavailableFileException ufe){
+    throw new FileOpenFailedException(ufe);
+    }
   }
-}
+ }
+
+
+
+    //     //1 -> Lógica de guardar antes de dar load
+//     if(_receiver.getHotel().getHotelState() && booleanField("state")) { //se estiver modificado e quiser guardar
+//       if(_receiver.getFileName() == null){ //se não tiver ficheiro associado -> save as
+//         try{
+//         _receiver.saveAs(stringField("saveAs"));
+//         } catch (MissingFileAssociationException | IOException ex){
+//           throw new FileOpenFailedException(ex);
+//         }
+//       }
+//       else{ // ficheiro não associado -> save normal
+//         try {
+//           _receiver.save();
+//         } catch (MissingFileAssociationException | IOException ex){
+//           throw new FileOpenFailedException(ex);
+//         }
+//       }
+//     }
+//     // 2 -> dar load
+//     try {
+//       _receiver.load(stringField("filename"));
+//       // _receiver.setFileName(stringField("filename")); // associação do ficheiro
+//     } catch (UnavailableFileException ufe){
+//     throw new FileOpenFailedException(ufe);
+//     }
+//   }
+// }
 // perguntar ao prof se a lógica está certa ou se fui cozinhado~
 // perguntar ao prof se o boolean field no contrutor está necessariamente inicializado quando é usado.
 // (não estourou no que testei mas quero confirmar)

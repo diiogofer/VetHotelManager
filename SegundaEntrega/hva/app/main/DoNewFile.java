@@ -28,8 +28,7 @@ class DoNewFile extends Command<HotelManager> {
       return ;
     }
     if(hotel.getHotelState() == true) { 
-      Boolean confirmSave = Form.confirm(Prompt.saveBeforeExit());
-      if(confirmSave){
+      if(Form.confirm(Prompt.saveBeforeExit())){
         if(_receiver.getFileName() == null){
           try{
             String filename = Form.requestString(Prompt.newSaveAs());

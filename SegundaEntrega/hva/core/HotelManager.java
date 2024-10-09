@@ -38,6 +38,7 @@ public class HotelManager {
     if (filename == null) {
       throw new MissingFileAssociationException();
     }
+    _filename = filename;
     ObjectOutputStream out = null;
     try {
       FileOutputStream fOut = new FileOutputStream(filename);
