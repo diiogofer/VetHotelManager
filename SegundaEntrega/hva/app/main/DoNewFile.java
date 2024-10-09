@@ -45,23 +45,3 @@ class DoNewFile extends Command<HotelManager> {
     _receiver.createHotel();   
   }
 }
-  
-
-  //   if(hotel != null && hotel.getHotelState() && Form.confirm(stringField("state"))){
-  //     if(_receiver.getFileName() == null){
-  //       try{
-  //         _receiver.saveAs(stringField("filename"));
-  //       } catch (MissingFileAssociationException | IOException ex){
-  //         throw new FileOpenFailedException(ex);
-  //       }
-  //     }
-  //     else {
-  //       try{
-  //         _receiver.save();
-  //       } catch (MissingFileAssociationException | IOException ex) {
-  //         throw new FileOpenFailedException(ex);
-  //       }
-  //     }
-  //   }
-  //   _receiver.createHotel();
-  // }
