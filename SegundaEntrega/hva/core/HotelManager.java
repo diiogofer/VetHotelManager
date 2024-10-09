@@ -11,7 +11,7 @@ import java.io.*;
  **/
 public class HotelManager {
   /** The current zoo hotel */ // Should we initialize this field?
-  private Hotel _hotel;
+  private Hotel _hotel = new Hotel();
   private String _filename;
 
   /**
