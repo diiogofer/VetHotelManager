@@ -1,5 +1,6 @@
 package hva.app.main;
 
+import hva.app.exception.FileOpenFailedException;
 import hva.core.HotelManager;
 import hva.core.exception.MissingFileAssociationException;
 import pt.tecnico.uilib.forms.Form;
@@ -17,14 +18,14 @@ class DoSaveFile extends Command<HotelManager> {
   }
 
   @Override
-  protected final void execute() {
+  protected final void execute() throws FileOpenFailedException {
     try{
       if(_receiver.getFileName() == null) { // sem ficheiro associado 
         _receiver.saveAs(stringField("newSaveAs"));  
       }
       else _receiver.saveAs(_receiver.getFileName()); // Com ficheiro Associado
     } catch (MissingFileAssociationException | IOException ex) {
-
+      throw new FileOpenFailedException(ex);
     }
   }
 }
