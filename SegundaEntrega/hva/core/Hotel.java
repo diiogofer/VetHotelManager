@@ -7,16 +7,26 @@ import java.util.*;
 public class Hotel implements Serializable {
 
   private Season _season;
+  private boolean _hotelChanged = false;
   private Map<String, Species> _speciesMap = new HashMap<>();
   private Map<String, Tree> _treeMap = new HashMap<>();
   private Map<String, Habitat> _habitatMap = new HashMap<>();
   private Map<String, Animal> _animals = new HashMap<>();
   private Map<String, Employee> _employees = new HashMap<>();
   private Map<String, Vaccine> _vaccines = new HashMap<>();
+  
+  public final Boolean getHotelState(){
+    return _hotelChanged;
+  }
 
-  Season getSeason() {return _season;}
+  Season getSeason() {
+    return _season;
+  }
 
-  Hotel() {_season = Season.PRIMAVERA;}
+  Hotel() {
+    _season = Season.PRIMAVERA;
+    _hotelChanged = false;
+  }
 
   @Serial
   private static final long serialVersionUID = 202407081733L;
@@ -134,16 +144,33 @@ public class Hotel implements Serializable {
     }
     Vaccine vaccine = new Vaccine(id, name, speciesMap);
     addVaccine(vaccine);
-    
   }
 
   //Add
-  private void addSpecies(Species species) {_speciesMap.put(species.getId(), species);}
-  private void addTree(Tree tree) {_treeMap.put(tree.getId(), tree);}
-  private void addHabitat(Habitat habitat) {_habitatMap.put(habitat.getId(), habitat);}
-  private void addAnimal(Animal animal) {_animals.put(animal.getId(), animal);}
-  private void addEmployee(Employee employee) {_employees.put(employee.getId(), employee);}
-  private void addVaccine(Vaccine vaccine) {_vaccines.put(vaccine.getId(), vaccine);}
+  private void addSpecies(Species species) {
+    _speciesMap.put(species.getId(), species);
+    _hotelChanged = true;
+  }
+  private void addTree(Tree tree) {
+    _treeMap.put(tree.getId(), tree);
+    _hotelChanged = true;
+  }
+  private void addHabitat(Habitat habitat) {
+    _habitatMap.put(habitat.getId(), habitat);
+    _hotelChanged = true;
+  }
+  private void addAnimal(Animal animal) {
+    _animals.put(animal.getId(), animal);
+    _hotelChanged = true;
+  }
+  private void addEmployee(Employee employee) {
+    _employees.put(employee.getId(), employee);
+    _hotelChanged = true;
+  }
+  private void addVaccine(Vaccine vaccine) {
+    _vaccines.put(vaccine.getId(), vaccine);
+    _hotelChanged = true;
+  }
 
   //GetAll
   public <T extends Identified> List<T> getAllEntities(Map<String, T> entities) {
@@ -163,5 +190,10 @@ public class Hotel implements Serializable {
   public List<Vaccine> getAllVaccines() {
     return getAllEntities(_vaccines);  
   }
+
+  void setChanged(Boolean state){
+    _hotelChanged = state;
+  }
+
 }
 

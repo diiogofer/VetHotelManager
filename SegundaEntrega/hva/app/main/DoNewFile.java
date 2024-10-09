@@ -4,6 +4,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 
 import hva.app.exception.FileOpenFailedException;
+import hva.core.Hotel;
 import hva.core.HotelManager;
 import hva.core.exception.MissingFileAssociationException;
 import pt.tecnico.uilib.forms.Form;
@@ -17,26 +18,55 @@ import pt.tecnico.uilib.menus.CommandException;
 class DoNewFile extends Command<HotelManager> {
   DoNewFile(HotelManager receiver) {
     super(Label.NEW_FILE, receiver);
-    if(receiver.getHotelState()) {
-      addBooleanField("state" , Prompt.saveBeforeExit());
-    }
   }
 
   @Override
   protected final void execute() throws CommandException {
-    if(_receiver.getHotelState() && booleanField("state")) {
-      String filename = Form.requestString(Prompt.newSaveAs());
-      try{
-      _receiver.saveAs(filename);
-      } catch(MissingFileAssociationException | IOException ex){
-        throw new FileOpenFailedException(ex); //não é a excepção ideal
+    Hotel hotel = _receiver.getHotel();
+    if(hotel == null){
+      _receiver.createHotel();
+      return ;
+    }
+    if(hotel.getHotelState() == true) { 
+      Boolean confirmSave = Form.confirm(Prompt.saveBeforeExit());
+      if(confirmSave){
+        if(_receiver.getFileName() == null){
+          try{
+            String filename = Form.requestString(Prompt.newSaveAs());
+            _receiver.saveAs(filename);
+          } catch (MissingFileAssociationException | IOException ex){
+            throw new FileOpenFailedException(ex);
+          }
+        }
+      else {
+        try{
+          _receiver.save();
+        } catch (MissingFileAssociationException | IOException ex) {
+        throw new FileOpenFailedException(ex);
+        }
+      }
       }
     }
-
-    _receiver.setFileName(null); // erro de privacidade setFileName Publico?
     _receiver.createHotel();
-    // posso fazer createHotel e lá dentro meter filename = null
-    // posso literalmente criar outro hotelmanager e mandar este passear (perguntar ao prof) se sim como fazer se _receiver é final
-    // perguntar ainda se preciso se fazer a cena do "Guardar Como" e "guardar normal"
   }
 }
+  
+
+  //   if(hotel != null && hotel.getHotelState() && Form.confirm(stringField("state"))){
+  //     if(_receiver.getFileName() == null){
+  //       try{
+  //         _receiver.saveAs(stringField("filename"));
+  //       } catch (MissingFileAssociationException | IOException ex){
+  //         throw new FileOpenFailedException(ex);
+  //       }
+  //     }
+  //     else {
+  //       try{
+  //         _receiver.save();
+  //       } catch (MissingFileAssociationException | IOException ex) {
+  //         throw new FileOpenFailedException(ex);
+  //       }
+  //     }
+  //   }
+  //   _receiver.createHotel();
+  // }
