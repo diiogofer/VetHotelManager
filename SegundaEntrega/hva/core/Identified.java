@@ -7,6 +7,6 @@ public abstract class Identified extends HotelEntity implements Comparable<Ident
   }
   public String getId() {return _id;}
   public int compareTo(Identified iden) {return _id.compareToIgnoreCase(iden.getId());}
-  public boolean equals(Identified iden) {return _id.equals(iden.getId());}
+  public boolean equals(Identified iden) {return _id.equalsIgnoreCase(iden.getId());}
   public int hashCode() {return _id.hashCode();}
 }
