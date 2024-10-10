@@ -65,7 +65,7 @@ public class Animal extends Identified{
     }
 
     /**
-     * Returns a string representation of the animal, including its identifier, name, species, 
+     * Returns a string representation of the animal, including its identifier, name, species id, 
      * vaccine events, and habitat identifier.
      * 
      * @return a string representation of the animal
