@@ -75,6 +75,7 @@ public class HotelManager {
   public void importFile(String filename) throws ImportFileException {
     try {
       _hotel.importFile(filename);
+      _hotel.setChanged(true);
     } catch (IOException | UnrecognizedEntryException | DuplicateFieldException | UnknownFieldException e) {
       throw new ImportFileException(filename, e);
     }
