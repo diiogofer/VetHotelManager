@@ -1,6 +1,8 @@
 package hva.core;
 
-public abstract class Identified extends HotelEntity implements Comparable<Identified>{
+import java.io.Serializable;
+
+public abstract class Identified implements Comparable<Identified>, Serializable {
   private final String _id;
   protected Identified(String id) {
     _id = id;
