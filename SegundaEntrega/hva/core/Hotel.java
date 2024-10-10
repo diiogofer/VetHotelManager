@@ -11,9 +11,9 @@ public class Hotel implements Serializable {
   private Map<String, Species> _speciesMap = new HashMap<>();
   private Map<String, Tree> _treeMap = new HashMap<>();
   private Map<String, Habitat> _habitatMap = new HashMap<>();
-  private Map<String, Animal> _animals = new HashMap<>();
-  private Map<String, Employee> _employees = new HashMap<>();
-  private Map<String, Vaccine> _vaccines = new HashMap<>();
+  private Map<String, Animal> _animalMap = new HashMap<>();
+  private Map<String, Employee> _employeeMap = new HashMap<>();
+  private Map<String, Vaccine> _vaccineMap = new HashMap<>();
   
   public final Boolean getHotelState(){
     return _hotelChanged;
@@ -52,7 +52,7 @@ public class Hotel implements Serializable {
       if(s.getName().equals(name)) throw new DuplicateSpeciesNameException(name);
     }
     Species species = new Species(id, name);
-    addSpecies(species);
+    addIdentified(_speciesMap, species);
   }
 
   public void registerTree(String id, String name, String age, String baseDifficulty, TreeType treeType)
@@ -64,7 +64,7 @@ public class Hotel implements Serializable {
       case TreeType.PERENE -> tree = new Perene(id, name, Integer.parseInt(age), Integer.parseInt(baseDifficulty), this);
       default -> throw new UnknownTreeTypeException();   
     }
-    addTree(tree);
+    addIdentified(_treeMap, tree);
   }
 
   public void registerHabitat(String id, String name, String area, String[] treeIds) 
@@ -80,24 +80,24 @@ public class Hotel implements Serializable {
     throws DuplicateHabitatKeyException{
     if(_habitatMap.containsKey(id)) throw new DuplicateHabitatKeyException(id);
     Habitat habitat = new Habitat(id, name, area);
-    addHabitat(habitat);
+    addIdentified(_habitatMap, habitat);
     return habitat;
   }
 
   public void registerAnimal(String animalId, String name, String speciesId, String habitatId) 
     throws DuplicateAnimalKeyException, UnknownSpeciesKeyException, UnknownHabitatKeyException {
-    if(_animals.containsKey(animalId)) throw new DuplicateAnimalKeyException(animalId);
+    if(_animalMap.containsKey(animalId)) throw new DuplicateAnimalKeyException(animalId);
     Habitat habitat = _habitatMap.get(habitatId);
     if (habitat == null) throw new UnknownHabitatKeyException(habitatId);
     Species species = _speciesMap.get(speciesId);
     if (species == null) throw new UnknownSpeciesKeyException(speciesId);
     Animal animal = new Animal(animalId, name, species, habitat);
-    addAnimal(animal);
+    addIdentified(_animalMap, animal);
   }
 
   public void registerEmployee(String id, String name, String[] responsibilityIds, EmployeeType employeeType) 
     throws DuplicateEmployeeKeyException, UnknownHabitatKeyException, UnknownSpeciesKeyException {
-    if(_employees.containsKey(id)) throw new DuplicateEmployeeKeyException(id);
+    if(_employeeMap.containsKey(id)) throw new DuplicateEmployeeKeyException(id);
     if(employeeType == EmployeeType.KEEPER) {
       registerKeeper(id, name, responsibilityIds);
     }
@@ -116,7 +116,7 @@ public class Hotel implements Serializable {
       responsibilities.add(habitat);
     }
     Keeper keeper = new Keeper(id, name, responsibilities);
-    addEmployee(keeper);
+    addIdentified(_employeeMap, keeper);
   }
 
   public void registerVet(String id, String name, String[] responsibilityIds) 
@@ -129,12 +129,12 @@ public class Hotel implements Serializable {
       responsibilities.add(species);
     }
     Veterinarian vet = new Veterinarian(id, name, responsibilities);
-    addEmployee(vet);
+    addIdentified(_employeeMap, vet);
   }
   
   public void registerVaccine(String id, String name, String[] speciesIds) 
     throws DuplicateVaccineKeyException, UnknownVaccineKeyException {
-    if(_vaccines.containsKey(id)) throw new DuplicateVaccineKeyException(id);
+    if(_vaccineMap.containsKey(id)) throw new DuplicateVaccineKeyException(id);
     Map<String, Species> speciesMap = new HashMap<>();
     Species species;
     for(String speciesId : speciesIds) {
@@ -143,52 +143,33 @@ public class Hotel implements Serializable {
       speciesMap.put(species.getId(), species);
     }
     Vaccine vaccine = new Vaccine(id, name, speciesMap);
-    addVaccine(vaccine);
+    addIdentified(_vaccineMap, vaccine);
   }
 
   //Add
-  private void addSpecies(Species species) {
-    _speciesMap.put(species.getId(), species);
+  private <T extends Identified> void addIdentified(Map<String, T> map, T identified) {
+    map.putIfAbsent(identified.getId(), identified);
     _hotelChanged = true;
   }
-  private void addTree(Tree tree) {
-    _treeMap.put(tree.getId(), tree);
-    _hotelChanged = true;
-  }
-  private void addHabitat(Habitat habitat) {
-    _habitatMap.put(habitat.getId(), habitat);
-    _hotelChanged = true;
-  }
-  private void addAnimal(Animal animal) {
-    _animals.put(animal.getId(), animal);
-    _hotelChanged = true;
-  }
-  private void addEmployee(Employee employee) {
-    _employees.put(employee.getId(), employee);
-    _hotelChanged = true;
-  }
-  private void addVaccine(Vaccine vaccine) {
-    _vaccines.put(vaccine.getId(), vaccine);
-    _hotelChanged = true;
-  }
+  
 
   //GetAll
-  public <T extends Identified> List<T> getAllEntities(Map<String, T> entities) {
-    List<T> list = new ArrayList<>(entities.values());
+  public <T extends Identified> List<T> getAllIdentified(Map<String, T> map) {
+    List<T> list = new ArrayList<>(map.values());
     Collections.sort(list);
     return Collections.unmodifiableList(list);
   }
   public List<Habitat> getAllHabitats() {
-    return getAllEntities(_habitatMap);  
+    return getAllIdentified(_habitatMap);  
   }
   public List<Animal> getAllAnimals() {
-    return getAllEntities(_animals);   
+    return getAllIdentified(_animalMap);   
   }
   public List<Employee> getAllEmployees() {
-    return getAllEntities(_employees); 
+    return getAllIdentified(_employeeMap); 
   }
   public List<Vaccine> getAllVaccines() {
-    return getAllEntities(_vaccines);  
+    return getAllIdentified(_vaccineMap);  
   }
 
   void setChanged(Boolean state){
