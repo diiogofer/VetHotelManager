@@ -3,8 +3,6 @@ package hva.core;
 import hva.core.exception.*;
 import java.io.*;
 
-// FIXME import classes
-
 /**
  * Class representing the manager of this application. It manages the current
  * zoo hotel.
@@ -28,7 +26,7 @@ public class HotelManager {
     try {
       FileOutputStream fOut = new FileOutputStream(_filename);
       out = new ObjectOutputStream(fOut);
-      this.getHotel().setChanged(false); // para não guardar um hotel com o changed a true
+      this.getHotel().setChanged(false);
       out.writeObject(_hotel);
     } finally {if (out != null) {out.close();}}
   }
@@ -90,10 +88,18 @@ public class HotelManager {
     return _hotel;
   }
 
+  /**
+   * Returns the name of the file associated with the current hotel.
+   * 
+   * @return the file name as a String, or null if no file is associated
+   */
   public final String getFileName(){
     return _filename;
   }
 
+  /**
+   * Creates a new Hotel instance and resets the file name associated with the hotel to null.
+   */
   public void createHotel(){  
     _hotel = new Hotel();
     _filename = null;
