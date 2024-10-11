@@ -103,7 +103,7 @@ public class Hotel implements Serializable {
    */
   public void registerSpecies(String id, String name) 
     throws DuplicateSpeciesKeyException, DuplicateSpeciesNameException {
-    if(_speciesMap.containsKey(id)) throw new DuplicateSpeciesKeyException(id);
+    if(_speciesMap.containsKey(id.toLowerCase())) throw new DuplicateSpeciesKeyException(id);
     for(Species s : _speciesMap.values()) {
       if(s.getName().equals(name)) throw new DuplicateSpeciesNameException(name);
     }
@@ -124,7 +124,7 @@ public class Hotel implements Serializable {
    */  
   public void registerTree(String id, String name, String age, String baseDifficulty, TreeType treeType)
     throws DuplicateTreeKeyException, UnknownTreeTypeException {
-    if(_treeMap.containsKey(id)) throw new DuplicateTreeKeyException(id);
+    if(_treeMap.containsKey(id.toLowerCase())) throw new DuplicateTreeKeyException(id);
     Tree tree;
     switch(treeType) {
       case TreeType.CADUCA -> tree = new Caduca(id, name, Integer.parseInt(age), Integer.parseInt(baseDifficulty), this);
@@ -136,6 +136,7 @@ public class Hotel implements Serializable {
 
   /**
    * Registers a new habitat with the given ID, name, area, and tree IDs.
+   * Used for import structure that has pre-defined tree ID array.
    * 
    * @param id the unique identifier of the habitat
    * @param name the name of the habitat
@@ -147,7 +148,7 @@ public class Hotel implements Serializable {
     throws DuplicateHabitatKeyException {
     Habitat habitat = registerHabitat(id, name, Integer.parseInt(area));
     for(String treeId : treeIds) {
-      Tree tree = _treeMap.get(treeId);
+      Tree tree = _treeMap.get(treeId.toLowerCase());
       if(tree != null) habitat.addTree(tree);
     }
   }
@@ -161,8 +162,9 @@ public class Hotel implements Serializable {
    * @return the newly registered habitat
    * @throws DuplicateHabitatKeyException if a habitat with the same ID already exists
    */
-  public Habitat registerHabitat(String id, String name, int area) throws DuplicateHabitatKeyException{
-    if(_habitatMap.containsKey(id)) throw new DuplicateHabitatKeyException(id);
+  public Habitat registerHabitat(String id, String name, int area) 
+    throws DuplicateHabitatKeyException{
+    if(_habitatMap.containsKey(id.toLowerCase())) throw new DuplicateHabitatKeyException(id);
     Habitat habitat = new Habitat(id, name, area);
     addIdentified(_habitatMap, habitat);
     return habitat;
@@ -181,11 +183,14 @@ public class Hotel implements Serializable {
    */  
   public void registerAnimal(String animalId, String name, String speciesId, String habitatId) 
     throws DuplicateAnimalKeyException, UnknownSpeciesKeyException, UnknownHabitatKeyException {
-    if(_animalMap.containsKey(animalId)) throw new DuplicateAnimalKeyException(animalId);
-    Habitat habitat = _habitatMap.get(habitatId);
-    if (habitat == null) throw new UnknownHabitatKeyException(habitatId);
-    Species species = _speciesMap.get(speciesId);
-    if (species == null) throw new UnknownSpeciesKeyException(speciesId);
+    if(_animalMap.containsKey(animalId.toLowerCase())) 
+      throw new DuplicateAnimalKeyException(animalId);
+    Habitat habitat = _habitatMap.get(habitatId.toLowerCase());
+    if (habitat == null) 
+      throw new UnknownHabitatKeyException(habitatId);
+    Species species = _speciesMap.get(speciesId.toLowerCase());
+    if (species == null) 
+      throw new UnknownSpeciesKeyException(speciesId);
     Animal animal = new Animal(animalId, name, species, habitat);
     addIdentified(_animalMap, animal);
   }
@@ -203,7 +208,8 @@ public class Hotel implements Serializable {
    */ 
   public void registerEmployee(String id, String name, String[] responsibilityIds, EmployeeType employeeType) 
     throws DuplicateEmployeeKeyException, UnknownHabitatKeyException, UnknownSpeciesKeyException {
-    if(_employeeMap.containsKey(id)) throw new DuplicateEmployeeKeyException(id);
+    if(_employeeMap.containsKey(id.toLowerCase())) 
+      throw new DuplicateEmployeeKeyException(id);
     if(employeeType == EmployeeType.KEEPER) {
       registerKeeper(id, name, responsibilityIds);
     }
@@ -225,7 +231,7 @@ public class Hotel implements Serializable {
     List<Habitat> responsibilities = new ArrayList<>();
     Habitat habitat;
     for(String responsibilityId : responsibilityIds) {
-      habitat = _habitatMap.get(responsibilityId);
+      habitat = _habitatMap.get(responsibilityId.toLowerCase());
       if (habitat == null) throw new UnknownHabitatKeyException(responsibilityId);
       responsibilities.add(habitat);
     }
@@ -246,7 +252,7 @@ public class Hotel implements Serializable {
     List<Species> responsibilities = new ArrayList<>();
     Species species;
     for(String responsibilityId : responsibilityIds) {
-      species = _speciesMap.get(responsibilityId);
+      species = _speciesMap.get(responsibilityId.toLowerCase());
       if (species == null) throw new UnknownSpeciesKeyException(responsibilityId);
       responsibilities.add(species);
     }
@@ -265,11 +271,11 @@ public class Hotel implements Serializable {
    */
   public void registerVaccine(String id, String name, String[] speciesIds) 
     throws DuplicateVaccineKeyException, UnknownVaccineKeyException {
-    if(_vaccineMap.containsKey(id)) throw new DuplicateVaccineKeyException(id);
+    if(_vaccineMap.containsKey(id.toLowerCase())) throw new DuplicateVaccineKeyException(id);
     Map<String, Species> speciesMap = new HashMap<>();
     Species species;
     for(String speciesId : speciesIds) {
-      species = _speciesMap.get(speciesId);
+      species = _speciesMap.get(speciesId.toLowerCase());
       if (species == null) throw new UnknownVaccineKeyException(speciesId);
       speciesMap.put(species.getId(), species);
     }
@@ -285,7 +291,7 @@ public class Hotel implements Serializable {
    * @param identified the identified entity to be added
    */
   private <T extends Identified> void addIdentified(Map<String, T> map, T identified) {
-    map.putIfAbsent(identified.getId(), identified);
+    map.putIfAbsent(identified.getId().toLowerCase(), identified);
     _hotelChanged = true;
   }
   

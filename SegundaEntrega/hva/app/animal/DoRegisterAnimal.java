@@ -14,7 +14,6 @@ class DoRegisterAnimal extends Command<Hotel> {
 
   DoRegisterAnimal(Hotel receiver) {
     super(Label.REGISTER_ANIMAL, receiver);
-    //FIXME add command fields
     addStringField("animalId", Prompt.animalKey());
     addStringField("animalName", Prompt.animalName());
     addStringField("speciesId", Prompt.speciesKey());
@@ -23,26 +22,26 @@ class DoRegisterAnimal extends Command<Hotel> {
   
   @Override
   protected final void execute() throws CommandException {
-    //FIXME implement command
     try {
-      _receiver.registerAnimal( stringField("animalId"), 
-                                stringField("animalName"), 
-                                stringField("speciesId"), 
-                                stringField("habitatId"));
+      _receiver.registerAnimal(
+        stringField("animalId"), 
+        stringField("animalName"), 
+        stringField("speciesId"), 
+        stringField("habitatId")
+      );
     } catch (hva.core.exception.DuplicateAnimalKeyException ex) {
-      throw new hva.app.exception.DuplicateAnimalKeyException(stringField("animalId"));
+        throw new DuplicateAnimalKeyException(stringField("animalId"));
     } catch (hva.core.exception.UnknownHabitatKeyException ex) {
-      throw new hva.app.exception.UnknownHabitatKeyException(stringField("habitatId"));
+        throw new UnknownHabitatKeyException(stringField("habitatId"));
     } catch (hva.core.exception.UnknownSpeciesKeyException ex) {
       try {
-        _receiver.registerSpecies(stringField("speciesId"), Form.requestString(Prompt.speciesName()));
+        _receiver.registerSpecies(
+          stringField("speciesId"), 
+          Form.requestString(Prompt.speciesName())
+        );
         execute();
-      } catch (hva.core.exception.DuplicateSpeciesKeyException ex2) {
-        //VER ISTO !!!!!!!!!!!!!!!!!!!!!!!!!
-        throw new hva.app.exception.DuplicateAnimalKeyException(stringField("speciesId"));
-      } catch (hva.core.exception.DuplicateSpeciesNameException ex2) {
-        //VER ISTO !!!!!!!!!!!!!!!!!!!!!!!!!
-        throw new hva.app.exception.DuplicateAnimalKeyException(stringField("speciesId"));
+      } catch (hva.core.exception.DuplicateSpeciesKeyException | hva.core.exception.DuplicateSpeciesNameException ex2) {
+          throw new DuplicateAnimalKeyException(stringField("speciesId"));
       }
     }
   }
