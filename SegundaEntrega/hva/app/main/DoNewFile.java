@@ -13,21 +13,32 @@ import pt.tecnico.uilib.menus.CommandException;
  * Command for creating a new zoo hotel.
  **/
 class DoNewFile extends Command<HotelManager> {
+  
+  /**
+   * Constructs a new command to create a new zoo hotel.
+   * 
+   * @param receiver the HotelManager that will handle the creation of the new hotel
+   */
   DoNewFile(HotelManager receiver) {
     super(Label.NEW_FILE, receiver);
   }
 
+  /**
+   * Executes the command to create a new zoo hotel. 
+   * If the current hotel has unsaved changes, the user is prompted to save them before proceeding.
+   * 
+   * @throws CommandException if an error occurs while saving the hotel
+   */
   @Override
   protected final void execute() throws CommandException {
     Hotel hotel = _receiver.getHotel();
     
-    // If no hotel exists or hotel hasn't changed or saving is not confirmed, create a new hotel and return.
     if (hotel == null || !hotel.getHotelState() || !Form.confirm(Prompt.saveBeforeExit())) {
       _receiver.createHotel();
       return;
     }
+    
     try {
-      // Save with or without an existing filename
       if (_receiver.getFileName() == null) {
         String filename = Form.requestString(Prompt.newSaveAs());
         _receiver.saveAs(filename);
@@ -37,6 +48,6 @@ class DoNewFile extends Command<HotelManager> {
     } catch (MissingFileAssociationException | IOException ex) {
       throw new FileOpenFailedException(ex);
     }
-    _receiver.createHotel();  // Create a new hotel after saving
+    _receiver.createHotel();
   }
 }

@@ -11,7 +11,13 @@ import pt.tecnico.uilib.menus.CommandException;
  * Register a new animal in this zoo hotel.
  */
 class DoRegisterAnimal extends Command<Hotel> {
-
+  
+  /**
+   * Constructs a new command to register a new animal in the zoo hotel.
+   * Prompts the user for the animal's ID, name, species ID, and habitat ID.
+   * 
+   * @param receiver the hotel where the animal will be registered
+   */
   DoRegisterAnimal(Hotel receiver) {
     super(Label.REGISTER_ANIMAL, receiver);
     addStringField("animalId", Prompt.animalKey());
@@ -20,6 +26,12 @@ class DoRegisterAnimal extends Command<Hotel> {
     addStringField("habitatId", hva.app.habitat.Prompt.habitatKey());
   }
   
+  /**
+   * Executes the command to register a new animal.
+   * If the species does not exist, the user is prompted to register the species before proceeding.
+   * 
+   * @throws CommandException if an error occurs during the registration process
+   */
   @Override
   protected final void execute() throws CommandException {
     try {

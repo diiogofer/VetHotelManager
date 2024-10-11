@@ -4,20 +4,30 @@ import java.util.List;
 import hva.core.Animal;
 import hva.core.Hotel;
 import pt.tecnico.uilib.menus.Command;
-//FIXME add more imports if needed
 
 /**
  * Show all animals registered in this zoo hotel.
  */
 class DoShowAllAnimals extends Command<Hotel> {
 
+  /**
+   * Constructs a new command to show all animals in the zoo hotel.
+   * 
+   * @param receiver the hotel from which animals will be retrieved
+   */
   DoShowAllAnimals(Hotel receiver) {
     super(Label.SHOW_ALL_ANIMALS, receiver);
   }
   
+  /**
+   * Executes the command by retrieving all animals from the hotel and displaying them.
+   * Each animal is displayed on a new line.
+   */
   @Override
   protected final void execute() {
     List<Animal> list = _receiver.getAllAnimals();
-    for(Animal a : list) {_display.addLine(a);}
+    for(Animal animal : list) {
+      _display.addLine(animal);
+    }
   }
 }
