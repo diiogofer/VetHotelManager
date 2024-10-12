@@ -41,12 +41,6 @@ public class Species extends Identified{
      * @param object the object to compare to
      * @return {@code true} if the object is a Species with the same identifier and name, {@code false} otherwise
      */
-    @Override
-    public boolean equals(Object object) {
-        if(!(object instanceof Species)) return false;
-        Species species = (Species)object;
-        return getId().equals(species.getId()) && _name.equals(species._name);
-    }
 
     /**
      * Returns the name of the species.
@@ -74,5 +68,4 @@ public class Species extends Identified{
     int getNumberQualifiedVets() {
         return _numberQualifiedVets;
     }
-    
 }
