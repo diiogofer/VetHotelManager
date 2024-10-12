@@ -13,7 +13,7 @@ import java.util.*;
  * 
  * @see Habitat
  */
-public class Keeper extends Employee {
+public class EmployeeKeeper extends Employee {
     
     /** A map of habitats that the keeper is responsible for, keyed by habitat ID. */
     private Map<String, Habitat> _responsibilities = new HashMap<>();
@@ -27,7 +27,7 @@ public class Keeper extends Employee {
      * @param name the name of the keeper
      * @param habitats the list of habitats that the keeper is responsible for
      */
-    Keeper(String identifier, String name, List<Habitat> habitats) {
+    EmployeeKeeper(String identifier, String name, List<Habitat> habitats) {
         super(identifier, name);
         for(Habitat h : habitats) {
             _responsibilities.put(h.getId(), h);

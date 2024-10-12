@@ -21,7 +21,7 @@ public class VaccineEvent implements Serializable {
     private Animal _animal;
 
     /** The veterinarian who administered the vaccine. */
-    private Veterinarian _vet;
+    private EmployeeVeterinarian _vet;
 
     /** The damage caused by the vaccine. */
     private VaccineEventDamage _damage;
@@ -49,7 +49,7 @@ public class VaccineEvent implements Serializable {
      * 
      * @return the veterinarian who performed the vaccination
      */ 
-    Veterinarian getVet() {
+    EmployeeVeterinarian getVet() {
         return _vet;
     }
 }

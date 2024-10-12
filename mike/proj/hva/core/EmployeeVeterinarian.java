@@ -13,7 +13,7 @@ import java.util.*;
  * 
  * @see Species
  */
-public class Veterinarian extends Employee{
+public class EmployeeVeterinarian extends Employee{
     
     /** A map of species that the veterinarian is responsible for, keyed by species ID. */
     private Map<String, Species> _responsibilities = new HashMap<>();
@@ -26,7 +26,7 @@ public class Veterinarian extends Employee{
      * @param name the name of the veterinarian
      * @param responsibilities the list of species that the veterinarian is responsible for
      */
-    Veterinarian(String identifier, String name, List<Species> responsibilities) {
+    EmployeeVeterinarian(String identifier, String name, List<Species> responsibilities) {
         super(identifier, name);
 
         for (Species s : responsibilities) {

@@ -10,7 +10,7 @@ package hva.core;
  *   <li>GERARFOLHAS - Generating leaves</li>
  * </ul>
  */
-public enum BiologicalCycle {
+public enum TreeBiologicalCycle {
     COMFOLHAS, LARGARFOLHAS, SEMFOLHAS, GERARFOLHAS;
     /**
      * Returns the name of the biological cycle as a string.

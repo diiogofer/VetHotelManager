@@ -119,7 +119,7 @@ public abstract class Tree extends Identified{
      * @param season the current season
      * @return the biological cycle for the given season
      */
-    abstract BiologicalCycle getBiologicalCycle(Season season);
+    abstract TreeBiologicalCycle getBiologicalCycle(Season season);
     
     /**
      * Returns a string representation of the tree, including its ID, name, age, base cleaning difficulty,

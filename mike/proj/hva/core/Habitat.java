@@ -115,7 +115,7 @@ public class Habitat extends Identified{
      * @param adequacy
      * @return true if adequacy was changed, false if not
      */
-    boolean setAdequacy(Species species, Adequacy adequacy) {
+    boolean setAdequacy(Species species, SpeciesAdequacy adequacy) {
         int newValue = adequacy.getValue();
         Integer oldValue =_adequacies.put(species, newValue);
         if(oldValue == null) return true;

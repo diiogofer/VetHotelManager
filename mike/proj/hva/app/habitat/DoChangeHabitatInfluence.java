@@ -1,6 +1,6 @@
 package hva.app.habitat;
 
-import hva.core.Adequacy;
+import hva.core.SpeciesAdequacy;
 import hva.core.Hotel;
 import pt.tecnico.uilib.menus.Command;
 import pt.tecnico.uilib.menus.CommandException;
@@ -19,11 +19,11 @@ class DoChangeHabitatInfluence extends Command<Hotel> {
   
   @Override
   protected void execute() throws CommandException {
-    Adequacy adequacy;
+    SpeciesAdequacy adequacy;
     switch (optionField("influence")) {
-      case "POS" -> adequacy = Adequacy.POSITIVE;
-      case "NEG" -> adequacy = Adequacy.NEGATIVE;
-      case "NEU" -> adequacy = Adequacy.NEUTRAL;
+      case "POS" -> adequacy = SpeciesAdequacy.POSITIVE;
+      case "NEG" -> adequacy = SpeciesAdequacy.NEGATIVE;
+      case "NEU" -> adequacy = SpeciesAdequacy.NEUTRAL;
       default -> throw new IllegalArgumentException("Adequacy input not valid");
     }
     try{

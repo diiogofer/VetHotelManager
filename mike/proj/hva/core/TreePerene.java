@@ -13,17 +13,17 @@ package hva.core;
  * @see Season
  * @see BiologicalCycle
  */
-public class Perene extends Tree{
+public class TreePerene extends Tree{
 
     /** The seasonal effort for each season, represented as an array. */
     private final int[] _seasonalEffort = {2, 1, 1, 1};
 
     /** The biological cycle for each season, represented as an array. */
-    private final BiologicalCycle[] _biologicalCycle = {
-        BiologicalCycle.GERARFOLHAS, 
-        BiologicalCycle.COMFOLHAS, 
-        BiologicalCycle.COMFOLHAS,
-        BiologicalCycle.LARGARFOLHAS
+    private final TreeBiologicalCycle[] _biologicalCycle = {
+        TreeBiologicalCycle.GERARFOLHAS, 
+        TreeBiologicalCycle.COMFOLHAS, 
+        TreeBiologicalCycle.COMFOLHAS,
+        TreeBiologicalCycle.LARGARFOLHAS
     };
 
     /**
@@ -36,7 +36,7 @@ public class Perene extends Tree{
      * @param baseCleaningDifficulty the base difficulty of cleaning around the tree
      * @param hotel the hotel where the tree is located
      */
-    public Perene(String identifier, String name, int ageInYears, int baseCleaningDifficulty, Hotel hotel) {
+    TreePerene(String identifier, String name, int ageInYears, int baseCleaningDifficulty, Hotel hotel) {
         super(identifier, name,ageInYears,baseCleaningDifficulty, hotel);
     }
 
@@ -59,7 +59,7 @@ public class Perene extends Tree{
      * @return the biological cycle for the given season
      */
     @Override
-    BiologicalCycle getBiologicalCycle(Season season){
+    TreeBiologicalCycle getBiologicalCycle(Season season){
         return _biologicalCycle[season.getValue()];
     }
 

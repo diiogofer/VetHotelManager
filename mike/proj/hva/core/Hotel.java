@@ -175,7 +175,7 @@ public class Hotel implements Serializable {
       if (habitat == null) throw new UnknownHabitatKeyException(responsibilityId);
       responsibilities.add(habitat);
     }
-    Keeper keeper = new Keeper(id, name, responsibilities);
+    EmployeeKeeper keeper = new EmployeeKeeper(id, name, responsibilities);
     addIdentified(_employeeMap, keeper);
   }
 
@@ -196,7 +196,7 @@ public class Hotel implements Serializable {
       if (species == null) throw new UnknownSpeciesKeyException(responsibilityId);
       responsibilities.add(species);
     }
-    Veterinarian vet = new Veterinarian(id, name, responsibilities);
+    EmployeeVeterinarian vet = new EmployeeVeterinarian(id, name, responsibilities);
     addIdentified(_employeeMap, vet);
   }
   
@@ -380,7 +380,7 @@ public class Hotel implements Serializable {
    * @throws UnknownHabitatKeyException
    * @throws UnknownSpeciesKeyException
    */
-  public void setHabitatSpeciesAdequacy(String habitatId, String speciesId, Adequacy adequacy) 
+  public void setHabitatSpeciesAdequacy(String habitatId, String speciesId, SpeciesAdequacy adequacy) 
     throws UnknownHabitatKeyException, UnknownSpeciesKeyException {
     Habitat habitat = getHabitat(habitatId);
     Species species = getSpecies(speciesId);
@@ -438,8 +438,8 @@ public class Hotel implements Serializable {
     if(contains(_treeMap, id)) throw new DuplicateTreeKeyException(id);
     Tree tree;
     switch(treeType) {
-      case TreeType.CADUCA -> tree = new Caduca(id, name, age, baseDifficulty, this);
-      case TreeType.PERENE -> tree = new Perene(id, name, age, baseDifficulty, this);
+      case TreeType.CADUCA -> tree = new TreeCaduca(id, name, age, baseDifficulty, this);
+      case TreeType.PERENE -> tree = new TreePerene(id, name, age, baseDifficulty, this);
       default -> throw new UnknownTreeTypeException();   
     }
     addIdentified(_treeMap, tree);
