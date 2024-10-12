@@ -388,7 +388,14 @@ public class Hotel implements Serializable {
     if(changed) setChanged(true);
   }
 
+  public List<Tree> getAllTreesOfHabitat(String habitatId) 
+    throws UnknownHabitatKeyException{
+    Habitat h = getHabitat(habitatId);
+    return h.getAllTrees();
+  }
+
   //Tree related
+
   /**
    * Registers a new tree to a habitat.
    * Adds the tree to the hotel.

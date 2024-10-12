@@ -32,3 +32,11 @@
 - hotel and tree exists (case insensitive)
 - uses TreeType enum for tree types
 - changes hotelChanged to true if successful
+
+## 4.4.6
+#### TODO
+#### Checks
+- checks habitat exists
+- case insensitive
+- returns alfanumeric ordered unmodifiable list
+
