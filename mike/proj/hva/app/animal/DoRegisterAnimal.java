@@ -11,39 +11,49 @@ import pt.tecnico.uilib.menus.CommandException;
  * Register a new animal in this zoo hotel.
  */
 class DoRegisterAnimal extends Command<Hotel> {
-
+  
+  /**
+   * Constructs a new command to register a new animal in the zoo hotel.
+   * Prompts the user for the animal's ID, name, species ID, and habitat ID.
+   * 
+   * @param receiver the hotel where the animal will be registered
+   */
   DoRegisterAnimal(Hotel receiver) {
     super(Label.REGISTER_ANIMAL, receiver);
-    //FIXME add command fields
     addStringField("animalId", Prompt.animalKey());
     addStringField("animalName", Prompt.animalName());
     addStringField("speciesId", Prompt.speciesKey());
     addStringField("habitatId", hva.app.habitat.Prompt.habitatKey());
-    addStringField("speciesName", Prompt.speciesName());
   }
   
+  /**
+   * Executes the command to register a new animal.
+   * If the species does not exist, the user is prompted to register the species before proceeding.
+   * 
+   * @throws CommandException if an error occurs during the registration process
+   */
   @Override
   protected final void execute() throws CommandException {
-    //FIXME implement command
     try {
-      _receiver.registerAnimal( stringField("animalId"), 
-                                stringField("animalName"), 
-                                stringField("speciesId"), 
-                                stringField("habitatId"));
+      _receiver.registerAnimal(
+        stringField("animalId"), 
+        stringField("animalName"), 
+        stringField("speciesId"), 
+        stringField("habitatId")
+      );
     } catch (hva.core.exception.DuplicateAnimalKeyException ex) {
-      throw new hva.app.exception.DuplicateAnimalKeyException(stringField("animalId"));
+        throw new DuplicateAnimalKeyException(stringField("animalId"));
     } catch (hva.core.exception.UnknownHabitatKeyException ex) {
-      throw new hva.app.exception.UnknownHabitatKeyException(stringField("habitatId"));
+        throw new UnknownHabitatKeyException(stringField("habitatId"));
     } catch (hva.core.exception.UnknownSpeciesKeyException ex) {
       try {
-        _receiver.registerSpecies(stringField("speciesId"), stringField("speciesName"));
+        _receiver.registerSpecies(
+          stringField("speciesId"), 
+          Form.requestString(Prompt.speciesName())
+        );
         execute();
-      } catch (hva.core.exception.DuplicateSpeciesKeyException ex2) {
-        //VER ISTO !!!!!!!!!!!!!!!!!!!!!!!!!
-        throw new hva.app.exception.DuplicateAnimalKeyException(stringField("speciesId"));
-      } catch (hva.core.exception.DuplicateSpeciesNameException ex2) {
-        //VER ISTO !!!!!!!!!!!!!!!!!!!!!!!!!
-        throw new hva.app.exception.DuplicateAnimalKeyException(stringField("speciesId"));
+      } catch (hva.core.exception.DuplicateSpeciesKeyException | hva.core.exception.DuplicateSpeciesNameException ex2) {
+          throw new DuplicateAnimalKeyException(stringField("speciesId"));
       }
     }
   }

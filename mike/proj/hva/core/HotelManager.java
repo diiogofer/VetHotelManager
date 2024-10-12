@@ -3,16 +3,12 @@ package hva.core;
 import hva.core.exception.*;
 import java.io.*;
 
-// FIXME import classes
-
 /**
  * Class representing the manager of this application. It manages the current
  * zoo hotel.
  **/
 public class HotelManager {
-  /** The current zoo hotel */ // Should we initialize this field?
-  private Hotel _hotel;
-  private boolean _hotelChanged = false;
+  private Hotel _hotel = new Hotel();
   private String _filename;
 
   /**
@@ -23,11 +19,14 @@ public class HotelManager {
    * @throws IOException if there is some error while serializing the state of the network to disk.
    **/
   public void save() throws FileNotFoundException, MissingFileAssociationException, IOException {
-    // FIXME implement serialization method
+    if (_filename == null) {
+      throw new MissingFileAssociationException();
+    }
     ObjectOutputStream out = null;
     try {
       FileOutputStream fOut = new FileOutputStream(_filename);
       out = new ObjectOutputStream(fOut);
+      this.getHotel().setChanged(false);
       out.writeObject(_hotel);
     } finally {if (out != null) {out.close();}}
   }
@@ -42,13 +41,11 @@ public class HotelManager {
    * @throws IOException if there is some error while serializing the state of the network to disk.
    **/
   public void saveAs(String filename) throws FileNotFoundException, MissingFileAssociationException, IOException {
-    // FIXME implement serialization method
-    ObjectOutputStream out = null;
-    try {
-      FileOutputStream fOut = new FileOutputStream(filename);
-      out = new ObjectOutputStream(fOut);
-      out.writeObject(_hotel);
-    } finally {if (out != null) {out.close();}}
+    if (filename == null) {
+      throw new MissingFileAssociationException();
+    }
+    _filename = filename;
+    save();
   }
   
   /**
@@ -57,12 +54,13 @@ public class HotelManager {
    * @throws UnavailableFileException if the specified file does not exist or there is
    *         an error while processing this file.
    **/
-  public void load(String filename) throws UnavailableFileException, IOException, ClassNotFoundException {
-    // FIXME implement serialization method
+  public void load(String filename) throws UnavailableFileException {
     try (ObjectInputStream in = new ObjectInputStream(new FileInputStream(filename))) {
       _hotel = (Hotel) in.readObject();
-    }    
+  } catch (IOException | ClassNotFoundException ex) {
+      throw new UnavailableFileException(filename);
   }
+}
   
   /**
    * Read text input file and initializes the current zoo hotel (which should be empty)
@@ -73,9 +71,9 @@ public class HotelManager {
    * import file.
    **/
   public void importFile(String filename) throws ImportFileException {
-    _hotel = new Hotel();
     try {
       _hotel.importFile(filename);
+      _hotel.setChanged(true);
     } catch (IOException | UnrecognizedEntryException | DuplicateFieldException | UnknownFieldException e) {
       throw new ImportFileException(filename, e);
     }
@@ -87,10 +85,24 @@ public class HotelManager {
    * @return the current zoo hotel
    **/
   public final Hotel getHotel() {
-    if(_hotel == null) _hotel = new Hotel();
     return _hotel;
   }
 
-  public final String getFileName() {return _filename;}
-  public final boolean getHotelChanged() {return _hotelChanged;}
+  /**
+   * Returns the name of the file associated with the current hotel.
+   * 
+   * @return the file name as a String, or null if no file is associated
+   */
+  public final String getFileName(){
+    return _filename;
+  }
+
+  /**
+   * Creates a new Hotel instance and resets the file name associated with the hotel to null.
+   */
+  public void createHotel(){  
+    _hotel = new Hotel();
+    _filename = null;
+  }
 }
+
