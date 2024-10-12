@@ -79,29 +79,6 @@ public abstract class Tree extends Identified{
     }
 
     /**
-     * Returns the hotel where the tree is located.
-     * 
-     * @return the hotel of the tree
-     */
-    Hotel getHotel() {
-        return _hotel;
-    }
-
-    /**
-     * Checks whether this tree is equal to another object. 
-     * Two trees are considered equal if they have the same identifier.
-     * 
-     * @param object the object to compare to
-     * @return {@code true} if the trees have the same identifier, {@code false} otherwise
-     */
-    @Override
-    public boolean equals(Object object) {
-        if(!(object instanceof Tree)) return false;
-        Tree tree = (Tree)object;
-        return getId().equals(tree.getId());
-    }
-
-    /**
      * Abstract method that returns a string representing the type of tree (e.g., "PERENE" or "CADUCA").
      * Subclasses must implement this method to provide the specific tree type.
      * 

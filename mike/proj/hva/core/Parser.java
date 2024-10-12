@@ -97,7 +97,9 @@ public class Parser {
       default -> throw new UnknownFieldException("Unknown tree type.");
 		}
 		try {
-    	_hotel.registerTree(components[1], components[2], components[3], components[4], treeType);
+      int age = Integer.parseInt(components[3]);
+      int difficulty = Integer.parseInt(components[4]);
+    	_hotel.registerTree(components[1], components[2], age, difficulty, treeType);
 		} catch (DuplicateTreeKeyException dtke) {
 			throw new DuplicateFieldException(dtke.getMessage(), dtke);
 		} catch (UnknownTreeTypeException utte) {

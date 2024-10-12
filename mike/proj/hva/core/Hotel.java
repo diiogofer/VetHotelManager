@@ -110,28 +110,7 @@ public class Hotel implements Serializable {
     addIdentified(_speciesMap, species);
   }
 
-  /**
-   * Registers a new tree with the given ID, name, age, base difficulty, and type.
-   * 
-   * @param id the unique identifier of the tree
-   * @param name the name of the tree
-   * @param age the age of the tree
-   * @param baseDifficulty the base cleaning difficulty of the tree
-   * @param treeType the type of the tree
-   * @throws DuplicateTreeKeyException if the tree ID is already registered
-   * @throws UnknownTreeTypeException if the tree type is not recognized
-   */  
-  public void registerTree(String id, String name, String age, String baseDifficulty, TreeType treeType)
-    throws DuplicateTreeKeyException, UnknownTreeTypeException {
-    if(contains(_treeMap, id)) throw new DuplicateTreeKeyException(id);
-    Tree tree;
-    switch(treeType) {
-      case TreeType.CADUCA -> tree = new Caduca(id, name, Integer.parseInt(age), Integer.parseInt(baseDifficulty), this);
-      case TreeType.PERENE -> tree = new Perene(id, name, Integer.parseInt(age), Integer.parseInt(baseDifficulty), this);
-      default -> throw new UnknownTreeTypeException();   
-    }
-    addIdentified(_treeMap, tree);
-  }
+  
 
   
 
@@ -274,13 +253,7 @@ public class Hotel implements Serializable {
     }
   }
 
-  public Tree getTree(String id) throws UnknownTreeKeyException {
-    try{
-      return getObject(_treeMap, id);
-    } catch (UnknownFieldException ex) {
-      throw new UnknownTreeKeyException(id);
-    } 
-  }
+  
   
 
   /**
@@ -413,6 +386,66 @@ public class Hotel implements Serializable {
     Species species = getSpecies(speciesId);
     boolean changed = habitat.setAdequacy(species, adequacy);
     if(changed) setChanged(true);
+  }
+
+  //Tree related
+  /**
+   * Registers a new tree to a habitat.
+   * Adds the tree to the hotel.
+   * Sets hotel state to changed if successful.
+   * 
+   * @param habitatId
+   * @param treeId
+   * @param name
+   * @param age
+   * @param baseDifficulty
+   * @param treeType
+   * @throws UnknownHabitatKeyException
+   * @throws DuplicateTreeKeyException
+   * @throws UnknownTreeTypeException
+   */
+  public void registerTree( String habitatId, String treeId, String name, int age, 
+    int baseDifficulty, TreeType treeType) 
+    throws UnknownHabitatKeyException, DuplicateTreeKeyException, UnknownTreeTypeException {
+    Habitat habitat = getHabitat(habitatId);
+    if(contains(_treeMap, treeId)) throw new DuplicateTreeKeyException(treeId);
+    Tree tree = registerTree(treeId, name, age, baseDifficulty, treeType);
+    habitat.addTree(tree);
+    setChanged(true);
+  }
+
+
+  /**
+   * Registers a new tree with the given ID, name, age, base difficulty, and type.
+   * 
+   * @param id the unique identifier of the tree
+   * @param name the name of the tree
+   * @param age the age of the tree
+   * @param baseDifficulty the base cleaning difficulty of the tree
+   * @param treeType the type of the tree
+   * @throws DuplicateTreeKeyException if the tree ID is already registered
+   * @throws UnknownTreeTypeException if the tree type is not recognized
+   */  
+  public Tree registerTree(String id, String name, int age, int baseDifficulty, TreeType treeType)
+    throws DuplicateTreeKeyException, UnknownTreeTypeException {
+    if(contains(_treeMap, id)) throw new DuplicateTreeKeyException(id);
+    Tree tree;
+    switch(treeType) {
+      case TreeType.CADUCA -> tree = new Caduca(id, name, age, baseDifficulty, this);
+      case TreeType.PERENE -> tree = new Perene(id, name, age, baseDifficulty, this);
+      default -> throw new UnknownTreeTypeException();   
+    }
+    addIdentified(_treeMap, tree);
+    setChanged(true);
+    return tree;
+  }
+
+  public Tree getTree(String id) throws UnknownTreeKeyException {
+    try{
+      return getObject(_treeMap, id);
+    } catch (UnknownFieldException ex) {
+      throw new UnknownTreeKeyException(id);
+    } 
   }
 }
 
