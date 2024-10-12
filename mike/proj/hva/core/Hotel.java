@@ -59,7 +59,6 @@ public class Hotel implements Serializable {
     _hotelChanged = false;
   }
 
-
   /**
    * Returns the current state of the hotel, indicating if changes have been made.
    * 
@@ -391,11 +390,29 @@ public class Hotel implements Serializable {
     return getAllIdentified(_habitatMap);  
   }
 
+  public void setHabitatArea(String habitatId, int newArea) 
+    throws UnknownHabitatKeyException{
+    Habitat habitat = getHabitat(habitatId);
+    boolean changed = habitat.setArea(newArea);
+    if(changed) setChanged(true);
+  }
+
+  /**
+   * Changes the adequacy of a species for a given habitat.
+   * If the value was changed, sets hotel state to changed.
+   * 
+   * @param habitatId
+   * @param speciesId
+   * @param adequacy
+   * @throws UnknownHabitatKeyException
+   * @throws UnknownSpeciesKeyException
+   */
   public void setHabitatSpeciesAdequacy(String habitatId, String speciesId, Adequacy adequacy) 
     throws UnknownHabitatKeyException, UnknownSpeciesKeyException {
     Habitat habitat = getHabitat(habitatId);
     Species species = getSpecies(speciesId);
-    habitat.setAdequacy(species, adequacy);
+    boolean changed = habitat.setAdequacy(species, adequacy);
+    if(changed) setChanged(true);
   }
 }
 

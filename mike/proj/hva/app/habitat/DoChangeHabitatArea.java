@@ -1,7 +1,6 @@
 package hva.app.habitat;
 
 import hva.core.Hotel;
-import hva.core.Habitat;
 
 import pt.tecnico.uilib.menus.Command;
 import pt.tecnico.uilib.menus.CommandException;
@@ -20,8 +19,7 @@ class DoChangeHabitatArea extends Command<Hotel> {
   @Override
   protected void execute() throws CommandException {
     try {
-      Habitat habitat = _receiver.getHabitat(stringField("habitatId"));
-      habitat.setArea(integerField("newArea"));
+      _receiver.setHabitatArea(stringField("habitatId"), integerField("newArea"));
     } catch (hva.core.exception.UnknownHabitatKeyException ex) {
       //EXCEPTION HANDLING - 
       //ERROR HANDLING

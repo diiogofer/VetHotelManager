@@ -8,11 +8,13 @@
 - - setArea() 
 - - area <= 0 handling
 #### Checks
-- h12 and H12 are the same id  
+- h12 and H12 are the same id
+- changes hotelChanged to true if value was changed 
 
 ## 4.4.4
 ### TODO
 - UNTESTED
+- dubious Adequacy enum implementation
 - DoChangeHabitatInfluence
 - - ? exception handling
 - - ? no habitat
@@ -21,4 +23,5 @@
 
 #### Checks
 - input asked until NEU || POS || NEG
-- uses Aequacy enum for values to change them easily
+- uses Adequacy enum for values to change them easily
+- changes hotelChanged to true if value was changed

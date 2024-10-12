@@ -3,8 +3,6 @@ package hva.app.habitat;
 import java.util.List;
 import hva.core.*;
 import pt.tecnico.uilib.menus.Command;
-import pt.tecnico.uilib.menus.CommandException;
-//FIXME add more imports if needed
 
 /**
  * Show all habitats of this zoo hotel.

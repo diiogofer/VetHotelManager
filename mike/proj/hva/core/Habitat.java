@@ -82,9 +82,17 @@ public class Habitat extends Identified{
     int getArea() { 
         return _area;
     }
-
-    public void setArea(int newArea) {
+    /**
+     * Sets a new area for the habitat.
+     * Returns if old area was changed.
+     * 
+     * @param newArea
+     * @return
+     */
+    boolean setArea(int newArea) {
+        if(newArea == _area) return false;
         _area = newArea;
+        return true;
     }
 
     /**
@@ -99,8 +107,19 @@ public class Habitat extends Identified{
         return value == null ?  0 : value;
     }
 
-    void setAdequacy(Species species, Adequacy adequacy) {
-        _adequacies.put(species, adequacy.getValue());
+    /**
+     * Set's the value of adequacy for a species in this habitat.
+     * Returns if adequacy was changed for the species.
+     * 
+     * @param species
+     * @param adequacy
+     * @return true if adequacy was changed, false if not
+     */
+    boolean setAdequacy(Species species, Adequacy adequacy) {
+        int newValue = adequacy.getValue();
+        Integer oldValue =_adequacies.put(species, newValue);
+        if(oldValue == null) return true;
+        return !oldValue.equals(newValue);
     }
 
     /**
