@@ -1,11 +1,9 @@
 package hva.app.habitat;
 
+import hva.core.Adequacy;
 import hva.core.Hotel;
-import hva.app.exception.UnknownHabitatKeyException;
-import hva.app.exception.UnknownSpeciesKeyException;
 import pt.tecnico.uilib.menus.Command;
 import pt.tecnico.uilib.menus.CommandException;
-//FIXME add more imports if needed
 
 /**
  * Associate (positive or negatively) a species to a given habitat.
@@ -14,11 +12,27 @@ class DoChangeHabitatInfluence extends Command<Hotel> {
 
   DoChangeHabitatInfluence(Hotel receiver) {
     super(Label.CHANGE_HABITAT_INFLUENCE, receiver);
-    //FIXME add command fields
+    addStringField("habitatId", Prompt.habitatKey());
+    addStringField("speciesId", hva.app.animal.Prompt.speciesKey());
+    addOptionField("influence", Prompt.habitatInfluence(), "POS", "NEG", "NEU");
   }
   
   @Override
   protected void execute() throws CommandException {
-    //FIXME implement command
+    Adequacy adequacy;
+    switch (optionField("influence")) {
+      case "POS" -> adequacy = Adequacy.POSITIVE;
+      case "NEG" -> adequacy = Adequacy.NEGATIVE;
+      case "NEU" -> adequacy = Adequacy.NEUTRAL;
+      default -> throw new IllegalArgumentException("Adequacy input not valid");
+    }
+    try{
+      _receiver.setHabitatSpeciesAdequacy(stringField("habitatId"), 
+                                          stringField("speciesId"),
+                                          adequacy);
+    } catch ( hva.core.exception.UnknownHabitatKeyException |
+              hva.core.exception.UnknownSpeciesKeyException ex) {
+      //EXCEPTION HANDLING
+    }
   }
 }

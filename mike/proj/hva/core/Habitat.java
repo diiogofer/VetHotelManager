@@ -99,6 +99,10 @@ public class Habitat extends Identified{
         return value == null ?  0 : value;
     }
 
+    void setAdequacy(Species species, Adequacy adequacy) {
+        _adequacies.put(species, adequacy.getValue());
+    }
+
     /**
      * Adds a tree to the habitat and updates the tree's habitat information.
      * 

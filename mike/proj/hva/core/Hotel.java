@@ -103,7 +103,7 @@ public class Hotel implements Serializable {
    */
   public void registerSpecies(String id, String name) 
     throws DuplicateSpeciesKeyException, DuplicateSpeciesNameException {
-    if(_speciesMap.containsKey(id.toLowerCase())) throw new DuplicateSpeciesKeyException(id);
+    if(contains(_speciesMap, id)) throw new DuplicateSpeciesKeyException(id);
     for(Species s : _speciesMap.values()) {
       if(s.getName().equals(name)) throw new DuplicateSpeciesNameException(name);
     }
@@ -124,7 +124,7 @@ public class Hotel implements Serializable {
    */  
   public void registerTree(String id, String name, String age, String baseDifficulty, TreeType treeType)
     throws DuplicateTreeKeyException, UnknownTreeTypeException {
-    if(_treeMap.containsKey(id.toLowerCase())) throw new DuplicateTreeKeyException(id);
+    if(contains(_treeMap, id)) throw new DuplicateTreeKeyException(id);
     Tree tree;
     switch(treeType) {
       case TreeType.CADUCA -> tree = new Caduca(id, name, Integer.parseInt(age), Integer.parseInt(baseDifficulty), this);
@@ -134,41 +134,7 @@ public class Hotel implements Serializable {
     addIdentified(_treeMap, tree);
   }
 
-  /**
-   * Registers a new habitat with the given ID, name, area, and tree IDs.
-   * Used for import structure that has pre-defined tree ID array.
-   * 
-   * @param id the unique identifier of the habitat
-   * @param name the name of the habitat
-   * @param area the area of the habitat
-   * @param treeIds the IDs of the trees to be added to the habitat
-   * @throws DuplicateHabitatKeyException if the habitat ID is already registered
-   */  
-  public void registerHabitat(String id, String name, String area, String[] treeIds) 
-    throws DuplicateHabitatKeyException {
-    Habitat habitat = registerHabitat(id, name, Integer.parseInt(area));
-    for(String treeId : treeIds) {
-      Tree tree = _treeMap.get(treeId.toLowerCase());
-      if(tree != null) habitat.addTree(tree);
-    }
-  }
-
-  /**
-   * Registers a new habitat with the given ID, name, and area.
-   * 
-   * @param id the unique identifier of the habitat
-   * @param name the name of the habitat
-   * @param area the area of the habitat
-   * @return the newly registered habitat
-   * @throws DuplicateHabitatKeyException if a habitat with the same ID already exists
-   */
-  public Habitat registerHabitat(String id, String name, int area) 
-    throws DuplicateHabitatKeyException{
-    if(_habitatMap.containsKey(id.toLowerCase())) throw new DuplicateHabitatKeyException(id);
-    Habitat habitat = new Habitat(id, name, area);
-    addIdentified(_habitatMap, habitat);
-    return habitat;
-  }
+  
 
   /**
    * Registers a new animal with the given ID, name, species ID, and habitat ID.
@@ -183,14 +149,10 @@ public class Hotel implements Serializable {
    */  
   public void registerAnimal(String animalId, String name, String speciesId, String habitatId) 
     throws DuplicateAnimalKeyException, UnknownSpeciesKeyException, UnknownHabitatKeyException {
-    if(_animalMap.containsKey(animalId.toLowerCase())) 
+    if(contains(_animalMap, animalId)) 
       throw new DuplicateAnimalKeyException(animalId);
-    Habitat habitat = _habitatMap.get(habitatId.toLowerCase());
-    if (habitat == null) 
-      throw new UnknownHabitatKeyException(habitatId);
-    Species species = _speciesMap.get(speciesId.toLowerCase());
-    if (species == null) 
-      throw new UnknownSpeciesKeyException(speciesId);
+    Habitat habitat = getHabitat(habitatId);
+    Species species = getSpecies(speciesId);
     Animal animal = new Animal(animalId, name, species, habitat);
     addIdentified(_animalMap, animal);
   }
@@ -283,6 +245,10 @@ public class Hotel implements Serializable {
     addIdentified(_vaccineMap, vaccine);
   }
 
+  public <T extends Identified> boolean contains(Map<String, T> map, String id) {
+    return map.containsKey(id.toLowerCase());
+  }
+
   /**
    * Adds an identified entity to the corresponding map and marks the hotel state as changed.
    * 
@@ -301,8 +267,20 @@ public class Hotel implements Serializable {
     return object;
   }
 
-  public Habitat getHabitat(String id) throws UnknownFieldException{
-    return getObject(_habitatMap, id);
+  public Species getSpecies(String id) throws UnknownSpeciesKeyException {
+    try{
+      return getObject(_speciesMap, id);
+    } catch (UnknownFieldException ex) {
+      throw new UnknownSpeciesKeyException(id);
+    }
+  }
+
+  public Tree getTree(String id) throws UnknownTreeKeyException {
+    try{
+      return getObject(_treeMap, id);
+    } catch (UnknownFieldException ex) {
+      throw new UnknownTreeKeyException(id);
+    } 
   }
   
 
@@ -319,14 +297,7 @@ public class Hotel implements Serializable {
     return Collections.unmodifiableList(list);
   }
 
-  /**
-   * Returns a list of all habitats registered in the hotel.
-   * 
-   * @return a list of all habitats
-   */
-  public List<Habitat> getAllHabitats() {
-    return getAllIdentified(_habitatMap);  
-  }
+  
 
   /**
    * Returns a list of all animals registered in the hotel.
@@ -364,5 +335,67 @@ public class Hotel implements Serializable {
     _hotelChanged = state;
   }
 
+  //Habitat related
+
+  /**
+   * Registers a new habitat with the given ID, name, area, and tree IDs.
+   * Used for import structure that has pre-defined tree ID array.
+   * 
+   * @param id the unique identifier of the habitat
+   * @param name the name of the habitat
+   * @param area the area of the habitat
+   * @param treeIds the IDs of the trees to be added to the habitat
+   * @throws DuplicateHabitatKeyException if the habitat ID is already registered
+   * @throws UnknownTreeKeyException if a tree ID doesn't exist in the hotel
+   */  
+  public void registerHabitat(String id, String name, String area, String[] treeIds) 
+    throws DuplicateHabitatKeyException, UnknownTreeKeyException {
+    Habitat habitat = registerHabitat(id, name, Integer.parseInt(area));
+    for(String treeId : treeIds) {
+      Tree tree = getTree(treeId);
+      if(tree != null) habitat.addTree(tree);
+    }
+  }
+
+  /**
+   * Registers a new habitat with the given ID, name, and area.
+   * 
+   * @param id the unique identifier of the habitat
+   * @param name the name of the habitat
+   * @param area the area of the habitat
+   * @return the newly registered habitat
+   * @throws DuplicateHabitatKeyException if a habitat with the same ID already exists
+   */
+  public Habitat registerHabitat(String id, String name, int area) 
+    throws DuplicateHabitatKeyException{
+    if(contains(_habitatMap, id)) throw new DuplicateHabitatKeyException(id);
+    Habitat habitat = new Habitat(id, name, area);
+    addIdentified(_habitatMap, habitat);
+    return habitat;
+  }
+
+  public Habitat getHabitat(String id) throws UnknownHabitatKeyException {
+    try {
+      return getObject(_habitatMap, id);
+    } catch (UnknownFieldException ex) {
+      throw new UnknownHabitatKeyException(id);
+    }
+  }
+
+  /**
+   * Returns a list of all habitats registered in the hotel.
+   * 
+   * @return a list of all habitats
+   */
+  public List<Habitat> getAllHabitats() {
+    return getAllIdentified(_habitatMap);  
+  }
+
+  public void setHabitatSpeciesAdequacy(String habitatId, String speciesId, Adequacy adequacy) 
+    throws UnknownHabitatKeyException, UnknownSpeciesKeyException {
+    Habitat habitat = getHabitat(habitatId);
+    Species species = getSpecies(speciesId);
+    habitat.setAdequacy(species, adequacy);
+  }
 }
 

@@ -111,12 +111,15 @@ public class Parser {
    * @param components the components of the habitat entry
    * @throws DuplicateFieldException if a duplicate habitat entry is found
    */
-  private void parseHabitat(String[] components) throws DuplicateFieldException {
+  private void parseHabitat(String[] components) 
+    throws DuplicateFieldException, UnknownFieldException {
     String[] treeIds = components.length == 4 ? new String[0] : components[4].split(",");
     try {
 			_hotel.registerHabitat(components[1], components[2], components[3], treeIds);
 		} catch (DuplicateHabitatKeyException dhke) {
 			throw new DuplicateFieldException(dhke.getMessage(), dhke);
+		} catch (UnknownTreeKeyException utte) {
+			throw new UnknownFieldException(utte.getMessage(), utte);
 		}
   }
 

@@ -22,7 +22,7 @@ class DoChangeHabitatArea extends Command<Hotel> {
     try {
       Habitat habitat = _receiver.getHabitat(stringField("habitatId"));
       habitat.setArea(integerField("newArea"));
-    } catch (hva.core.exception.UnknownFieldException ex) {
+    } catch (hva.core.exception.UnknownHabitatKeyException ex) {
       //EXCEPTION HANDLING - 
       //ERROR HANDLING
     }
