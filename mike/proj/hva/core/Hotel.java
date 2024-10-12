@@ -294,6 +294,16 @@ public class Hotel implements Serializable {
     map.putIfAbsent(identified.getId().toLowerCase(), identified);
     _hotelChanged = true;
   }
+
+  private <T> T getObject(Map<String, T> map, String id) throws UnknownFieldException{
+    T object = map.get(id.toLowerCase());
+    if(object == null) throw new UnknownFieldException(id);
+    return object;
+  }
+
+  public Habitat getHabitat(String id) throws UnknownFieldException{
+    return getObject(_habitatMap, id);
+  }
   
 
   /**

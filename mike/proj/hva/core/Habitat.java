@@ -83,6 +83,10 @@ public class Habitat extends Identified{
         return _area;
     }
 
+    public void setArea(int newArea) {
+        _area = newArea;
+    }
+
     /**
      * Returns the adequacy value of the habitat for the given species. 
      * If no adequacy value is set, returns 0.
