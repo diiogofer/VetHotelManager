@@ -23,13 +23,13 @@ public class Habitat extends Identified{
     private int _area;
 
     /** A map of animals currently living in the habitat, keyed by their unique identifier. */
-    private Map<String, Animal> _animals = new HashMap<>();
+    private Map<String, Animal> _animalMap = new HashMap<>();
 
     /** A map of trees currently present in the habitat, keyed by their unique identifier. */
-    private Map<String, Tree> _trees = new HashMap<>();
+    private Map<String, Tree> _treeMap = new HashMap<>();
 
     /** A map of adequacy values for species, indicating how suitable the habitat is for each species. */
-    private Map<Species, Integer> _adequacies = new HashMap<>();
+    private Map<Species, Integer> _adequacyMap = new HashMap<>();
 
     /** The number of keepers responsible for maintaining the habitat. */    
     private int _numberKeepers;
@@ -56,7 +56,7 @@ public class Habitat extends Identified{
      */
     int getPopulationSameSpecies(Species species) {
         int counter = 0;
-        for(Animal animal : _animals.values()) {
+        for(Animal animal : _animalMap.values()) {
             if((animal.getSpecies()).equals(species)) { 
                 counter++;
             }
@@ -71,7 +71,7 @@ public class Habitat extends Identified{
      * @return the total population of animals in the habitat
      */
     int getPopulation(Species species) { 
-        return _animals.size();
+        return _animalMap.size();
     }
 
     /**
@@ -95,6 +95,8 @@ public class Habitat extends Identified{
         return true;
     }
 
+    
+
     /**
      * Returns the adequacy value of the habitat for the given species. 
      * If no adequacy value is set, returns 0.
@@ -103,7 +105,7 @@ public class Habitat extends Identified{
      * @return the adequacy value for the species, or 0 if not set
      */
     int getAdequacyValue(Species species) {
-        Integer value = _adequacies.get(species);
+        Integer value = _adequacyMap.get(species);
         return value == null ?  0 : value;
     }
 
@@ -117,7 +119,7 @@ public class Habitat extends Identified{
      */
     boolean setAdequacy(Species species, SpeciesAdequacy adequacy) {
         int newValue = adequacy.getValue();
-        Integer oldValue =_adequacies.put(species, newValue);
+        Integer oldValue =_adequacyMap.put(species, newValue);
         if(oldValue == null) return true;
         return !oldValue.equals(newValue);
     }
@@ -128,7 +130,7 @@ public class Habitat extends Identified{
      * @param tree the tree to be added
      */
     void addTree(Tree tree) {
-        _trees.put(tree.getId(), tree);
+        _treeMap.putIfAbsent(tree.getId().toLowerCase(), tree);
         tree.changeHabitat(this);
     }
 
@@ -138,7 +140,7 @@ public class Habitat extends Identified{
      * @param tree the tree to be removed
      */
     void removeTree(Tree tree) {
-        _trees.remove(tree.getId());
+        _treeMap.remove(tree.getId());
     }
 
     /**
@@ -149,8 +151,8 @@ public class Habitat extends Identified{
      */
     double calculateWork() {
         double work = 0;
-        work += _area + 3 * _animals.size();
-        for(Tree tree : _trees.values()) {
+        work += _area + 3 * _animalMap.size();
+        for(Tree tree : _treeMap.values()) {
             work += tree.calculateCleaningEffort();
         }
         return work;
@@ -171,7 +173,7 @@ public class Habitat extends Identified{
      * @return a list of all trees in the habitat, sorted by id.
      */
     public List<Tree> getAllTrees() {
-        List<Tree> treeList = new ArrayList<>(_trees.values());
+        List<Tree> treeList = new ArrayList<>(_treeMap.values());
         Collections.sort(treeList);
         return Collections.unmodifiableList(treeList);
     }
@@ -183,6 +185,14 @@ public class Habitat extends Identified{
      * @return a string representing the habitat
      */
     public String toString() {
-        return "HABITAT|" + getId() + "|" + _name + "|" + _area + "|" + _trees.size();
+        return "HABITAT|" + getId() + "|" + _name + "|" + _area + "|" + _treeMap.size();
+    }
+
+    void addAnimal(Animal animal) {
+        _animalMap.putIfAbsent(animal.getId().toLowerCase(), animal);
+    }
+
+    void removeAnimal(Animal animal) {
+        _animalMap.remove(animal.getId().toLowerCase());
     }
 }

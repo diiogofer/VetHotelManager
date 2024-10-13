@@ -75,4 +75,15 @@
 - cant add animal with existing id
 - cant add species with existing name or/and id
 - habitat exists
+- add to species animal list
+- add to habitat animal list
 - hotel state = true at species addition and animal addition
+
+## 4.2.3
+#### TODO
+#### Checks
+- case insensitive
+- check animal and habitat exist
+- if oldHabitat == newHabitat do nothing
+- change animal habitat, remove animal from old habitat, add animal to new habitat
+- hotelChanged = true

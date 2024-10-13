@@ -440,6 +440,30 @@ public class Hotel implements Serializable {
     Species species = getSpecies(speciesId);
     Animal animal = new Animal(animalId, name, species, habitat);
     addIdentified(_animalMap, animal);
+    species.addAnimal(animal);
+    habitat.addAnimal(animal);
+    setChanged(true);
+  }
+
+  public void changeAnimalHabitat(String animalId, String habitatId) 
+    throws UnknownAnimalKeyException, UnknownHabitatKeyException {
+    if(!contains(_animalMap, animalId))
+      throw new UnknownAnimalKeyException(animalId);
+    if(!contains(_habitatMap, habitatId))
+      throw new UnknownHabitatKeyException(habitatId);
+    Animal animal = getAnimal(animalId);
+    Habitat habitat = getHabitat(habitatId);
+    if(animal.getHabitat().equals(habitat)) return;
+    animal.changeHabitat(habitat);
+    setChanged(true);
+  }
+
+  public Animal getAnimal(String id) throws UnknownAnimalKeyException {
+    try {
+      return getObject(_animalMap, id);
+    } catch (UnknownFieldException ex) {
+      throw new UnknownAnimalKeyException(id);
+    }
   }
 
   // Species related

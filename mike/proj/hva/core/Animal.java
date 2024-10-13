@@ -83,4 +83,12 @@ public class Animal extends Identified{
         return "ANIMAL|" + getId() + "|" + _name + "|" + _species.getId() +
             "|" + healthRecords + "|" + _habitat.getId();
     }
+
+    void changeHabitat(Habitat habitat) {
+        _habitat.removeAnimal(this);
+        habitat.addAnimal(this);
+        _habitat = habitat;
+    }
+
+    Habitat getHabitat() {return _habitat;}
 }

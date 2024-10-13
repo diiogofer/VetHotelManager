@@ -1,5 +1,7 @@
 package hva.core;
 
+import java.util.*;
+
 /**
  * Represents a species with a unique identifier, name, population, and the number of qualified veterinarians.
  * Each species has an associated population and a count of qualified veterinarians capable of treating it.
@@ -13,8 +15,7 @@ public class Species extends Identified{
     /** The name of the species. */
     private final String _name;
     
-    /** The current population of the species. */
-    private int _population;
+    private Map<String, Animal> _animalMap = new HashMap<>();
 
     /** The number of qualified veterinarians for the species. */
     private int _numberQualifiedVets;
@@ -30,7 +31,6 @@ public class Species extends Identified{
     Species(String identifier, String name) {
         super(identifier);
         _name = name;
-        _population = 0;
         _numberQualifiedVets = 0;
     }
 
@@ -57,7 +57,7 @@ public class Species extends Identified{
      * @return the population of the species
      */ 
     int getPopulation() {
-        return _population;
+        return _animalMap.size();
     }
 
     /**
@@ -67,5 +67,9 @@ public class Species extends Identified{
      */
     int getNumberQualifiedVets() {
         return _numberQualifiedVets;
+    }
+
+    void addAnimal(Animal animal) {
+        _animalMap.putIfAbsent(animal.getId().toLowerCase(), animal);
     }
 }

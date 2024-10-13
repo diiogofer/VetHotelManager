@@ -59,7 +59,7 @@ public abstract class Identified implements Comparable<Identified>, Serializable
    * @return {@code true} if the IDs are equal, {@code false} otherwise
    */
   public boolean equals(Identified iden) {
-    return _id.equalsIgnoreCase(iden.getId());
+    return _id.equalsIgnoreCase(iden._id);
   }
 
   /**
