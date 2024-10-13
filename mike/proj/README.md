@@ -1,3 +1,26 @@
+## HOTEL
+- code must acommodate for multiple instanciations of Hotel as a possibility
+## HABITAT
+## TREE
+- add new Tree types easily with little core code impact
+- pattern
+- - increase readability of Tree code
+- - add new events related to season without touching Tree code
+- - add new functionalities related to season
+### CADUCA
+### PERENE
+## ANIMAL
+## SPECIES
+## EMPLOYEE
+- add new Employee types with small impact
+- pattern
+- - choose between satisfcation calculation algorithms at runtime
+- - default algorithm at instanciation
+### KEEPER
+### VET
+## VACCINE
+
+
 ## 4.4.3
 #### TODO
 - DoChangeArea
