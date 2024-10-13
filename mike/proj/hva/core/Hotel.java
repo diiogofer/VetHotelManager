@@ -92,48 +92,13 @@ public class Hotel implements Serializable {
     _parser.parseFile(filename);
   }
 
-  /**
-   * Registers a new species with the given ID and name.
-   * 
-   * @param id the unique identifier of the species
-   * @param name the name of the species
-   * @throws DuplicateSpeciesKeyException if the species ID is already registered
-   * @throws DuplicateSpeciesNameException if the species name is already registered
-   */
-  public void registerSpecies(String id, String name) 
-    throws DuplicateSpeciesKeyException, DuplicateSpeciesNameException {
-    if(contains(_speciesMap, id)) throw new DuplicateSpeciesKeyException(id);
-    for(Species s : _speciesMap.values()) {
-      if(s.getName().equals(name)) throw new DuplicateSpeciesNameException(name);
-    }
-    Species species = new Species(id, name);
-    addIdentified(_speciesMap, species);
-  }
+  
 
   
 
   
 
-  /**
-   * Registers a new animal with the given ID, name, species ID, and habitat ID.
-   * 
-   * @param animalId the unique identifier of the animal
-   * @param name the name of the animal
-   * @param speciesId the unique identifier of the species
-   * @param habitatId the unique identifier of the habitat
-   * @throws DuplicateAnimalKeyException if an animal with the same ID already exists
-   * @throws UnknownSpeciesKeyException if the species ID is not recognized
-   * @throws UnknownHabitatKeyException if the habitat ID is not recognized
-   */  
-  public void registerAnimal(String animalId, String name, String speciesId, String habitatId) 
-    throws DuplicateAnimalKeyException, UnknownSpeciesKeyException, UnknownHabitatKeyException {
-    if(contains(_animalMap, animalId)) 
-      throw new DuplicateAnimalKeyException(animalId);
-    Habitat habitat = getHabitat(habitatId);
-    Species species = getSpecies(speciesId);
-    Animal animal = new Animal(animalId, name, species, habitat);
-    addIdentified(_animalMap, animal);
-  }
+  
 
   /**
    * Registers a new employee with the given ID, name, responsibilities, and employee type.
@@ -421,7 +386,6 @@ public class Hotel implements Serializable {
     setChanged(true);
   }
 
-
   /**
    * Registers a new tree with the given ID, name, age, base difficulty, and type.
    * 
@@ -453,6 +417,49 @@ public class Hotel implements Serializable {
     } catch (UnknownFieldException ex) {
       throw new UnknownTreeKeyException(id);
     } 
+  }
+
+  // Animal related
+
+  /**
+   * Registers a new animal with the given ID, name, species ID, and habitat ID.
+   * 
+   * @param animalId the unique identifier of the animal
+   * @param name the name of the animal
+   * @param speciesId the unique identifier of the species
+   * @param habitatId the unique identifier of the habitat
+   * @throws DuplicateAnimalKeyException if an animal with the same ID already exists
+   * @throws UnknownSpeciesKeyException if the species ID is not recognized
+   * @throws UnknownHabitatKeyException if the habitat ID is not recognized
+   */  
+  public void registerAnimal(String animalId, String name, String speciesId, String habitatId) 
+    throws DuplicateAnimalKeyException, UnknownSpeciesKeyException, UnknownHabitatKeyException {
+    if(contains(_animalMap, animalId)) 
+      throw new DuplicateAnimalKeyException(animalId);
+    Habitat habitat = getHabitat(habitatId);
+    Species species = getSpecies(speciesId);
+    Animal animal = new Animal(animalId, name, species, habitat);
+    addIdentified(_animalMap, animal);
+  }
+
+  // Species related
+
+  /**
+   * Registers a new species with the given ID and name.
+   * 
+   * @param id the unique identifier of the species
+   * @param name the name of the species
+   * @throws DuplicateSpeciesKeyException if the species ID is already registered
+   * @throws DuplicateSpeciesNameException if the species name is already registered
+   */
+  public void registerSpecies(String id, String name) 
+    throws DuplicateSpeciesKeyException, DuplicateSpeciesNameException {
+    if(contains(_speciesMap, id)) throw new DuplicateSpeciesKeyException(id);
+    for(Species s : _speciesMap.values()) {
+      if(s.getName().equals(name)) throw new DuplicateSpeciesNameException(name);
+    }
+    Species species = new Species(id, name);
+    addIdentified(_speciesMap, species);
   }
 }
 

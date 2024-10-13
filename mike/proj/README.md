@@ -20,6 +20,7 @@
 ### VET
 ## VACCINE
 
+# Habitat
 
 ## 4.4.3
 #### TODO
@@ -63,3 +64,15 @@
 - case insensitive
 - returns alfanumeric ordered unmodifiable list
 
+# Animal
+
+## 4.2.2
+#### TODO
+- ? hva.core.exception.DuplicateSpeciesKeyException | hva.core.exception.DuplicateSpeciesNameException
+- ? what exception use in this cases
+#### Checks
+- case insensitive
+- cant add animal with existing id
+- cant add species with existing name or/and id
+- habitat exists
+- hotel state = true at species addition and animal addition

@@ -5,7 +5,6 @@ import hva.app.exception.*;
 import pt.tecnico.uilib.forms.Form;
 import pt.tecnico.uilib.menus.Command;
 import pt.tecnico.uilib.menus.CommandException;
-//FIXME add more imports if needed
 
 /**
  * Register a new animal in this zoo hotel.
@@ -51,10 +50,11 @@ class DoRegisterAnimal extends Command<Hotel> {
           stringField("speciesId"), 
           Form.requestString(Prompt.speciesName())
         );
-        execute();
-      } catch (hva.core.exception.DuplicateSpeciesKeyException | hva.core.exception.DuplicateSpeciesNameException ex2) {
-          throw new DuplicateAnimalKeyException(stringField("speciesId"));
+      } catch ( hva.core.exception.DuplicateSpeciesKeyException | 
+                hva.core.exception.DuplicateSpeciesNameException ex2) {
+          throw new IllegalArgumentException("Invalid species argument");
       }
+      execute();
     }
   }
 }
