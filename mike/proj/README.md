@@ -3,11 +3,13 @@
 ## Global
 - ids are case insensitive (A = a)
 - names are case insensitive (A = a)
+- open-closed: should be able to add new Subclasses without refactoring
+- don't assume only 1 hotel instance
 
 
 ## Entities
 
-### Hotel
+### Hotel implements Serializable
 - ? _habitat[]
 - ? _employee[]
 - ? _animal[]
@@ -23,7 +25,7 @@
 
 ### Identified implements Serializable
 - final String _id
-- _getId()
+- String _getId()
 
 
 ### Habitat extends Identified
@@ -37,12 +39,15 @@
 - int countAnimals()
 - ? claculateEffort()
 - int getKeeperCount()
+- void addAnimal(Animal animal)
+- void removeAnimal(Animal animal)
 #### Notes
 - _id unique between Habitats
 - calculateCleaningEffort
 - - area
 - - population
 - - foreach tree -> tree.calculateCleaningEffort()
+- all Id Collection operations (add/remove) are case insensitive
 
 #### TODO
 - implement: adequacy
@@ -55,6 +60,8 @@
 - Habitat _habitat
 - String _healthLog
 - ? calculateSatisfaction()
+- setHabitat(Habitat habitat)
+- String toString()
 #### Notes
 - _id unique between Animals
 - animal always has a habitat
@@ -66,6 +73,9 @@
 - - area -> _habitat.getArea()
 - - population -> _habitat.countAnimals()
 - - ? adequacy -> 20 if positive, -20 if negative, 0 if neutral (0 if missing)
+- toString()
+- - ANIMAL|getId()|_name|_species.getId()|DAMAGE,DAMAGE,DAMAGE|_habitat.getId()
+- - ANIMAL|getId()|_name|_species.getId()|VOID|_habitat.getId()
 #### TODO
 - implement: has information about health
 - implement: calculate satisfaction
@@ -90,6 +100,10 @@
 - calculateSatisfaction()
 #### Notes
 - _id unique between Employees
+- _calculateSatisfaction() must allow the user to change in runtime how satisfaction is calculated
+- - the different ways don't need to be added, the default way is the one enunciated in the project
+- - ? application of Strategy pattern for calculateSatisfaction()
+
 ### Keeper extends Employee
 - ? _habitat[]
 - calculateSatisfaction()
@@ -143,7 +157,71 @@ String _name
 List<VaccineEvent> _eventList
 #### Notes
 - _id unique between Vaccines
+- _eventList must be in order of events
 ### VaccineEvent implements Serializable
 Employee _vet
 Animal _animal
 ? _damage
+
+
+## FUNCTIONALITY
+### Exceptions
+- DuplicateAnimalException()
+- InvalidInputException (String msg)
+
+
+### 4.2 ANIMALS
+
+#### 4.2.1 View all animals
+##### Needed
+##### Notes
+- foreach animal a -> a.toString()
+
+#### 4.2.2 Register animal
+##### Needed
+- Form
+- - animalId
+- - animalName
+- - speciesId
+- - habitatId
+- if no speciesId registered
+- - speciesName
+- hva.core.exception
+- - DuplicateAnimalException()
+- - InvalidInputException("Species name already registered.")
+##### Notes
+- id and name checks have to be case insensitive
+- animal already exists (id)
+- - DuplicateAnimalKeyException
+- species doesn't exist (id)
+- - prompt for species name
+- - register species
+- species name already exists
+- - System.out.println(ex.getMessage())
+
+
+#### 4.2.3 Transfer animal to a habitat
+##### Needed
+- Form
+- - animalId
+- - habitatId
+
+##### Notes
+- any error
+- - no changes to hotel
+- - System.out.println(ex.getMessage())
+- no error
+- - if newHabitat.contains(Animal animal) return; 
+- - else:
+- - remove animal from previous habitat
+- - change animal habitat
+- - add animal to new habitat
+
+#### 4.2.4 Calculate satisfaction
+##### Needed
+- Form
+- - animalId
+##### Notes
+- result rounded int Math.round()
+- any error
+- - System.out.println(ex.getMessage())
