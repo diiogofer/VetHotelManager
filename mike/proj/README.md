@@ -1,5 +1,11 @@
 # PROJECT
 
+## Perguntas
+- Hotel
+- - registerEmployee() mas instancia-se employee no app (DoRegisterEmployee) com construtores publicos?
+- - ou
+- - registerVet() e registerKeeper()
+
 ## Global
 - ids are case insensitive (A = a)
 - names are case insensitive (A = a)
@@ -7,28 +13,53 @@
 - don't assume only 1 hotel instance
 
 
+### Exceptions
+- DuplicateAnimalException()
+- DuplicateEmployeeException()
+- InvalidInputException (String msg)
+- UnknownHabitaException(id)
+- UnknownSpeciesException(id)
+- UnknownResponsibilityException(id)
+
+
 ## Entities
 
 ### Hotel implements Serializable
-- ? _habitat[]
-- ? _employee[]
-- ? _animal[]
-- ? _species[]
+- Map<String, Animal> -> HashMap<animalId, animal>
+- Map<String, Species> -> HasMap<speciesId, Species>
+- Map<String, Employee> -> HashMap<employeeId, Employee>
+- Map<String, Habitat> -> HashMap<habitatId, Habitat>
 - ? _season
+- <T extends Identified> Boolean containsIdentified(T identified, Map<String, T> map)
+- <T extends Identified> void addIdentified(T identified, Map<String, T> map)
+- void registerAnimal(String animalId, String animalName, String speciesId, String habitatId)
+- void registerSpecies(String speciesId, String name)
+- void registerEmployee(Employee employee)
+- void registerVet(String vetId, String vetName)
+- void registerKeeper(String keeperId, String keeperName)
+- Habitat getHabitat(String habitatId)
+- Species getSpecies(String speciesId)
+- void addResponsibility(String employeeId, String responsibilityId)
+- void removeResponsibility(String employeeId, String responsibilityId)
 #### Notes
-- implement: habitat[]
-- implement: employee[]
-- implement: animal[]
-- implement: species[]
 - initial _season = Spring
+- containsIdentified(id, map) -> map.containsKey(id.toLowerCase())
+- addIdentified(identified, map) -> map.addIfAbsent(identified.getId().toLowerCase(), identified)
+- registerAnimal() checks:
+- - animal id already exists
+- - habitat id already exists
+- - species id already exists
 
 
 ### Identified implements Serializable
 - final String _id
-- String _getId()
+- String getId()
+
+### Responsibility - PROBABLY NOT NEEDED
+- String getId()
 
 
-### Habitat extends Identified
+### Habitat extends Identified implements Responsibility
 - String _name
 - int _area
 - Map<String, Animal> _animalMap -> HashMap(animalId, animal)
@@ -39,6 +70,8 @@
 - int countAnimals()
 - ? claculateEffort()
 - int getKeeperCount()
+- void addKeeper()
+- void removeKeeper()
 - void addAnimal(Animal animal)
 - void removeAnimal(Animal animal)
 #### Notes
@@ -82,7 +115,7 @@
 - implement: adequacy
 
 
-### Species extends Identified
+### Species extends Identified implements Responsibility
 - final String _name
 - Map<String, Animal> _animalMap -> Hasmap(animalId, animal)
 - int _vetCount
@@ -95,36 +128,56 @@
 - _vetCount is the number of vets that can vaccinate species
 
 
-### Employee extends Identified
+### abstract Employee extends Identified
 - String _name
+- Hotel _hotel
+//- Map<String, Responsibility> -> responsibilityId, Responsibility
 - calculateSatisfaction()
+- String toString()
+- abstract String employeeTypeToString()
+- abstract String responsibilitiesToString()
+- abstract addResponsibility(String responsibilityId)
+- abstract removeResponsibility(String responsibilityId)
+- Hotel getHotel()
 #### Notes
 - _id unique between Employees
 - _calculateSatisfaction() must allow the user to change in runtime how satisfaction is calculated
 - - the different ways don't need to be added, the default way is the one enunciated in the project
 - - ? application of Strategy pattern for calculateSatisfaction()
+- toString()
+- - type|getId()|_name|resp.getId(),resp.getId()
+- - type|getId()|_name
 
 ### Keeper extends Employee
-- ? _habitat[]
+- Map<String, Habitat> _habitatMap -> HashMap(habitatId, habitat)
 - calculateSatisfaction()
+- String employeeTypeToString()
+- addResponsibility(String habitatId)
+- removeResponsibility(String habitatId)
 #### Notes
-- 0 or more habitats
+- 0 or more habitats (responsibility)
 - calculate satisfaction
 - - for each habitat they have
 - - effort -> habitat.calculateEffort()
 - - n keepers that take care of habitat -> habitat.getKeeperCount()
+- employeeTypeToString() -> TRT
 #### TODO
 - implement: habitat[]
 - implement: species[]
+
 ### Vet extends Employee
-- ? _canVacinate
+- Map<String, Species> _speciesMap -> HashMap(speciesId, species)
 - calculateSatisfaction()
+- String employeeTypeToString()
+- addResponsibility(String speciesId)
+- removeResponsibility(String speciesId)
 #### Notes
-- has species that can vaccinate
+- has species that can vaccinate (responsibility)
 - calculate satisfaction
 - - for each species they can vaccinate
 - - population -> species.countAnimals()
 - - n vet that can vaccinate species -> species.getVetCount()
+- employeeTypeToString() -> VET
 #### TODO
 - implement: canVacinate
 
@@ -165,25 +218,20 @@ Animal _animal
 
 
 ## FUNCTIONALITY
-### Exceptions
-- DuplicateAnimalException()
-- InvalidInputException (String msg)
+### 4.2 ANIMALS hva.app.animal
 
-
-### 4.2 ANIMALS
-
-#### 4.2.1 View all animals
+#### 4.2.1 DoShowAllAnimals
 ##### Needed
 ##### Notes
-- foreach animal a -> a.toString()
+- foreach animal a -> _display.addLine(a)
 
-#### 4.2.2 Register animal
+#### 4.2.2 DoRegisterAnimal
 ##### Needed
 - Form
-- - animalId
+- - animalKey
 - - animalName
-- - speciesId
-- - habitatId
+- - speciesKey
+- - habitatKey
 - if no speciesId registered
 - - speciesName
 - hva.core.exception
@@ -200,11 +248,11 @@ Animal _animal
 - - System.out.println(ex.getMessage())
 
 
-#### 4.2.3 Transfer animal to a habitat
+#### 4.2.3 DoTransferToHabitat
 ##### Needed
 - Form
-- - animalId
-- - habitatId
+- - animalKey
+- - habitatKey
 
 ##### Notes
 - any error
@@ -217,11 +265,68 @@ Animal _animal
 - - change animal habitat
 - - add animal to new habitat
 
-#### 4.2.4 Calculate satisfaction
+#### 4.2.4 DoShowSatisfactionOfAnimal
 ##### Needed
 - Form
-- - animalId
+- - animalKey
 ##### Notes
 - result rounded int Math.round()
 - any error
 - - System.out.println(ex.getMessage())
+
+### 4.3 EMPLOYEES hva.app.employee
+#### 4.3.1 DoShowAllEmployees
+##### Needed
+##### Notes
+- foreach Employee e -> _display.addLine(e)
+
+
+#### 4.3.2 DoRegisterEmployee
+##### Needed
+- Form
+- - employeeKey
+- - employeeName
+- - employeeType
+- DuplicateEmployeeException()
+- hotel.registerEmployee()
+##### Notes
+- employeeType uses addOptionField("employeeType", hva.app.employee.Prompt.employeeType(), "TRT", "VET")
+- DuplicateEmployeeException -> DuplicateEmployeeKeyException
+
+
+#### 4.3.3 DoAddResponsibility
+##### Needed
+- Form
+- - employeeKey
+- - responsibilityKey
+- Hotel
+- - addEmployeeResponsibility(String employeeId, String responsibilityId)
+- - getHabitat(String habitatId)
+- - getSpecies(String speciesId)
+- Employee
+- - abstract addResponsibility(String responsibilityId)
+##### Notes
+- UnknownHabitaException(id) -> UnknownResponsibilityException(id) -> NoResponsibilityException
+- UnknownSpeciesException(id) -> UnknownResponsibilityException(id) -> NoResponsibilityException
+
+
+#### 4.3.4 DoRemoveResponsibility
+##### Needed
+- Form
+- - employeeKey
+- - responsibilityKey
+- Hotel
+- - removeResponsibility(String employeeId, responsibilityId)
+- Employee
+- - removeResponsibility(String responsibilityId)
+##### Notes
+- UnknownHabitaException(id) -> UnknownResponsibilityException(id) -> NoResponsibilityException
+- UnknownSpeciesException(id) -> UnknownResponsibilityException(id) -> NoResponsibilityException
+
+
+#### 4.3.5 DoShowSatisfactionOfEmployee
+##### Needed
+- Form
+- - employeeId
+##### Notes
+- result is int rounded with Math.round
