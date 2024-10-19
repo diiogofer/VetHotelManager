@@ -6,12 +6,14 @@ import java.util.*;
 // FIXME import classes
 
 public class Hotel implements Serializable {
-  private Map<String, Habitat> _habitatMap = new HashMap<>();
 
   @Serial
   private static final long serialVersionUID = 202407081733L;
   
-  // FIXME define attributes
+  private Map<String, Habitat> _habitatMap = new HashMap<>();
+  private Map<String, Animal> _animalMap = new HashMap<>();
+  private Map<String, Species> _speciesMap = new HashMap<>();
+  
   // FIXME define contructor(s)
   // FIXME define more methods
   
@@ -30,8 +32,12 @@ public class Hotel implements Serializable {
       identifiedMap.putIfAbsent(identified.getId().toLowerCase(), identified);
   }
 
-  private <T extends Identified> boolean containsIdentified(String identifier, Map<String, T> identifierMap) {
-    return identifierMap.containsKey(identifier.toLowerCase());
+  private <T extends Identified> boolean containsIdentified(String identifier, Map<String, T> identifiedMap) {
+    return identifiedMap.containsKey(identifier.toLowerCase());
+  }
+
+  private <T extends Identified> T getIdentified(String identifier, Map<String, T> identifiedMap) {
+    return identifiedMap.get(identifier.toLowerCase());
   }
 
   public void registerHabitat(String habitatId, String habitatName, int habitatArea) throws DuplicateHabitatException{
@@ -41,5 +47,37 @@ public class Hotel implements Serializable {
     Habitat newHabitat = new Habitat(habitatId, habitatName, habitatArea);
     addIdentified(newHabitat, _habitatMap);
   }
+
+  public void registerAnimal(String animalId, String animalName, String speciesId, String habitatId) 
+    throws DuplicateAnimalException, UnknownHabitatException, UnknownSpeciesException{
+  
+    if(containsIdentified(animalId, _animalMap)) {
+      throw new DuplicateAnimalException(animalId);
+    }
+    if(!containsIdentified(habitatId, _habitatMap)) { 
+      throw new UnknownHabitatException(habitatId);
+    }
+    if(!containsIdentified(speciesId, _speciesMap)){ 
+      throw new UnknownSpeciesException(speciesId);
+    }
+
+    Habitat habitat = getIdentified(habitatId, _habitatMap);
+    Species species = getIdentified(speciesId, _speciesMap);
+    Animal newAnimal = new Animal(animalId, animalName, species, habitat);
+    addIdentified(newAnimal, _animalMap);
+  }
+
+  public void registerSpecies(String speciesId, String speciesName) throws InvalidInputException {
+    if(containsIdentified(speciesId, _speciesMap)) {
+      throw new InvalidInputException("Species with id already exists: " + speciesId);
+    }
+    for(Species species : _speciesMap.values()) {
+      if((species.getName().toLowerCase()).equals(speciesName.toLowerCase())) {
+        throw new InvalidInputException("Species with name already exists: " + speciesName);
+      }
+    }
+    Species newSpecies = new Species(speciesId, speciesName);
+    addIdentified(newSpecies, _speciesMap);
+}
 
 }
