@@ -70,6 +70,12 @@ public class Hotel implements Serializable {
     addIdentified(newAnimal, _animalMap);
   }
 
+  public List<Animal> getAllAnimals() {
+    List<Animal> list = new ArrayList<>(_animalMap.values());
+    Collections.sort(list);
+    return Collections.unmodifiableList(list);
+  }
+
   public void registerSpecies(String speciesId, String speciesName) throws InvalidInputException {
     if(containsIdentified(speciesId, _speciesMap)) {
       throw new InvalidInputException("Species with id already exists: " + speciesId);
