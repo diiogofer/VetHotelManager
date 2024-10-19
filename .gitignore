@@ -30,3 +30,8 @@ replay_pid*
 *.dat
 # zone identifiers
 *:Zone.Identifier
+
+# tests
+*.sh
+tests/
+*._tests
