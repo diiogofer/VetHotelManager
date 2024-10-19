@@ -28,7 +28,7 @@ public class EmployeeKeeper extends Employee{
 
 
   @Override
-  protected String treeTypeToString() {
+  protected String employeeTypeToString() {
     return "TRT";
   }
 }

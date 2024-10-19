@@ -54,17 +54,19 @@ public class Hotel implements Serializable {
     tree.setHabitat(habitat);
     addIdentified(tree, _treeMap);
   }
-  public void registerPerene(String habitatId, String treeId, String treeName, int treeAge, int treeDifficulty) 
+  public String registerPerene(String habitatId, String treeId, String treeName, int treeAge, int treeDifficulty) 
     throws DuplicateTreeException, UnknownHabitatException {
     if (containsIdentified(treeId, _treeMap)) throw new DuplicateTreeException(treeId);
     Tree newTree = new TreePerene(treeId, treeName, treeAge, treeDifficulty);
     registerTree(habitatId, newTree);
+    return newTree.toString();
   }
-  public void registerCaduca(String habitatid, String treeid, String treeName, int treeAge, int treeDifficulty) 
+  public String registerCaduca(String habitatid, String treeid, String treeName, int treeAge, int treeDifficulty) 
     throws DuplicateTreeException, UnknownHabitatException {
     if (containsIdentified(treeid, _treeMap)) throw new DuplicateTreeException(treeid);
     Tree newTree = new TreeCaduca(treeid, treeName, treeAge, treeDifficulty);
     registerTree(habitatid, newTree);
+    return newTree.toString();
   }
 
   // ANIMAL --------------------------------------------------------------------

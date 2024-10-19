@@ -2,6 +2,7 @@
 
 ## Perguntas
 - Pode-se aceitar string vazios? (id, nome, etc)
+- equals(Object obj) em Tree.java -> instanceof e downcasting pode-se?
 - Hotel
 - - registerEmployee() mas instancia-se employee no app (DoRegisterEmployee) com construtores publicos?
 - - ou

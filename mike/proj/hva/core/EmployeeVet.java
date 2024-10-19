@@ -30,7 +30,7 @@ public class EmployeeVet extends Employee{
 
 
   @Override
-  protected String treeTypeToString() {
+  protected String employeeTypeToString() {
     return "VET";
   }
 }
