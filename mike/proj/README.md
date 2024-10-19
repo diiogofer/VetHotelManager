@@ -6,6 +6,9 @@
 - - ou
 - - registerVet() e registerKeeper()
 
+- 4.5.2
+- - espaços brancos sao irrelevantes? n se tem que fazer nada ou é preciso removelos?
+
 ## Global
 - ids are case insensitive (A = a)
 - names are case insensitive (A = a)
@@ -353,3 +356,16 @@ Animal _animal
 - use option to get input until "PERENE" or "CADUCA"
 - tree id exists
 - - DuplicateTreeException -> DuplicateTreeKeyException
+
+
+### 4.5 VACCINE hva.app.vaccine
+#### 4.5.2 DoRegisterVaccine
+##### Needed
+- Form
+- - vaccineKey
+- - vaccineName
+- - animalIds
+##### Notes
+- animalIds is a String of ids with format: id1,id2,id3
+- white spaces are irrelevant?
+- vaccine exists: DuplicateVaccineException -> DuplicateVaccineKeyException

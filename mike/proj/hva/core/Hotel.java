@@ -14,6 +14,7 @@ public class Hotel implements Serializable {
   private Map<String, Animal> _animalMap = new HashMap<>();
   private Map<String, Species> _speciesMap = new HashMap<>();
   private Map<String, Employee> _employeeMap = new HashMap<>();
+  private Map<String, Vaccine> _vaccineMap = new HashMap<>();
 
   // Identified ----------------------------------------------------------------
   private <T extends Identified> void addIdentified(T identified, Map<String, T> map) {
@@ -100,6 +101,21 @@ public class Hotel implements Serializable {
     Employee newEmployee = new EmployeeVet(employeeId, employeeName);
     registerEmployee(newEmployee);
   }
+
+  // VACCINE -------------------------------------------------------------------
+  public void registerVaccine(String vaccineId, String vaccineName, String[] speciesIdArray) 
+    throws UnknownSpeciesException, DuplicateVaccineException {
+    Map<String, Species> _vaccineSpeciesMap = new HashMap<>();
+    if(containsIdentified(vaccineId, _vaccineMap)) throw new DuplicateVaccineException(vaccineId);
+    for (String id : speciesIdArray) {
+      Species species = getIdentified(id, _speciesMap);
+      if (species == null) throw new UnknownSpeciesException(id);
+      addIdentified(species, _vaccineSpeciesMap);
+    }
+    Vaccine newVaccine = new Vaccine(vaccineId, vaccineName, _vaccineSpeciesMap);
+    addIdentified(newVaccine, _vaccineMap);
+  }
+
 
   // TODO ----------------------------------------------------------------------
   void importFile(String filename) throws IOException, UnrecognizedEntryException {}
