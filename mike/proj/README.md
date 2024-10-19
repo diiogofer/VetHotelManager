@@ -330,3 +330,12 @@ Animal _animal
 - - employeeId
 ##### Notes
 - result is int rounded with Math.round
+
+
+### 4.4 HABITAT hva.app.habitat
+#### 4.4.1
+#### 4.4.2
+##### Needed
+##### Notes
+- habitat exists
+- - DuplicateHabitatException(id) -> DuplicateHabitatKeyException(key)
