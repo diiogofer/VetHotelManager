@@ -136,7 +136,9 @@ public class Hotel implements Serializable {
     Vaccine newVaccine = new Vaccine(vaccineId, vaccineName, _vaccineSpeciesMap);
     addIdentified(newVaccine, _vaccineMap);
   }
-
+  public List<Vaccine> getAllVaccines() {
+    return getAllIdentified(_vaccineMap);
+  }
 
   // TODO ----------------------------------------------------------------------
   void importFile(String filename) throws IOException, UnrecognizedEntryException {}

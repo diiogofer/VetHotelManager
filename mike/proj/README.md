@@ -381,6 +381,11 @@ Animal _animal
 
 
 ### 4.5 VACCINE hva.app.vaccine
+#### 4.5.1 DoShowAllVaccines
+##### Needed
+- vaccine.toString()
+- - VACINA|id|name|nApplications|speciesid1,speciesid2,speciesid3
+##### Notes
 #### 4.5.2 DoRegisterVaccine
 ##### Needed
 - Form

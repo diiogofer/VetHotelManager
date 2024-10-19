@@ -24,7 +24,7 @@ class DoRegisterVaccine extends Command<Hotel> {
   protected final void execute() throws CommandException {
     String vaccineKey = stringField("vaccineKey");
     String vaccineName = stringField("vaccineName");
-    String speciesKeys = stringField("speciesIds");
+    String speciesKeys = stringField("speciesKeys");
     String[] speciesKeyArray = speciesKeys.length() > 0 ? speciesKeys.split(",") : new String[0];
     try {
       _receiver.registerVaccine(vaccineKey, vaccineName, speciesKeyArray);
