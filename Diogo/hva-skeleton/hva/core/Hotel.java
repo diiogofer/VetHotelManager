@@ -65,6 +65,8 @@ public class Hotel implements Serializable {
     Habitat habitat = getIdentified(habitatId, _habitatMap);
     Species species = getIdentified(speciesId, _speciesMap);
     Animal newAnimal = new Animal(animalId, animalName, species, habitat);
+    habitat.addAnimal(newAnimal);
+    species.addAnimal(newAnimal);
     addIdentified(newAnimal, _animalMap);
   }
 
