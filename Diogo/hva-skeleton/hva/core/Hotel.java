@@ -15,6 +15,7 @@ public class Hotel implements Serializable {
   private Map<String, Species> _speciesMap = new HashMap<>();
   private Map<String, Employee> _employeeMap = new HashMap<>();
   private Map<String, Tree> _treeMap = new HashMap<>();
+  private Map<String, Vaccine> _vaccineMap = new HashMap<>();
   // FIXME define contructor(s)
   // FIXME define more methods
   
@@ -127,6 +128,25 @@ public class Hotel implements Serializable {
     }
     Tree newTree = new TreeCaduca(treeid, treeName, treeAge, treeDifficulty);
     registerTree(habitatid, newTree);
+  }
+
+  public void registerVaccine(String vaccineId, String vaccineName, String[] speciesIdArray) 
+    throws UnknownSpeciesException, DuplicateVaccineException {
+    
+    Map<String, Species> _vaccineSpeciesMap = new HashMap<>();
+    
+    if(containsIdentified(vaccineId, _vaccineMap)) {
+      throw new DuplicateVaccineException(vaccineId);
+    }
+    for (String identifier : speciesIdArray) {
+      Species species = getIdentified(identifier, _speciesMap);
+      if (species == null) {
+        throw new UnknownSpeciesException(identifier);
+      }
+      addIdentified(species, _vaccineSpeciesMap);
+    }
+    Vaccine newVaccine = new Vaccine(vaccineId, vaccineName, _vaccineSpeciesMap);
+    addIdentified(newVaccine, _vaccineMap);
   }
 
 }
