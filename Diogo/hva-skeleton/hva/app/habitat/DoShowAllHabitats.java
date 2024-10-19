@@ -19,7 +19,7 @@ class DoShowAllHabitats extends Command<Hotel> {
   
   @Override
   protected void execute() {
-        List<Habitat> list = _receiver.getAllHabitats();
+    List<Habitat> list = _receiver.getAllHabitats();
     for(Habitat habitat : list) {
       _display.addLine(habitat);
       List<Tree> treeList = _receiver.getAllTreesOfHabitat(habitat);
