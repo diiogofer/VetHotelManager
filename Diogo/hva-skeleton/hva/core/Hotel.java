@@ -56,6 +56,13 @@ public class Hotel implements Serializable {
     addIdentified(newHabitat, _habitatMap);
   }
 
+  public List<Habitat> getAllHabitats() {
+    return getAllIdentified(_habitatMap);
+  }
+  public List<Tree> getAllTreesOfHabitat(Habitat habitat) {
+    return habitat.getAllTrees();
+  }
+
   public void registerAnimal(String animalId, String animalName, String speciesId, String habitatId) 
     throws DuplicateAnimalException, UnknownHabitatException, UnknownSpeciesException {
   
@@ -121,27 +128,28 @@ public class Hotel implements Serializable {
       throw new UnknownHabitatException(habitatKey);
     }
     tree.setHabitat(habitat);
+    addIdentified(tree, _treeMap);
   }
 
-  public void registerPerene(String habitatid, String treeid, String treeName, int treeAge, int treeDifficulty) 
+  public void registerPerene(String habitatid, String treeId, String treeName, int treeAge, int treeDifficulty) 
     throws DuplicateTreeException, UnknownHabitatException {
       
-    if (containsIdentified(treeid, _treeMap)){ 
-      throw new DuplicateTreeException(treeid);
+    if (containsIdentified(treeId, _treeMap)){ 
+      throw new DuplicateTreeException(treeId);
     }
   
-    Tree newTree = new TreePerene(treeid, treeName, treeAge, treeDifficulty);
+    Tree newTree = new TreePerene(treeId, treeName, treeAge, treeDifficulty);
     registerTree(habitatid, newTree);
   }
 
-  public void registerCaduca(String habitatid, String treeid, String treeName, int treeAge, int treeDifficulty) 
+  public void registerCaduca(String habitatId, String treeId, String treeName, int treeAge, int treeDifficulty) 
     throws DuplicateTreeException, UnknownHabitatException {
   
-    if (containsIdentified(treeid, _treeMap)) { 
-      throw new DuplicateTreeException(treeid);
+    if (containsIdentified(treeId, _treeMap)) { 
+      throw new DuplicateTreeException(treeId);
     }
-    Tree newTree = new TreeCaduca(treeid, treeName, treeAge, treeDifficulty);
-    registerTree(habitatid, newTree);
+    Tree newTree = new TreeCaduca(treeId, treeName, treeAge, treeDifficulty);
+    registerTree(habitatId, newTree);
   }
 
   public void registerVaccine(String vaccineId, String vaccineName, String[] speciesIdArray) 

@@ -1,5 +1,8 @@
 package hva.app.habitat;
 
+import java.util.List;
+import hva.core.Habitat;
+import hva.core.Tree;
 import hva.core.Hotel;
 import pt.tecnico.uilib.menus.Command;
 import pt.tecnico.uilib.menus.CommandException;
@@ -16,6 +19,12 @@ class DoShowAllHabitats extends Command<Hotel> {
   
   @Override
   protected void execute() {
-    //FIXME implement command
+        List<Habitat> list = _receiver.getAllHabitats();
+    for(Habitat habitat : list) {
+      _display.addLine(habitat);
+      List<Tree> treeList = _receiver.getAllTreesOfHabitat(habitat);
+      for(Tree tree : treeList)
+        _display.addLine(tree);
+    }
   }
 }
