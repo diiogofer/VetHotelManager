@@ -15,4 +15,8 @@ public class Species extends Identified {
   void addAnimal(Animal newAnimal) {
     _animalMap.putIfAbsent(newAnimal.getId().toLowerCase(), newAnimal);
   }
+  boolean equals(Species species) {
+    return ((this.getId().toLowerCase()).equals(species.getId().toLowerCase()) &&
+      (this._name.toLowerCase()).equals(species._name.toLowerCase()));
+  }
 }

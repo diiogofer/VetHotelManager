@@ -95,6 +95,11 @@ public class Hotel implements Serializable {
     if(newHabitat == null) throw new UnknownHabitatException(habitatId);
     animal.changeHabitat(newHabitat);
   }
+  public int getAnimalSatisfaction(String animalId) throws UnknownAnimalException {
+    Animal animal = getIdentified(animalId, _animalMap);
+    if(animal == null) throw new UnknownAnimalException(animalId);
+    return animal.calculateSatisfaction();
+  }
 
   // SPECIES -------------------------------------------------------------------
   public void registerSpecies(String speciesId, String speciesName) 

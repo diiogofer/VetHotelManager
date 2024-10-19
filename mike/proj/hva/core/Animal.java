@@ -23,4 +23,17 @@ public class Animal extends Identified {
   private String healthLogToString() {
     return "VOID";
   }
+  boolean equals(Animal animal) {
+    return (this.getId().toLowerCase()).equals(animal.getId().toLowerCase());
+  }
+  int calculateSatisfaction() {
+    int same = _habitat.countSpecies(_species);
+    int population = _habitat.countPopulation();
+    int different = population - same;
+    int area = _habitat.getArea();
+    int adequacy = _habitat.getAdequacy(_species);
+    return 20 + 3 * same - 2 * different + area / population + adequacy;
+  }
+
+  Species getSpecies() {return _species;}
 }
