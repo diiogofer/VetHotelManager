@@ -225,6 +225,9 @@ Animal _animal
 
 #### 4.2.1 DoShowAllAnimals
 ##### Needed
+- hotel.getAllAnimals()
+- animal.toString()
+- - ANIMAL|id|name|speciesId|healthLog|habitatId
 ##### Notes
 - foreach animal a -> _display.addLine(a)
 

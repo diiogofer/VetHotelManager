@@ -70,6 +70,13 @@ public class Hotel implements Serializable {
     addIdentified(newAnimal, _animalMap);
     
   }
+  public List<Animal> getAllAnimals() {
+    List<Animal> list = new ArrayList<>();
+    for(Animal a : _animalMap.values())
+      list.add(a);
+    Collections.sort(list);
+    return Collections.unmodifiableList(list);
+  }
 
   // SPECIES -------------------------------------------------------------------
   public void registerSpecies(String speciesId, String speciesName) 

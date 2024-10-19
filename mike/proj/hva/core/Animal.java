@@ -10,4 +10,12 @@ public class Animal extends Identified {
     _species = species;
     _habitat = habitat;
   }
+  public String toString() {
+    return "ANIMAL|" + getId() + "|" + _name + "|" + _species.getId() + "|" + 
+      healthLogToString() + "|" + _habitat.getId();
+  }
+  // TODO
+  private String healthLogToString() {
+    return "VOID";
+  }
 }
