@@ -39,6 +39,12 @@ public class Hotel implements Serializable {
     Habitat newHabitat = new Habitat(habitatId, habitatName, habitatArea);
     addIdentified(newHabitat, _habitatMap);
   }
+  public List<Habitat> getAllHabitats() {
+    return getAllIdentified(_habitatMap);
+  }
+  public List<Tree> getAllTreesOfHabitat(Habitat habitat) {
+    return habitat.getAllTrees();
+  }
 
   // TREE ----------------------------------------------------------------------
   public void registerTree(String habitatKey, Tree tree) 
@@ -46,12 +52,13 @@ public class Hotel implements Serializable {
     Habitat habitat = getIdentified(habitatKey, _habitatMap);
     if(habitat == null) throw new UnknownHabitatException(habitatKey);
     tree.setHabitat(habitat);
+    addIdentified(tree, _treeMap);
   }
-  public void registerPerene(String habitatid, String treeid, String treeName, int treeAge, int treeDifficulty) 
+  public void registerPerene(String habitatId, String treeId, String treeName, int treeAge, int treeDifficulty) 
     throws DuplicateTreeException, UnknownHabitatException {
-    if (containsIdentified(treeid, _treeMap)) throw new DuplicateTreeException(treeid);
-    Tree newTree = new TreePerene(treeid, treeName, treeAge, treeDifficulty);
-    registerTree(habitatid, newTree);
+    if (containsIdentified(treeId, _treeMap)) throw new DuplicateTreeException(treeId);
+    Tree newTree = new TreePerene(treeId, treeName, treeAge, treeDifficulty);
+    registerTree(habitatId, newTree);
   }
   public void registerCaduca(String habitatid, String treeid, String treeName, int treeAge, int treeDifficulty) 
     throws DuplicateTreeException, UnknownHabitatException {

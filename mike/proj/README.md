@@ -1,6 +1,7 @@
 # PROJECT
 
 ## Perguntas
+- Pode-se aceitar string vazios? (id, nome, etc)
 - Hotel
 - - registerEmployee() mas instancia-se employee no app (DoRegisterEmployee) com construtores publicos?
 - - ou
@@ -349,6 +350,15 @@ Animal _animal
 
 ### 4.4 HABITAT hva.app.habitat
 #### 4.4.1
+##### Needed
+- hotel.getAllHabitats()
+- habitat.toString()
+- - HABITAT|id|name|area|nTrees
+- tree.toString()
+- - ÁRVORE|id|name|ageInYears|baseDifficulty|treeType|bioCycle
+##### Notes
+- bioCycle
+- - needs to be implemented with pattern described in section 2
 #### 4.4.2
 ##### Needed
 ##### Notes

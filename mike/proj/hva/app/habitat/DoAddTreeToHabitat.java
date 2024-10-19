@@ -25,7 +25,7 @@ class DoAddTreeToHabitat extends Command<Hotel> {
   
   @Override
   protected void execute() throws CommandException {
-    String habitatKey = stringField("habitatkey");
+    String habitatKey = stringField("habitatKey");
     String treeKey = stringField("treeKey");
     String treeName = stringField("treeName");
     int treeAge = integerField("treeAge");
