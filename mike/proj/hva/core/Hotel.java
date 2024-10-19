@@ -10,6 +10,7 @@ public class Hotel implements Serializable {
   private static final long serialVersionUID = 202407081733L;
 
   private Map<String, Habitat> _habitatMap = new HashMap<>();
+  private Map<String, Tree> _treeMap = new HashMap<>();
   private Map<String, Animal> _animalMap = new HashMap<>();
   private Map<String, Species> _speciesMap = new HashMap<>();
   private Map<String, Employee> _employeeMap = new HashMap<>();
@@ -33,17 +34,35 @@ public class Hotel implements Serializable {
     addIdentified(newHabitat, _habitatMap);
   }
 
+  // TREE ----------------------------------------------------------------------
+  public void registerTree(String habitatKey, Tree tree) 
+    throws UnknownHabitatException {
+    Habitat habitat = getIdentified(habitatKey, _habitatMap);
+    if(habitat == null) throw new UnknownHabitatException(habitatKey);
+    tree.setHabitat(habitat);
+  }
+  public void registerPerene(String habitatid, String treeid, String treeName, int treeAge, int treeDifficulty) 
+    throws DuplicateTreeException, UnknownHabitatException {
+    if (containsIdentified(treeid, _treeMap)) throw new DuplicateTreeException(treeid);
+    Tree newTree = new TreePerene(treeid, treeName, treeAge, treeDifficulty);
+    registerTree(habitatid, newTree);
+  }
+  public void registerCaduca(String habitatid, String treeid, String treeName, int treeAge, int treeDifficulty) 
+    throws DuplicateTreeException, UnknownHabitatException {
+    if (containsIdentified(treeid, _treeMap)) throw new DuplicateTreeException(treeid);
+    Tree newTree = new TreeCaduca(treeid, treeName, treeAge, treeDifficulty);
+    registerTree(habitatid, newTree);
+  }
+
   // ANIMAL --------------------------------------------------------------------
   public void registerAnimal(String animalId, String animalName, String speciesId, String habitatId) 
-    throws DuplicateAnimalException, UnknownHabitatException, UnknownSpeciesException{
+    throws DuplicateAnimalException, UnknownHabitatException, UnknownSpeciesException {
     if(containsIdentified(animalId, _animalMap)) 
       throw new DuplicateAnimalException(animalId);
-    if(!containsIdentified(habitatId, _habitatMap)) 
-      throw new UnknownHabitatException(habitatId);
-    if(!containsIdentified(speciesId, _speciesMap)) 
-      throw new UnknownSpeciesException(speciesId);
     Habitat habitat = getIdentified(habitatId, _habitatMap);
+    if(habitat == null) throw new UnknownHabitatException(habitatId);
     Species species = getIdentified(speciesId, _speciesMap);
+    if(species == null) throw new UnknownSpeciesException(speciesId);
     Animal newAnimal = new Animal(animalId, animalName, species, habitat);
     habitat.addAnimal(newAnimal);
     species.addAnimal(newAnimal);

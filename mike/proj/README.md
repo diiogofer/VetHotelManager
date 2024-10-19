@@ -340,3 +340,16 @@ Animal _animal
 ##### Notes
 - habitat exists
 - - DuplicateHabitatException(id) -> DuplicateHabitatKeyException(key)
+#### 4.4.5
+##### Needed
+- Form
+- - String habitatKey
+- - String treeKey
+- - String treeName
+- - int treeAge
+- - int baseCleaningEffort
+- - option treeType
+##### Notes
+- use option to get input until "PERENE" or "CADUCA"
+- tree id exists
+- - DuplicateTreeException -> DuplicateTreeKeyException
