@@ -13,18 +13,10 @@ import java.io.IOException;
 class DoSaveFile extends Command<HotelManager> {
   DoSaveFile(HotelManager receiver) {
     super(Label.SAVE_FILE, receiver, r -> r.getHotel() != null);
-    addStringField("newSaveAs", Prompt.newSaveAs());
   }
 
   @Override
-  protected final void execute() throws CommandException{
-    try {
-      if(_receiver.getFileName() == null) {
-        _receiver.saveAs(stringField("newSaveAs"));  
-      }
-      else _receiver.saveAs(_receiver.getFileName());
-    } catch (MissingFileAssociationException | IOException ex) {
-      throw new CommandException(ex);
-    }
+  protected final void execute() {
+    // FIXME implement command and create a local Form
   }
 }

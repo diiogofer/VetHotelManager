@@ -1,10 +1,8 @@
 package hva.app.animal;
 
-import java.util.List;
-import hva.core.Animal;
 import hva.core.Hotel;
 import pt.tecnico.uilib.menus.Command;
-
+//FIXME add more imports if needed
 
 /**
  * Show all animals registered in this zoo hotel.
@@ -17,6 +15,6 @@ class DoShowAllAnimals extends Command<Hotel> {
   
   @Override
   protected final void execute() {
-  
+    //FIXME implement command
   }
 }

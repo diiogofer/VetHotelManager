@@ -12,8 +12,7 @@ import java.io.*;
 public class HotelManager {
   /** The current zoo hotel */ // Should we initialize this field?
   private Hotel _hotel = new Hotel();
-  private boolean _hotelChanged = false;
-  private String _filename;
+  
   /**
    * Saves the serialized application's state into the file associated to the current network.
    *
@@ -22,8 +21,7 @@ public class HotelManager {
    * @throws IOException if there is some error while serializing the state of the network to disk.
    **/
   public void save() throws FileNotFoundException, MissingFileAssociationException, IOException {
-    // !!!!! ver se preciso garantir que _filename != null
-    saveAs(_filename);
+    // FIXME implement serialization method
   }
   
   /**
@@ -36,12 +34,7 @@ public class HotelManager {
    * @throws IOException if there is some error while serializing the state of the network to disk.
    **/
   public void saveAs(String filename) throws FileNotFoundException, MissingFileAssociationException, IOException {
-    ObjectOutputStream out = null;
-    try {
-      FileOutputStream fOut = new FileOutputStream(filename);
-      out = new ObjectOutputStream(fOut);
-      out.writeObject(_hotel);
-    } finally {if (out != null) {out.close();}}
+    // FIXME implement serialization method
   }
   
   /**
@@ -50,10 +43,8 @@ public class HotelManager {
    * @throws UnavailableFileException if the specified file does not exist or there is
    *         an error while processing this file.
    **/
-  public void load(String filename) throws UnavailableFileException, IOException, ClassNotFoundException {
-    try (ObjectInputStream in = new ObjectInputStream(new FileInputStream(filename))) {
-      _hotel = (Hotel) in.readObject();
-    }    
+  public void load(String filename) throws UnavailableFileException {
+    // FIXME implement serialization method
   }
   
   /**
@@ -65,7 +56,6 @@ public class HotelManager {
    * import file.
    **/
   public void importFile(String filename) throws ImportFileException {
-    _hotel = new Hotel();
     try {
       _hotel.importFile(filename);
     } catch (IOException | UnrecognizedEntryException /* FIXME maybe other exceptions */ e) {
@@ -79,15 +69,6 @@ public class HotelManager {
    * @return the current zoo hotel
    **/
   public final Hotel getHotel() {
-    if(_hotel == null) _hotel = new Hotel();
     return _hotel;
-  }
-
-  public final boolean getHotelChanged() {
-    return _hotelChanged;
-  }
-
-  public final String getFileName() {
-    return _filename;
   }
 }
