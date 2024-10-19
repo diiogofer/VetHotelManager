@@ -36,6 +36,7 @@ class DoRegisterAnimal extends Command<Hotel> {
       try {
         _receiver.registerSpecies(stringField("speciesKey"), 
                                   Form.requestString(Prompt.speciesName()));
+				execute();
       } catch (InvalidInputException iie) {
         System.out.println(iie.getMessage());
       }

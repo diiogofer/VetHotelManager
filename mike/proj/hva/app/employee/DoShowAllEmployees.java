@@ -1,8 +1,9 @@
 package hva.app.employee;
 
+import hva.core.Employee;
 import hva.core.Hotel;
 import pt.tecnico.uilib.menus.Command;
-//FIXME add more imports if needed
+import java.util.List;
 
 /**
  * Show all employees of this zoo hotel.
@@ -15,6 +16,8 @@ class DoShowAllEmployees extends Command<Hotel> {
   
   @Override
   protected void execute() {
-    //FIXME implement command
+    List<Employee> list = _receiver.getAllEmployees();
+    for(Employee e : list)
+      _display.addLine(e);
   }
 }

@@ -1,10 +1,17 @@
 # PROJECT
 
 ## Perguntas
+- Pode-se aceitar string vazios? (id, nome, etc)
+- equals(Object obj) em Tree.java -> instanceof e downcasting pode-se?
 - Hotel
 - - registerEmployee() mas instancia-se employee no app (DoRegisterEmployee) com construtores publicos?
 - - ou
 - - registerVet() e registerKeeper()
+
+- 4.5.2
+- - espaços brancos sao irrelevantes? n se tem que fazer nada ou é preciso removelos?
+- 4.2.2
+- - despois de registar especie tenta-se registar o mesmo animal outra vez?
 
 ## Global
 - ids are case insensitive (A = a)
@@ -222,6 +229,9 @@ Animal _animal
 
 #### 4.2.1 DoShowAllAnimals
 ##### Needed
+- hotel.getAllAnimals()
+- animal.toString()
+- - ANIMAL|id|name|speciesId|healthLog|habitatId
 ##### Notes
 - foreach animal a -> _display.addLine(a)
 
@@ -278,6 +288,12 @@ Animal _animal
 ### 4.3 EMPLOYEES hva.app.employee
 #### 4.3.1 DoShowAllEmployees
 ##### Needed
+- hotel.getAllEmployees()
+- employee.responsibilitiesToString()
+- employee.toString()
+- - employeeType|id|name|responsibilityId1,responsibilityId2,...
+- no responsibility
+- - employeeType|id|name
 ##### Notes
 - foreach Employee e -> _display.addLine(e)
 
@@ -335,6 +351,15 @@ Animal _animal
 
 ### 4.4 HABITAT hva.app.habitat
 #### 4.4.1
+##### Needed
+- hotel.getAllHabitats()
+- habitat.toString()
+- - HABITAT|id|name|area|nTrees
+- tree.toString()
+- - ÁRVORE|id|name|ageInYears|baseDifficulty|treeType|bioCycle
+##### Notes
+- bioCycle
+- - needs to be implemented with pattern described in section 2
 #### 4.4.2
 ##### Needed
 ##### Notes
@@ -353,3 +378,21 @@ Animal _animal
 - use option to get input until "PERENE" or "CADUCA"
 - tree id exists
 - - DuplicateTreeException -> DuplicateTreeKeyException
+
+
+### 4.5 VACCINE hva.app.vaccine
+#### 4.5.1 DoShowAllVaccines
+##### Needed
+- vaccine.toString()
+- - VACINA|id|name|nApplications|speciesid1,speciesid2,speciesid3
+##### Notes
+#### 4.5.2 DoRegisterVaccine
+##### Needed
+- Form
+- - vaccineKey
+- - vaccineName
+- - animalIds
+##### Notes
+- animalIds is a String of ids with format: id1,id2,id3
+- white spaces are irrelevant?
+- vaccine exists: DuplicateVaccineException -> DuplicateVaccineKeyException
