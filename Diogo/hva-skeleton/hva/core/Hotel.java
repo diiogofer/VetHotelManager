@@ -13,6 +13,7 @@ public class Hotel implements Serializable {
   private Map<String, Habitat> _habitatMap = new HashMap<>();
   private Map<String, Animal> _animalMap = new HashMap<>();
   private Map<String, Species> _speciesMap = new HashMap<>();
+  private Map<String, Employee> _employeeMap = new HashMap<>();
   
   // FIXME define contructor(s)
   // FIXME define more methods
@@ -78,6 +79,24 @@ public class Hotel implements Serializable {
     }
     Species newSpecies = new Species(speciesId, speciesName);
     addIdentified(newSpecies, _speciesMap);
+}
+
+
+  public void registerEmployee(Employee newEmployee) throws DuplicateEmployeeException {
+    if(containsIdentified(newEmployee.getId(), _employeeMap)) {
+      throw new DuplicateEmployeeException(newEmployee.getId());
+    }
+    addIdentified(newEmployee, _employeeMap);
+  }
+
+  public void registerVet(String employeeId, String employeeName) throws DuplicateEmployeeException {
+    Employee newEmployee = new EmployeeVet(employeeId, employeeName);
+    registerEmployee(newEmployee);
+  }
+  
+  public void registerKeeper(String employeeId, String employeeName) throws DuplicateEmployeeException {
+    Employee newEmployee = new EmployeeVet(employeeId, employeeName);
+    registerEmployee(newEmployee);
 }
 
 }
