@@ -42,6 +42,12 @@ public class Hotel implements Serializable {
     return identifiedMap.get(identifier.toLowerCase());
   }
 
+  private <T extends Identified> List<T> getAllIdentified(Map<String, T> map) {
+    List<T> list = new ArrayList<>(map.values());
+    Collections.sort(list);
+    return Collections.unmodifiableList(list);
+  }  
+
   public void registerHabitat(String habitatId, String habitatName, int habitatArea) throws DuplicateHabitatException{
     if(containsIdentified(habitatId, _habitatMap)) {
       throw new DuplicateHabitatException(habitatId);
@@ -71,9 +77,7 @@ public class Hotel implements Serializable {
   }
 
   public List<Animal> getAllAnimals() {
-    List<Animal> list = new ArrayList<>(_animalMap.values());
-    Collections.sort(list);
-    return Collections.unmodifiableList(list);
+    return getAllIdentified(_animalMap);
   }
 
   public void registerSpecies(String speciesId, String speciesName) throws InvalidInputException {
@@ -95,6 +99,10 @@ public class Hotel implements Serializable {
       throw new DuplicateEmployeeException(newEmployee.getId());
     }
     addIdentified(newEmployee, _employeeMap);
+  }
+
+  public List<Employee> getAllEmployees() {
+    return getAllIdentified(_employeeMap);
   }
 
   public void registerVet(String employeeId, String employeeName) throws DuplicateEmployeeException {
