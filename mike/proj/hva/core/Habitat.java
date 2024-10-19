@@ -16,6 +16,9 @@ public class Habitat extends Identified{
   void addAnimal(Animal newAnimal) {
     _animalMap.putIfAbsent(newAnimal.getId().toLowerCase(), newAnimal);
   }
+  void removeAnimal(Animal animal) {
+    _animalMap.remove(animal.getId().toLowerCase());
+  }
 
   void addTree(Tree tree) {_treeSet.add(tree);}
   void removeTree(Tree tree) {_treeSet.remove(tree);}
