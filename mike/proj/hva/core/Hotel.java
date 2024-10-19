@@ -12,6 +12,7 @@ public class Hotel implements Serializable {
   private Map<String, Habitat> _habitatMap = new HashMap<>();
   private Map<String, Animal> _animalMap = new HashMap<>();
   private Map<String, Species> _speciesMap = new HashMap<>();
+  private Map<String, Employee> _employeeMap = new HashMap<>();
 
   // Identified ----------------------------------------------------------------
   private <T extends Identified> void addIdentified(T identified, Map<String, T> map) {
@@ -44,7 +45,10 @@ public class Hotel implements Serializable {
     Habitat habitat = getIdentified(habitatId, _habitatMap);
     Species species = getIdentified(speciesId, _speciesMap);
     Animal newAnimal = new Animal(animalId, animalName, species, habitat);
+    habitat.addAnimal(newAnimal);
+    species.addAnimal(newAnimal);
     addIdentified(newAnimal, _animalMap);
+    
   }
 
   // SPECIES -------------------------------------------------------------------
@@ -58,6 +62,24 @@ public class Hotel implements Serializable {
     }
     Species newSpecies = new Species(speciesId, speciesName);
     addIdentified(newSpecies, _speciesMap);
+  }
+
+  // EMPLOYEE ------------------------------------------------------------------
+  public void registerEmployee(Employee newEmployee) 
+    throws DuplicateEmployeeException {
+    if(containsIdentified(newEmployee.getId(), _employeeMap))
+      throw new DuplicateEmployeeException(newEmployee.getId());
+    addIdentified(newEmployee, _employeeMap);
+  }
+  public void registerVet(String employeeId, String employeeName) 
+    throws DuplicateEmployeeException {
+    Employee newEmployee = new EmployeeVet(employeeId, employeeName);
+    registerEmployee(newEmployee);
+  }
+  public void registerKeeper(String employeeId, String employeeName) 
+    throws DuplicateEmployeeException {
+    Employee newEmployee = new EmployeeVet(employeeId, employeeName);
+    registerEmployee(newEmployee);
   }
 
   // TODO ----------------------------------------------------------------------

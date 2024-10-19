@@ -246,6 +246,7 @@ Animal _animal
 - - register species
 - species name already exists
 - - System.out.println(ex.getMessage())
+- add animal to it's habitat and species
 
 
 #### 4.2.3 DoTransferToHabitat
