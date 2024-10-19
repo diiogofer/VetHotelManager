@@ -10,15 +10,28 @@ public class Hotel implements Serializable {
   @Serial
   private static final long serialVersionUID = 202407081733L;
   
+  private boolean _hotelChanged;
   private Map<String, Habitat> _habitatMap = new HashMap<>();
   private Map<String, Animal> _animalMap = new HashMap<>();
   private Map<String, Species> _speciesMap = new HashMap<>();
   private Map<String, Employee> _employeeMap = new HashMap<>();
   private Map<String, Tree> _treeMap = new HashMap<>();
   private Map<String, Vaccine> _vaccineMap = new HashMap<>();
-  // FIXME define contructor(s)
+
+  Hotel() {
+    // _season = Season.PRIMAVERA; 
+    _hotelChanged = false;
+  }
   // FIXME define more methods
   
+  void setChanged(Boolean state){
+    _hotelChanged = state;
+  }
+
+  public final Boolean getHotelState(){
+    return _hotelChanged;
+  }
+
   /**
    * Read text input file and create corresponding domain entities.
    * 
@@ -32,6 +45,7 @@ public class Hotel implements Serializable {
 
   private <T extends Identified> void addIdentified(T identified, Map<String, T> identifiedMap) {
       identifiedMap.putIfAbsent(identified.getId().toLowerCase(), identified);
+      setChanged(true);
   }
 
   private <T extends Identified> boolean containsIdentified(String identifier, Map<String, T> identifiedMap) {

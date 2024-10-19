@@ -10,9 +10,9 @@ import java.io.*;
  * zoo hotel.
  **/
 public class HotelManager {
-  /** The current zoo hotel */ // Should we initialize this field?
+  /** The current zoo hotel **/
   private Hotel _hotel = new Hotel();
-  
+  private String _filename;
   /**
    * Saves the serialized application's state into the file associated to the current network.
    *
@@ -21,7 +21,20 @@ public class HotelManager {
    * @throws IOException if there is some error while serializing the state of the network to disk.
    **/
   public void save() throws FileNotFoundException, MissingFileAssociationException, IOException {
-    // FIXME implement serialization method
+    if (_filename == null) {
+      throw new MissingFileAssociationException();
+    }
+    ObjectOutputStream out = null;
+    try {
+      FileOutputStream fOut = new FileOutputStream(_filename);
+      out = new ObjectOutputStream(fOut);
+      this.getHotel().setChanged(false);
+      out.writeObject(_hotel);
+    } finally {
+      if (out != null) {
+        out.close();
+      }
+    }
   }
   
   /**
@@ -34,7 +47,11 @@ public class HotelManager {
    * @throws IOException if there is some error while serializing the state of the network to disk.
    **/
   public void saveAs(String filename) throws FileNotFoundException, MissingFileAssociationException, IOException {
-    // FIXME implement serialization method
+    if (filename == null) {
+      throw new MissingFileAssociationException();
+    }
+    _filename = filename;
+    save();
   }
   
   /**
@@ -44,7 +61,11 @@ public class HotelManager {
    *         an error while processing this file.
    **/
   public void load(String filename) throws UnavailableFileException {
-    // FIXME implement serialization method
+    try (ObjectInputStream in = new ObjectInputStream(new FileInputStream(filename))) {
+      _hotel = (Hotel) in.readObject();
+  } catch (IOException | ClassNotFoundException ex) {
+      throw new UnavailableFileException(filename);
+  }
   }
   
   /**
@@ -58,6 +79,7 @@ public class HotelManager {
   public void importFile(String filename) throws ImportFileException {
     try {
       _hotel.importFile(filename);
+      _hotel.setChanged(true);
     } catch (IOException | UnrecognizedEntryException /* FIXME maybe other exceptions */ e) {
       throw new ImportFileException(filename, e);
     }
@@ -70,5 +92,14 @@ public class HotelManager {
    **/
   public final Hotel getHotel() {
     return _hotel;
+  }
+
+  public final String getFileName(){
+    return _filename;
+  }
+
+  public void createHotel(){  
+    _hotel = new Hotel();
+    _filename = null;
   }
 }
