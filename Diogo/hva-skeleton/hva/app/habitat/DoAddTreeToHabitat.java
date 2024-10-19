@@ -31,16 +31,17 @@ class DoAddTreeToHabitat extends Command<Hotel> {
     int treeAge = integerField("treeAge");
     int treeDifficulty = integerField("treeDifficulty");
     String treeType = optionField("treeType");
+    String ret = null;
     try {
       switch (treeType) {
-        case "PERENE" -> _receiver.registerPerene(habitatKey, treeKey, treeName, treeAge, treeDifficulty);
-        case "CADUCA" -> _receiver.registerCaduca(habitatKey, treeKey, treeName, treeAge, treeDifficulty);
+        case "PERENE" -> ret = _receiver.registerPerene(habitatKey, treeKey, treeName, treeAge, treeDifficulty);
+        case "CADUCA" -> ret = _receiver.registerCaduca(habitatKey, treeKey, treeName, treeAge, treeDifficulty);
       }
     } catch (DuplicateTreeException dte) {
       throw new DuplicateTreeKeyException(dte.getMessage());
     } catch (UnknownHabitatException uhe) {
       throw new UnknownHabitatKeyException(uhe.getMessage());
     }
-    // FALTA PRINTAR !!!!!
+    if(ret != null) _display.addLine(ret);
   }
 }

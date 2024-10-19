@@ -131,7 +131,7 @@ public class Hotel implements Serializable {
     addIdentified(tree, _treeMap);
   }
 
-  public void registerPerene(String habitatid, String treeId, String treeName, int treeAge, int treeDifficulty) 
+  public String registerPerene(String habitatid, String treeId, String treeName, int treeAge, int treeDifficulty) 
     throws DuplicateTreeException, UnknownHabitatException {
       
     if (containsIdentified(treeId, _treeMap)){ 
@@ -140,9 +140,10 @@ public class Hotel implements Serializable {
   
     Tree newTree = new TreePerene(treeId, treeName, treeAge, treeDifficulty);
     registerTree(habitatid, newTree);
+    return newTree.toString();
   }
 
-  public void registerCaduca(String habitatId, String treeId, String treeName, int treeAge, int treeDifficulty) 
+  public String registerCaduca(String habitatId, String treeId, String treeName, int treeAge, int treeDifficulty) 
     throws DuplicateTreeException, UnknownHabitatException {
   
     if (containsIdentified(treeId, _treeMap)) { 
@@ -150,6 +151,7 @@ public class Hotel implements Serializable {
     }
     Tree newTree = new TreeCaduca(treeId, treeName, treeAge, treeDifficulty);
     registerTree(habitatId, newTree);
+    return newTree.toString();
   }
 
   public void registerVaccine(String vaccineId, String vaccineName, String[] speciesIdArray) 
