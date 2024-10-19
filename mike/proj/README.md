@@ -8,6 +8,8 @@
 
 - 4.5.2
 - - espaços brancos sao irrelevantes? n se tem que fazer nada ou é preciso removelos?
+- 4.2.2
+- - despois de registar especie tenta-se registar o mesmo animal outra vez?
 
 ## Global
 - ids are case insensitive (A = a)
@@ -284,6 +286,12 @@ Animal _animal
 ### 4.3 EMPLOYEES hva.app.employee
 #### 4.3.1 DoShowAllEmployees
 ##### Needed
+- hotel.getAllEmployees()
+- employee.responsibilitiesToString()
+- employee.toString()
+- - employeeType|id|name|responsibilityId1,responsibilityId2,...
+- no responsibility
+- - employeeType|id|name
 ##### Notes
 - foreach Employee e -> _display.addLine(e)
 

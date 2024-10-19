@@ -1,6 +1,6 @@
 package hva.core;
 
-public class Tree extends Identified {
+public abstract class Tree extends Identified {
   private Habitat _habitat;
   private String _name;
   private int _ageInSeasons;
