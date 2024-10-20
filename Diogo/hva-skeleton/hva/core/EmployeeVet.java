@@ -6,6 +6,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import hva.core.exception.UnknownResponsibilityException;
+
 public class EmployeeVet extends Employee{
   private Map<String, Species> _responsibilityMap = new HashMap<>();    
   
@@ -28,13 +30,24 @@ public class EmployeeVet extends Employee{
   }
 
   @Override
+  protected boolean removeResponsibility(Responsibility resp) throws UnknownResponsibilityException {
+    String key = resp.getId().toLowerCase();
+    if(!(resp instanceof Species) )
+      return false;
+    if(!_responsibilityMap.containsKey(key))
+      throw new UnknownResponsibilityException(resp.getId());
+    _responsibilityMap.remove(key);
+    return true;
+  }
+
+  @Override
   protected String responsibilitiesToString() {
     StringBuilder str = new StringBuilder();
     List<Species> list = new ArrayList<>(_responsibilityMap.values());
     Collections.sort(list);
     
     for (Species s : list) {
-        str.append(s).append(",");
+        str.append(s.getId()).append(",");
     }
     // Check if the string builder is not empty, then remove the last comma
     if (str.length() > 0) {
@@ -42,7 +55,7 @@ public class EmployeeVet extends Employee{
     }
     return str.toString();
   }
-  
+
   @Override
   protected String employeeTypeToString() {
     return "VET";

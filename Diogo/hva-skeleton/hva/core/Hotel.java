@@ -154,7 +154,7 @@ public class Hotel implements Serializable {
   }
   
   public void registerKeeper(String employeeId, String employeeName) throws DuplicateEmployeeException {
-    Employee newEmployee = new EmployeeVet(employeeId, employeeName);
+    Employee newEmployee = new EmployeeKeeper(employeeId, employeeName);
     registerEmployee(newEmployee);
 }
 
@@ -174,6 +174,15 @@ public class Hotel implements Serializable {
     Responsibility resp = employee.getResponsibility(this, responsibilityId);
     if(resp == null) throw new UnknownResponsibilityException(responsibilityId);
     boolean changed = employee.addResponsibility(resp);
+  }
+
+  public void removeEmployeeResponsibility(String employeeId, String responsibilityId) 
+    throws UnknownEmployeeException, UnknownResponsibilityException {
+    Employee employee = getIdentified(employeeId, _employeeMap);
+    if(employee == null) throw new UnknownEmployeeException(employeeId);
+    Responsibility resp = employee.getResponsibility(this, responsibilityId);
+    if(resp == null) throw new UnknownResponsibilityException(responsibilityId);
+    boolean changed = employee.removeResponsibility(resp);
   }
 
   public String registerPerene(String habitatId, String treeId, String treeName, int treeAge, int treeDifficulty) 

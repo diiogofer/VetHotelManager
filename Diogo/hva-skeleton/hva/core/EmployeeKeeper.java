@@ -17,7 +17,7 @@ public class EmployeeKeeper extends Employee {
     protected Responsibility getResponsibility(Hotel hotel, String habitatId) {
       return hotel.getHabitat(habitatId);
     }
-    
+
     @Override
     protected boolean addResponsibility(Responsibility resp) {
       String key = resp.getId().toLowerCase();
@@ -34,11 +34,11 @@ public class EmployeeKeeper extends Employee {
         Collections.sort(list);
     
         for (Habitat h : list) {
-            str.append(h).append(",");
+            str.append(h.getId()).append(",");
         }
         // Check if the string builder is not empty, then remove the last comma
         if (str.length() > 0) {
-            str.deleteCharAt(str.length() - 1);  // Remove the trailing comma
+            str.deleteCharAt(str.length() - 1);  // Remove comma
         }
         return str.toString();
     }
