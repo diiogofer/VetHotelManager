@@ -106,6 +106,12 @@ public class Hotel implements Serializable {
     if(habitat == null) throw new UnknownHabitatException(habitatId);
     return getAllTreesOfHabitat(habitat);
   }
+  public List<Animal> getAnimalsFromHabitat(String habitatId) 
+    throws UnknownHabitatException {
+    Habitat habitat = getIdentified(habitatId, _habitatMap);
+    if(habitat == null) throw new UnknownHabitatException(habitatId);
+    return habitat.getAllAnimals();
+  }
   Responsibility getHabitat(String habitatId) {
     return getIdentified(habitatId, _habitatMap);
   }
