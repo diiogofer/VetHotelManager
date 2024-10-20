@@ -2,6 +2,8 @@ package hva.core;
 
 import java.util.*;
 
+import hva.core.exception.UnknownResponsibilityException;
+
 public class EmployeeVet extends Employee {
   private Map<String, Species> _responsibilityMap = new HashMap<>();
 
@@ -17,14 +19,12 @@ public class EmployeeVet extends Employee {
     Collections.sort(list);
     
     for (Species s : list) {
-        str.append(s).append(",");
+        str.append(s.getId()).append(",");
     }
-
     // Check if the string builder is not empty, then remove the last comma
     if (str.length() > 0) {
         str.deleteCharAt(str.length() - 1);  // Remove the trailing comma
     }
-
     return str.toString();
   }
 
@@ -47,4 +47,17 @@ public class EmployeeVet extends Employee {
     _responsibilityMap.putIfAbsent(key, species);
     return true;
   }
+
+  @Override
+  protected boolean removeResponsibility(Responsibility resp) 
+    throws UnknownResponsibilityException {
+    String key = resp.getId().toLowerCase();
+    if(!(resp instanceof Species) )
+      return false;
+    if(!_responsibilityMap.containsKey(key))
+      throw new UnknownResponsibilityException(resp.getId());
+    _responsibilityMap.remove(key);
+    return true;
+  }
+  
 }

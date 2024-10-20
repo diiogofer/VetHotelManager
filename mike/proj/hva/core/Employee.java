@@ -1,5 +1,7 @@
 package hva.core;
 
+import hva.core.exception.UnknownResponsibilityException;
+
 public abstract class Employee extends Identified {
   private String _name;
   Employee(String id, String name) {
@@ -15,4 +17,7 @@ public abstract class Employee extends Identified {
   protected abstract String employeeTypeToString();
   protected abstract Responsibility getResponsibility(Hotel hotel, String responsibilityId);
   protected abstract boolean addResponsibility(Responsibility resp);
+  protected abstract boolean removeResponsibility(Responsibility resp)
+    throws UnknownResponsibilityException;
+
 }
