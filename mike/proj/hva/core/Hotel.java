@@ -233,7 +233,13 @@ public class Hotel implements Serializable {
     setChanged(true);
     return event.isCorrect();
   }
-
+  public List<VaccineEvent> getVaccinesFromAnimal(String animalKey) 
+    throws UnknownAnimalException {
+    Animal animal = getIdentified(animalKey, _animalMap);
+    if(animal == null) throw new UnknownAnimalException(animalKey);
+    return animal.getAllVaccineEvents();
+  }
+  
   // SPECIES -------------------------------------------------------------------
   public void registerSpecies(String speciesId, String speciesName) 
     throws InvalidInputException {

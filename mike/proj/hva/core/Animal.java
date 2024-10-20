@@ -1,6 +1,7 @@
 package hva.core;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class Animal extends Identified {
@@ -54,5 +55,9 @@ public class Animal extends Identified {
 
   void addVaccineEvent(VaccineEvent event) {
     _vaccineEventList.add(event);
+  }
+
+  List<VaccineEvent> getAllVaccineEvents() {
+    return Collections.unmodifiableList(_vaccineEventList);
   }
 }
