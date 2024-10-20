@@ -2,7 +2,7 @@ package hva.core;
 
 import java.util.*;
 
-public class Habitat extends Identified{
+public class Habitat extends Identified implements Responsibility {
   private String _name;
   private int _area;
   private Map<String, Animal> _animalMap = new HashMap<>();

@@ -5,7 +5,7 @@ public abstract class Identified implements Comparable<Identified>{
   Identified(String id) {
     _id = id;
   }
-  String getId() {return _id;}
+  public String getId() {return _id;}
   public int compareTo(Identified iden) {
     return (_id.toLowerCase()).compareTo(iden.getId().toLowerCase());
   }

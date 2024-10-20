@@ -13,4 +13,6 @@ public abstract class Employee extends Identified {
   }
   protected abstract String responsibilitiesToString();
   protected abstract String employeeTypeToString();
+  protected abstract Responsibility getResponsibility(Hotel hotel, String responsibilityId);
+  protected abstract boolean addResponsibility(Responsibility resp);
 }

@@ -45,7 +45,10 @@ public class Hotel implements Serializable {
   public List<Tree> getAllTreesOfHabitat(Habitat habitat) {
     return habitat.getAllTrees();
   }
-
+  Responsibility getHabitat(String habitatId) {
+    return getIdentified(habitatId, _habitatMap);
+  }
+  
   // TREE ----------------------------------------------------------------------
   public void registerTree(String habitatKey, Tree tree) 
     throws UnknownHabitatException {
@@ -113,6 +116,9 @@ public class Hotel implements Serializable {
     Species newSpecies = new Species(speciesId, speciesName);
     addIdentified(newSpecies, _speciesMap);
   }
+  Species getSpecies(String speciesId) {
+    return getIdentified(speciesId, _speciesMap);
+  }
 
   // EMPLOYEE ------------------------------------------------------------------
   public void registerEmployee(Employee newEmployee) 
@@ -124,6 +130,15 @@ public class Hotel implements Serializable {
   public List<Employee> getAllEmployees() {
     return getAllIdentified(_employeeMap);
   }
+  public void addEmployeeResponsibility(String employeeId, String responsibilityId) 
+    throws UnknownEmployeeException, UnknownResponsibilityException {
+    Employee employee = getIdentified(employeeId, _employeeMap);
+    if(employee == null) throw new UnknownEmployeeException(employeeId);
+    Responsibility resp = employee.getResponsibility(this, responsibilityId);
+    if(resp == null) throw new UnknownResponsibilityException(responsibilityId);
+    boolean changed = employee.addResponsibility(resp);
+  }
+  
 
   public void registerVet(String employeeId, String employeeName) 
     throws DuplicateEmployeeException {
