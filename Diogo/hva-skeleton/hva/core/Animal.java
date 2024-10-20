@@ -12,15 +12,16 @@ public class Animal extends Identified {
       _habitat = habitat;
     }
     
-    void changeHabitat(Habitat habitat) {
-      if(_habitat != null) _habitat.removeAnimal(this);
+    boolean changeHabitat(Habitat habitat) {
+      if(_habitat != null) {
+        if(_habitat.equals(habitat)) return false;
+        _habitat.removeAnimal(this);
+      }
       _habitat = habitat;
       _habitat.addAnimal(this);
+      return true;
     }
 
-    boolean equals(Animal animal) {
-      return (this.getId().toLowerCase()).equals(animal.getId().toLowerCase());
-    }
     int calculateSatisfaction() {
       int same = _habitat.countSpecies(_species);
       int population = _habitat.countPopulation();

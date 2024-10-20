@@ -28,7 +28,7 @@ public class Hotel implements Serializable {
     _hotelChanged = state;
   }
 
-  public final Boolean getHotelState(){
+  public Boolean getHotelState(){
     return _hotelChanged;
   }
 
@@ -42,6 +42,7 @@ public class Hotel implements Serializable {
   void importFile(String filename) throws IOException, UnrecognizedEntryException, InvalidInputException {
       Parser _parser = new Parser(this);
       _parser.parseFile(filename);
+      setChanged(true);
   }
 
   private <T extends Identified> void addIdentified(T identified, Map<String, T> identifiedMap) {
@@ -108,7 +109,8 @@ public class Hotel implements Serializable {
     if(area <= 0) throw new InvalidInputException("Invalid area value");
     Habitat habitat = getIdentified(habitatId, _habitatMap);
     if(habitat == null) throw new UnknownHabitatException(habitatId);
-    habitat.setArea(area);
+    boolean changed = habitat.setArea(area);
+    if(changed) setChanged(true);
   }
 
   public void setHabitatSpeciesAdequacy(String habitatId, String speciesId, SpeciesAdequacy adequacy) throws UnknownHabitatException, UnknownSpeciesException {
@@ -118,6 +120,7 @@ public class Hotel implements Serializable {
     if(!containsIdentified(speciesId, _speciesMap)) 
       throw new UnknownSpeciesException(speciesId);
     boolean changed = habitat.setSpeciesAdequacy(speciesId, adequacy);
+    if(changed) setChanged(true);
   }
 
   public void registerAnimal(String animalId, String animalName, String speciesId, String habitatId) 
@@ -149,7 +152,8 @@ public class Hotel implements Serializable {
     if(animal == null) throw new UnknownAnimalException(animalId);
     Habitat newHabitat = getIdentified(habitatId, _habitatMap);
     if(newHabitat == null) throw new UnknownHabitatException(habitatId);
-    animal.changeHabitat(newHabitat);
+    boolean changed = animal.changeHabitat(newHabitat);
+    if(changed) setChanged(true);
   }
 
   public int getAnimalSatisfaction(String animalId) throws UnknownAnimalException {
@@ -244,6 +248,7 @@ public class Hotel implements Serializable {
     Responsibility resp = employee.getResponsibility(this, responsibilityId);
     if(resp == null) throw new UnknownResponsibilityException(responsibilityId);
     boolean changed = employee.addResponsibility(resp);
+    if(changed) setChanged(true);
   }
 
   public void removeEmployeeResponsibility(String employeeId, String responsibilityId) 
@@ -253,6 +258,7 @@ public class Hotel implements Serializable {
     Responsibility resp = employee.getResponsibility(this, responsibilityId);
     if(resp == null) throw new UnknownResponsibilityException(responsibilityId);
     boolean changed = employee.removeResponsibility(resp);
+    if(changed) setChanged(true);
   }
 
   public String registerPerene(String habitatId, String treeId, String treeName, int treeAge, int treeDifficulty) 

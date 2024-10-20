@@ -47,8 +47,10 @@ public class Habitat extends Identified implements Responsibility {
         return _area;
     }
 
-    void setArea(int area) {
+    boolean setArea(int area) {
+        if(area == _area) return false;
         _area = area;
+        return true;
     }
   
     int getAdequacy(Species species) {

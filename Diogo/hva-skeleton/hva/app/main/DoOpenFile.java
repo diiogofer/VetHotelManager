@@ -1,16 +1,13 @@
 package hva.app.main;
 
 import hva.core.HotelManager;
-
 import java.io.IOException;
-
 import hva.app.exception.FileOpenFailedException;
 import hva.core.exception.UnavailableFileException;
 import hva.core.exception.MissingFileAssociationException;
 import pt.tecnico.uilib.forms.Form;
 import pt.tecnico.uilib.menus.Command;
 import pt.tecnico.uilib.menus.CommandException;
-//FIXME add more imports if needed
 
 /**
  * Command to open a file.
