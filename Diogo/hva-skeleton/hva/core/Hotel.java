@@ -98,6 +98,13 @@ public class Hotel implements Serializable {
     return getIdentified(habitatId, _habitatMap);
   }
 
+  public void changeHabitatArea(String habitatKey, int area) throws UnknownHabitatException, InvalidInputException {
+    if(area <= 0) throw new InvalidInputException("Invalid area value");
+    Habitat habitat = getIdentified(habitatKey, _habitatMap);
+    if(habitat == null) throw new UnknownHabitatException(habitatKey);
+    habitat.setArea(area);
+  }
+  
   public void registerAnimal(String animalId, String animalName, String speciesId, String habitatId) 
     throws DuplicateAnimalException, UnknownHabitatException, UnknownSpeciesException {
   
