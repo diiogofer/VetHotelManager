@@ -6,6 +6,7 @@ import hva.core.exception.UnknownResponsibilityException;
 
 public class EmployeeKeeper extends Employee {
   private Map<String, Habitat> _responsibilityMap = new HashMap<>();
+  
   EmployeeKeeper(String id, String name) {
     super(id, name);
   }
@@ -55,5 +56,10 @@ public class EmployeeKeeper extends Employee {
       throw new UnknownResponsibilityException(resp.getId());
     _responsibilityMap.remove(key);
     return true;
+  }
+
+  @Override
+  protected boolean hasRespondibility(Responsibility resp) {
+    return _responsibilityMap.containsKey(resp.getId().toLowerCase());
   }
 }

@@ -18,6 +18,7 @@ public class Hotel implements Serializable {
   private Map<String, Species> _speciesMap = new HashMap<>();
   private Map<String, Employee> _employeeMap = new HashMap<>();
   private Map<String, Vaccine> _vaccineMap = new HashMap<>();
+  private List<VaccineEvent> _vaccineEventList = new ArrayList<>();
 
   // Hotel ---------------------------------------------------------------------
   /**
@@ -200,6 +201,30 @@ public class Hotel implements Serializable {
     Animal animal = getIdentified(animalId, _animalMap);
     if(animal == null) throw new UnknownAnimalException(animalId);
     return animal.calculateSatisfaction();
+  }
+  /**
+   * 
+   * @param animalKey
+   * @param vetKey
+   * @param vaccineKey
+   * @return true if vaccine was adequate to the animal
+   */
+  public boolean vaccinateAnimal(String animalId, String employeeId, String vaccineId) 
+    throws UnknownAnimalException, UnknownEmployeeException, UnknownVaccineException,
+    NotAVetException, NotAllowedToVaccinateException {
+    Animal animal = getIdentified(animalId, _animalMap);
+    if(animal == null) throw new UnknownAnimalException(animalId);
+    Employee employee = getIdentified(employeeId, _employeeMap);
+    if(employee == null) throw new UnknownEmployeeException(employeeId);
+    Vaccine vaccine = getIdentified(vaccineId, _vaccineMap);
+    if(vaccine == null) throw new UnknownVaccineException(vaccineId);
+    if(!(employee instanceof EmployeeVet vet)) throw new NotAVetException(employeeId);
+    VaccineEvent event = new VaccineEvent(vet, animal, vaccine);
+    vet.addVaccineEvent(event);
+    _vaccineEventList.add(event);
+    animal.addVaccineEvent(event);
+    setChanged(true);
+    return event.isCorrect();
   }
 
   // SPECIES -------------------------------------------------------------------

@@ -19,5 +19,5 @@ public abstract class Employee extends Identified {
   protected abstract boolean addResponsibility(Responsibility resp);
   protected abstract boolean removeResponsibility(Responsibility resp)
     throws UnknownResponsibilityException;
-
+  protected abstract boolean hasRespondibility(Responsibility resp);
 }

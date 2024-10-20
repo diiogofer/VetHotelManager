@@ -5,7 +5,9 @@ import java.util.*;
 import hva.core.exception.UnknownResponsibilityException;
 
 public class EmployeeVet extends Employee {
+  
   private Map<String, Species> _responsibilityMap = new HashMap<>();
+  private List<VaccineEvent> _vaccineEventList = new ArrayList<>();
 
 
   EmployeeVet(String id, String name) {
@@ -59,5 +61,13 @@ public class EmployeeVet extends Employee {
     _responsibilityMap.remove(key);
     return true;
   }
-  
+
+  @Override
+  protected boolean hasRespondibility(Responsibility resp) {
+    return _responsibilityMap.containsKey(resp.getId().toLowerCase());
+  }
+
+  void addVaccineEvent(VaccineEvent event) {
+    _vaccineEventList.add(event);
+  }
 }
