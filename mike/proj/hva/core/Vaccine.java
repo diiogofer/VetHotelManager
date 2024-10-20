@@ -31,7 +31,9 @@ public class Vaccine extends Identified{
   }
 
   public String toString() {
-    return "VACINA|" + getId() + "|" + _name + "|" +
-       _vaccineEventList.size() + "|" + speciesToString();
+    String species = speciesToString();
+    return species.length() == 0 ? 
+      "VACINA|" + getId() + "|" + _name + "|" + _vaccineEventList.size() :
+      "VACINA|" + getId() + "|" + _name + "|" + _vaccineEventList.size() + "|" + speciesToString();
   }
 }
