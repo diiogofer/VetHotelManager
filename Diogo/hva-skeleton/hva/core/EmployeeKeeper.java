@@ -6,6 +6,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import hva.core.exception.UnknownResponsibilityException;
+
 public class EmployeeKeeper extends Employee {
     private Map<String, Habitat> _responsibilityMap = new HashMap<>();
 
@@ -25,6 +27,17 @@ public class EmployeeKeeper extends Employee {
         return false;
       _responsibilityMap.putIfAbsent(key, habitat);
       return true;
+    }
+
+    @Override
+    protected boolean removeResponsibility(Responsibility resp) throws UnknownResponsibilityException {
+        String key = resp.getId().toLowerCase();
+        if(!(resp instanceof Habitat))
+            return false;
+        if(!_responsibilityMap.containsKey(key)) 
+            throw new UnknownResponsibilityException(resp.getId());
+        _responsibilityMap.remove(key);
+        return true;
     }
 
     @Override

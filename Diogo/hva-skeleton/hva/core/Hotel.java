@@ -39,8 +39,9 @@ public class Hotel implements Serializable {
    * @throws UnrecognizedEntryException if some entry is not correct
    * @throws IOException if there is an IO erro while processing the text file
    **/
-  void importFile(String filename) throws UnrecognizedEntryException, IOException /* FIXME maybe other exceptions */  {
-    //FIXME implement method
+  void importFile(String filename) throws IOException, UnrecognizedEntryException, InvalidInputException {
+      Parser _parser = new Parser(this);
+      _parser.parseFile(filename);
   }
 
   private <T extends Identified> void addIdentified(T identified, Map<String, T> identifiedMap) {
@@ -69,6 +70,22 @@ public class Hotel implements Serializable {
     Habitat newHabitat = new Habitat(habitatId, habitatName, habitatArea);
     addIdentified(newHabitat, _habitatMap);
   }
+
+  //registerhabitat para o parser
+  void registerHabitat(String habitatId, String habitatName, int area, String[] treeIds) throws InvalidInputException {
+  if(containsIdentified(habitatId, _habitatMap)) 
+    throw new InvalidInputException("Habitat already exists with id: " + habitatId);
+  Habitat habitat = new Habitat(habitatId, habitatName, area);
+  for(String id : treeIds) {
+    if(!containsIdentified(id, _treeMap))
+      throw new InvalidInputException("No tree with id: " + id);
+  }
+  for(String id : treeIds) {
+    Tree tree = getIdentified(id, _treeMap);
+    habitat.addTree(tree);
+  }
+  addIdentified(habitat, _habitatMap);
+}
 
   public List<Habitat> getAllHabitats() {
     return getAllIdentified(_habitatMap);
@@ -152,11 +169,42 @@ public class Hotel implements Serializable {
     Employee newEmployee = new EmployeeVet(employeeId, employeeName);
     registerEmployee(newEmployee);
   }
+
+  void registerVet(String employeeId, String employeeName, String[] responsibilityIds) 
+    throws InvalidInputException {
+    if(containsIdentified(employeeId, _employeeMap)) 
+      throw new InvalidInputException("Employee already exists with id: " + employeeId);
+    Employee employee = new EmployeeVet(employeeId, employeeName);
+    for(String id : responsibilityIds) {
+      if(!containsIdentified(id, _speciesMap))
+        throw new InvalidInputException("Unknown Habitat id: " + id);
+    }
+    for(String id : responsibilityIds) {
+      Responsibility resp = getSpecies(id);
+      employee.addResponsibility(resp);
+    }
+    addIdentified(employee, _employeeMap);
+  }
   
   public void registerKeeper(String employeeId, String employeeName) throws DuplicateEmployeeException {
     Employee newEmployee = new EmployeeKeeper(employeeId, employeeName);
     registerEmployee(newEmployee);
-}
+  }
+
+  void registerKeeper(String employeeId, String employeeName, String[] responsibilityIds) throws InvalidInputException {
+    if(containsIdentified(employeeId, _employeeMap)) 
+      throw new InvalidInputException("Employee already exists with id: " + employeeId);
+    Employee employee = new EmployeeKeeper(employeeId, employeeName);
+    for(String id : responsibilityIds) {
+      if(!containsIdentified(id, _habitatMap))
+        throw new InvalidInputException("Unknown Habitat id: " + id);
+    }
+    for(String id : responsibilityIds) {
+      Responsibility resp = getHabitat(id);
+      employee.addResponsibility(resp);
+    }
+    addIdentified(employee, _employeeMap);
+  }
 
   public void registerTree(String habitatKey, Tree tree) throws UnknownHabitatException {
     Habitat habitat = getIdentified(habitatKey, _habitatMap);
@@ -197,6 +245,13 @@ public class Hotel implements Serializable {
     return newTree.toString();
   }
 
+  void registerPerene(String treeId, String treeName, int age, int difficulty) throws InvalidInputException {
+    if(containsIdentified(treeId, _treeMap)) 
+      throw new InvalidInputException("Tree already exists with id: " + treeId);
+    Tree tree = new TreePerene(treeId, treeName, age, difficulty);
+    addIdentified(tree, _treeMap);
+  }
+
   public String registerCaduca(String habitatId, String treeId, String treeName, int treeAge, int treeDifficulty) 
     throws DuplicateTreeException, UnknownHabitatException {
   
@@ -206,6 +261,13 @@ public class Hotel implements Serializable {
     Tree newTree = new TreeCaduca(treeId, treeName, treeAge, treeDifficulty);
     registerTree(habitatId, newTree);
     return newTree.toString();
+  }
+
+  void registerCaduca(String treeId, String treeName, int age, int difficulty) 
+    throws InvalidInputException {
+    if(containsIdentified(treeId, _treeMap)) throw new InvalidInputException("Tree already exists with id: " + treeId);
+    Tree tree = new TreeCaduca(treeId, treeName, age, difficulty);
+    addIdentified(tree, _treeMap);
   }
 
   public void registerVaccine(String vaccineId, String vaccineName, String[] speciesIdArray) 

@@ -3,8 +3,6 @@ package hva.core;
 import hva.core.exception.*;
 import java.io.*;
 
-// FIXME import classes
-
 /**
  * Class representing the manager of this application. It manages the current
  * zoo hotel.
@@ -80,7 +78,7 @@ public class HotelManager {
     try {
       _hotel.importFile(filename);
       _hotel.setChanged(true);
-    } catch (IOException | UnrecognizedEntryException /* FIXME maybe other exceptions */ e) {
+    } catch (IOException | UnrecognizedEntryException | InvalidInputException e) {
       throw new ImportFileException(filename, e);
     }
   } 

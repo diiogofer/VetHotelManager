@@ -48,8 +48,8 @@ public class Habitat extends Identified implements Responsibility {
     }
   
     int getAdequacy(Species species) {
-        SpeciesAdequacy adequacy =_adequacies.get(species.getId().toLowerCase());
-        return adequacy.getValue();
+        SpeciesAdequacy adequacy = _adequacies.get(species.getId().toLowerCase());
+        return adequacy == null ? SpeciesAdequacy.NEUTRAL.getValue() : adequacy.getValue();
     }
 
 
