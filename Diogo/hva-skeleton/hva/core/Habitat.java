@@ -46,7 +46,7 @@ public class Habitat extends Identified implements Responsibility {
     int getArea() {
         return _area;
     }
-    
+
     void setArea(int area) {
         _area = area;
     }
@@ -56,6 +56,12 @@ public class Habitat extends Identified implements Responsibility {
         return adequacy == null ? SpeciesAdequacy.NEUTRAL.getValue() : adequacy.getValue();
     }
 
+    boolean setSpeciesAdequacy(String speciesId, SpeciesAdequacy adequacy) {
+        SpeciesAdequacy oldAdequacy = _adequacies.get(speciesId.toLowerCase());
+        if(oldAdequacy != null && oldAdequacy == adequacy) return false;
+        _adequacies.put(speciesId.toLowerCase(), adequacy);
+        return true;
+    }
 
     public List<Tree> getAllTrees() {
         List<Tree> list = new ArrayList<>(_treeSet);
