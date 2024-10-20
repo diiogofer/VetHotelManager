@@ -63,12 +63,16 @@ public class VaccineEvent implements Serializable{
   }
 
   //TODO CHANGE THIS 
-  public int getDamage() {return _damage;}
-  public boolean isCorrect() {return _correct;}
-  public VaccineDamageCategory toCategory() {
+  int getDamage() {return _damage;}
+  boolean isCorrect() {return _correct;}
+  VaccineDamageCategory toCategory() {
     if(_correct) return VaccineDamageCategory.NORMAL;
     if(_damage == 0) return VaccineDamageCategory.CONFUSION;
     if(1 <= _damage && _damage <= 4) return VaccineDamageCategory.ACCIDENT;
     return VaccineDamageCategory.ERROR;
+  }
+  public String toString() {
+    return  "REGISTO-VACINA|" + _vaccine.getId() + "|" + 
+            _vet.getId() + "|" + _animal.getSpecies().getId();
   }
 }

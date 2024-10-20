@@ -221,9 +221,9 @@ public class Hotel implements Serializable {
     if(!(employee instanceof EmployeeVet vet)) throw new NotAVetException(employeeId);
     VaccineEvent event = new VaccineEvent(vet, animal, vaccine);
     vet.addVaccineEvent(event);
-    _vaccineEventList.add(event);
     animal.addVaccineEvent(event);
     vaccine.addVaccineEvent(event);
+    _vaccineEventList.add(event);
     setChanged(true);
     return event.isCorrect();
   }
@@ -337,5 +337,8 @@ public class Hotel implements Serializable {
   }
   public List<Vaccine> getAllVaccines() {
     return getAllIdentified(_vaccineMap);
+  }
+  public List<VaccineEvent> getAllVaccineEvents() {
+    return Collections.unmodifiableList(_vaccineEventList);
   }
 }

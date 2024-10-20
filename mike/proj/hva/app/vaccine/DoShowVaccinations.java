@@ -1,9 +1,10 @@
 package hva.app.vaccine;
 
+import java.util.List;
+
 import hva.core.Hotel;
+import hva.core.VaccineEvent;
 import pt.tecnico.uilib.menus.Command;
-import pt.tecnico.uilib.menus.CommandException;
-//FIXME add more imports if needed
 
 /**
  * Show all applied vacines by all veterinarians of this zoo hotel.
@@ -16,6 +17,9 @@ class DoShowVaccinations extends Command<Hotel> {
   
   @Override
   protected final void execute() {
-    //FIXME implement command
+    List<VaccineEvent> list = _receiver.getAllVaccineEvents();
+    for(VaccineEvent ve : list) {
+      _display.addLine(ve);
+    }
   }
 }
