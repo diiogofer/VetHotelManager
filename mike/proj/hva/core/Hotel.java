@@ -231,7 +231,7 @@ public class Hotel implements Serializable {
     vaccine.addVaccineEvent(event);
     _vaccineEventList.add(event);
     setChanged(true);
-    return event.isCorrect();
+    return event.isGood();
   }
   public List<VaccineEvent> getVaccinesFromAnimal(String animalId) 
     throws UnknownAnimalException {
@@ -359,5 +359,12 @@ public class Hotel implements Serializable {
   }
   public List<VaccineEvent> getAllVaccineEvents() {
     return Collections.unmodifiableList(_vaccineEventList);
+  }
+  public List<VaccineEvent> getBadVaccineEvents() {
+    List<VaccineEvent> list = new ArrayList<>();
+    for(VaccineEvent ve : _vaccineEventList) {
+      if(ve.getDamage() > 0) list.add(ve);
+    }
+    return Collections.unmodifiableList(list);
   }
 }

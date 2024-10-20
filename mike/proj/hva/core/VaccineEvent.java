@@ -64,7 +64,7 @@ public class VaccineEvent implements Serializable{
 
   //TODO CHANGE THIS 
   int getDamage() {return _damage;}
-  boolean isCorrect() {return _correct;}
+  boolean isGood() {return _correct;}
   VaccineDamageCategory toCategory() {
     if(_correct) return VaccineDamageCategory.NORMAL;
     if(_damage == 0) return VaccineDamageCategory.CONFUSION;
