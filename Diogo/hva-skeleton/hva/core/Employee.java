@@ -12,7 +12,8 @@ public abstract class Employee extends Identified {
         return resp.length() == 0 ? employeeTypeToString() + "|" + getId() + "|" + _name :
                                     employeeTypeToString() + "|" + getId() + "|" + _name + "|" + resp;
     }
-    
+    protected abstract Responsibility getResponsibility(Hotel hotel, String responsibilityId);
+    protected abstract boolean addResponsibility(Responsibility resp);
     protected abstract String responsibilitiesToString();
     protected abstract String employeeTypeToString();
 }

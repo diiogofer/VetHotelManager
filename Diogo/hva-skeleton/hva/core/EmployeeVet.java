@@ -14,6 +14,20 @@ public class EmployeeVet extends Employee{
   }
   
   @Override
+  protected Responsibility getResponsibility(Hotel hotel, String speciesId) {
+    return hotel.getSpecies(speciesId);
+  }
+
+  @Override
+  protected boolean addResponsibility(Responsibility resp) {
+    String key = resp.getId().toLowerCase();
+    if(!(resp instanceof Species species) || _responsibilityMap.containsKey(key))
+      return false;
+    _responsibilityMap.putIfAbsent(key, species);
+    return true;
+  }
+
+  @Override
   protected String responsibilitiesToString() {
     StringBuilder str = new StringBuilder();
     List<Species> list = new ArrayList<>(_responsibilityMap.values());
@@ -28,6 +42,7 @@ public class EmployeeVet extends Employee{
     }
     return str.toString();
   }
+  
   @Override
   protected String employeeTypeToString() {
     return "VET";

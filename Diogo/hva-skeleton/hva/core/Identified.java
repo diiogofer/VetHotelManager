@@ -6,7 +6,7 @@ public abstract class Identified implements Comparable<Identified> {
         _identifier = identifier;
     }
     
-    String getId() {
+    public String getId() { //why public ??????
         return _identifier;
     }
 

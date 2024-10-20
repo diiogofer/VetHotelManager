@@ -14,6 +14,20 @@ public class EmployeeKeeper extends Employee {
     }
 
     @Override
+    protected Responsibility getResponsibility(Hotel hotel, String habitatId) {
+      return hotel.getHabitat(habitatId);
+    }
+    
+    @Override
+    protected boolean addResponsibility(Responsibility resp) {
+      String key = resp.getId().toLowerCase();
+      if(!(resp instanceof Habitat habitat) || _responsibilityMap.containsKey(key))
+        return false;
+      _responsibilityMap.putIfAbsent(key, habitat);
+      return true;
+    }
+
+    @Override
     protected String responsibilitiesToString() {
         StringBuilder str = new StringBuilder();
         List<Habitat> list = new ArrayList<>(_responsibilityMap.values());

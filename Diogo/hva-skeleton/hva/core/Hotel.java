@@ -77,6 +77,10 @@ public class Hotel implements Serializable {
     return habitat.getAllTrees();
   }
 
+  Responsibility getHabitat(String habitatId) {
+    return getIdentified(habitatId, _habitatMap);
+  }
+
   public void registerAnimal(String animalId, String animalName, String speciesId, String habitatId) 
     throws DuplicateAnimalException, UnknownHabitatException, UnknownSpeciesException {
   
@@ -128,6 +132,10 @@ public class Hotel implements Serializable {
     addIdentified(newSpecies, _speciesMap);
 }
 
+  Species getSpecies(String speciesId) {
+    return getIdentified(speciesId, _speciesMap);
+  }
+
 
   public void registerEmployee(Employee newEmployee) throws DuplicateEmployeeException {
     if(containsIdentified(newEmployee.getId(), _employeeMap)) {
@@ -157,6 +165,15 @@ public class Hotel implements Serializable {
     }
     tree.setHabitat(habitat);
     addIdentified(tree, _treeMap);
+  }
+
+  public void addEmployeeResponsibility(String employeeId, String responsibilityId) 
+    throws UnknownEmployeeException, UnknownResponsibilityException {
+    Employee employee = getIdentified(employeeId, _employeeMap);
+    if(employee == null) throw new UnknownEmployeeException(employeeId);
+    Responsibility resp = employee.getResponsibility(this, responsibilityId);
+    if(resp == null) throw new UnknownResponsibilityException(responsibilityId);
+    boolean changed = employee.addResponsibility(resp);
   }
 
   public String registerPerene(String habitatId, String treeId, String treeName, int treeAge, int treeDifficulty) 
