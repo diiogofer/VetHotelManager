@@ -134,10 +134,10 @@ public class Hotel implements Serializable {
     if(changed) setChanged(true);
   }
   // TREE ----------------------------------------------------------------------
-  public void registerTree(String habitatKey, Tree tree) 
+  public void registerTree(String habitatId, Tree tree) 
     throws UnknownHabitatException {
-    Habitat habitat = getIdentified(habitatKey, _habitatMap);
-    if(habitat == null) throw new UnknownHabitatException(habitatKey);
+    Habitat habitat = getIdentified(habitatId, _habitatMap);
+    if(habitat == null) throw new UnknownHabitatException(habitatId);
     tree.setHabitat(habitat);
     addIdentified(tree, _treeMap);
     setChanged(true);
@@ -210,9 +210,9 @@ public class Hotel implements Serializable {
   }
   /**
    * 
-   * @param animalKey
-   * @param vetKey
-   * @param vaccineKey
+   * @param animalId
+   * @param vetId
+   * @param vaccineId
    * @return true if vaccine was adequate to the animal
    */
   public boolean vaccinateAnimal(String animalId, String employeeId, String vaccineId) 
@@ -233,10 +233,10 @@ public class Hotel implements Serializable {
     setChanged(true);
     return event.isCorrect();
   }
-  public List<VaccineEvent> getVaccinesFromAnimal(String animalKey) 
+  public List<VaccineEvent> getVaccinesFromAnimal(String animalId) 
     throws UnknownAnimalException {
-    Animal animal = getIdentified(animalKey, _animalMap);
-    if(animal == null) throw new UnknownAnimalException(animalKey);
+    Animal animal = getIdentified(animalId, _animalMap);
+    if(animal == null) throw new UnknownAnimalException(animalId);
     return animal.getAllVaccineEvents();
   }
   
@@ -308,6 +308,13 @@ public class Hotel implements Serializable {
     }
     addIdentified(employee, _employeeMap);
     setChanged(true);
+  }
+  public List<VaccineEvent> getVaccineEventsOfVet(String employeeId) 
+    throws NotAVetException {
+    Employee employee = getIdentified(employeeId, _employeeMap);
+    if(employee == null || !(employee instanceof EmployeeVet vet))
+      throw new NotAVetException(employeeId);
+    return vet.getAllVaccineEvents();
   }
 
   public void registerKeeper(String employeeId, String employeeName) 
