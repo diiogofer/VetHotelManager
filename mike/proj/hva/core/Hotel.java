@@ -55,6 +55,7 @@ public class Hotel implements Serializable {
   // Identified ----------------------------------------------------------------
   private <T extends Identified> void addIdentified(T identified, Map<String, T> map) {
     map.putIfAbsent(identified.getId().toLowerCase(), identified);
+    setChanged(true);
   }
   private <T extends Identified> boolean containsIdentified(String id, Map<String, T> map) {
     return map.containsKey(id.toLowerCase());
