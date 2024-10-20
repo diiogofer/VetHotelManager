@@ -45,4 +45,8 @@ public class Vaccine extends Identified{
     List<Species> list = new ArrayList<>(_speciesMap.values());
     return Collections.unmodifiableList(list);
   }
+
+  void addVaccineEvent(VaccineEvent event) {
+    _vaccineEventList.add(event);
+  }
 }

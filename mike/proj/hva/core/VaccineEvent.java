@@ -7,11 +7,11 @@ import hva.core.exception.NotAllowedToVaccinateException;
 
 public class VaccineEvent implements Serializable{
   
-  private EmployeeVet _vet;
-  private Animal _animal;
-  private Vaccine _vaccine;
-  private boolean _correct;
-  private int _damage;
+  private final EmployeeVet _vet;
+  private final Animal _animal;
+  private final Vaccine _vaccine;
+  private final boolean _correct;
+  private final int _damage;
 
   VaccineEvent(EmployeeVet vet, Animal animal, Vaccine vaccine) 
     throws NotAllowedToVaccinateException {
@@ -63,6 +63,12 @@ public class VaccineEvent implements Serializable{
   }
 
   //TODO CHANGE THIS 
-  int getDamage() {return _damage;}
-  boolean isCorrect() {return _correct;}
+  public int getDamage() {return _damage;}
+  public boolean isCorrect() {return _correct;}
+  public VaccineDamageCategory toCategory() {
+    if(_correct) return VaccineDamageCategory.NORMAL;
+    if(_damage == 0) return VaccineDamageCategory.CONFUSION;
+    if(1 <= _damage && _damage <= 4) return VaccineDamageCategory.ACCIDENT;
+    return VaccineDamageCategory.ERROR;
+  }
 }

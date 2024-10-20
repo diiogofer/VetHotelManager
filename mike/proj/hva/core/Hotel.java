@@ -223,6 +223,7 @@ public class Hotel implements Serializable {
     vet.addVaccineEvent(event);
     _vaccineEventList.add(event);
     animal.addVaccineEvent(event);
+    vaccine.addVaccineEvent(event);
     setChanged(true);
     return event.isCorrect();
   }

@@ -35,7 +35,7 @@ public class Animal extends Identified {
     StringBuilder damageString = new StringBuilder();
 
     for (VaccineEvent event : _vaccineEventList) {
-        damageString.append(event.getDamage()).append(",");
+        damageString.append(event.toCategory()).append(",");
     }
     // Remove , at end
     damageString.setLength(damageString.length() - 1);

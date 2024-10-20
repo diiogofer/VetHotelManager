@@ -1,6 +1,9 @@
 # PROJECT
 
 ## Perguntas
+- VaccineEvent 
+- - toCategory()
+- - ifs pode-se usar? alternativa?
 - Pode-se aceitar string vazios? (id, nome, etc)
 - equals(Object obj) em Tree.java -> instanceof e downcasting pode-se?
 - ver todos os instanceof
