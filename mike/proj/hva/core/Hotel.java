@@ -98,7 +98,13 @@ public class Hotel implements Serializable {
   Responsibility getHabitat(String habitatId) {
     return getIdentified(habitatId, _habitatMap);
   }
-  
+  public void changeHabitatArea(String habitatKey, int area) 
+    throws UnknownHabitatException, InvalidInputException {
+    if(area <= 0) throw new InvalidInputException("Invalid area value");
+    Habitat habitat = getIdentified(habitatKey, _habitatMap);
+    if(habitat == null) throw new UnknownHabitatException(habitatKey);
+    habitat.setArea(area);
+  }
   // TREE ----------------------------------------------------------------------
   public void registerTree(String habitatKey, Tree tree) 
     throws UnknownHabitatException {
@@ -107,6 +113,7 @@ public class Hotel implements Serializable {
     tree.setHabitat(habitat);
     addIdentified(tree, _treeMap);
   }
+  
   public String registerPerene(String habitatId, String treeId, String treeName, int treeAge, int treeDifficulty) 
     throws DuplicateTreeException, UnknownHabitatException {
     if (containsIdentified(treeId, _treeMap)) throw new DuplicateTreeException(treeId);
@@ -121,6 +128,7 @@ public class Hotel implements Serializable {
     Tree tree = new TreePerene(treeId, treeName, age, difficulty);
     addIdentified(tree, _treeMap);
   }
+  
   public String registerCaduca(String habitatid, String treeid, String treeName, int treeAge, int treeDifficulty) 
     throws DuplicateTreeException, UnknownHabitatException {
     if (containsIdentified(treeid, _treeMap)) throw new DuplicateTreeException(treeid);

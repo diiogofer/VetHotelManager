@@ -1,10 +1,11 @@
 package hva.app.habitat;
 
 import hva.core.Hotel;
+import hva.core.exception.InvalidInputException;
+import hva.core.exception.UnknownHabitatException;
 import hva.app.exception.UnknownHabitatKeyException;
 import pt.tecnico.uilib.menus.Command;
 import pt.tecnico.uilib.menus.CommandException;
-//FIXME add more imports if needed
 
 /**
  * Change the area of a given habitat.
@@ -13,11 +14,20 @@ class DoChangeHabitatArea extends Command<Hotel> {
 
   DoChangeHabitatArea(Hotel receiver) {
     super(Label.CHANGE_HABITAT_AREA, receiver);
-    //FIXME add command fields
+    addStringField("habitatKey", Prompt.habitatKey());
+    addIntegerField("area", Prompt.habitatArea());
   }
   
   @Override
-  protected void execute() throws CommandException {
-    //FIXME implement command
+  protected void execute() throws CommandException, UnknownHabitatKeyException {
+    String habitatKey = stringField("habitatKey");
+    int area = integerField("area");
+    try {
+      _receiver.changeHabitatArea(habitatKey, area);
+    } catch (InvalidInputException iie) {
+      System.out.println(iie.getMessage());
+    } catch (UnknownHabitatException uhe) {
+      throw new UnknownHabitatKeyException(habitatKey);
+    }
   }
 }
