@@ -100,6 +100,13 @@ public class Hotel implements Serializable {
   public List<Animal> getAllAnimals() {
     return getAllIdentified(_animalMap);
   }
+  public void changeAnimalHabitat(String animalId, String habitatId) throws UnknownAnimalException, UnknownHabitatException {
+    Animal animal = getIdentified(animalId, _animalMap);
+    if(animal == null) throw new UnknownAnimalException(animalId);
+    Habitat newHabitat = getIdentified(habitatId, _habitatMap);
+    if(newHabitat == null) throw new UnknownHabitatException(habitatId);
+    animal.changeHabitat(newHabitat);
+}
 
   public void registerSpecies(String speciesId, String speciesName) throws InvalidInputException {
     if(containsIdentified(speciesId, _speciesMap)) {
