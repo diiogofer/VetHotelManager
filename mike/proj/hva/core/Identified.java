@@ -9,4 +9,7 @@ public abstract class Identified implements Comparable<Identified>{
   public int compareTo(Identified iden) {
     return (_id.toLowerCase()).compareTo(iden.getId().toLowerCase());
   }
+  public boolean equals(Identified iden) {
+    return _id.equalsIgnoreCase(iden.getId());
+  }
 }

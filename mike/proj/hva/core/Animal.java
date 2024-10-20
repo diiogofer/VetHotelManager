@@ -10,10 +10,14 @@ public class Animal extends Identified {
     _species = species;
     _habitat = habitat;
   }
-  void changeHabitat(Habitat habitat) {
-    if(_habitat != null) _habitat.removeAnimal(this);
+  boolean changeHabitat(Habitat habitat) {
+    if(_habitat != null) {
+      if(_habitat.equals(habitat)) return false;
+      _habitat.removeAnimal(this);
+    }
     _habitat = habitat;
     _habitat.addAnimal(this);
+    return true;
   }
   public String toString() {
     return "ANIMAL|" + getId() + "|" + _name + "|" + _species.getId() + "|" + 
@@ -22,9 +26,6 @@ public class Animal extends Identified {
   // TODO
   private String healthLogToString() {
     return "VOID";
-  }
-  boolean equals(Animal animal) {
-    return (this.getId().toLowerCase()).equals(animal.getId().toLowerCase());
   }
   int calculateSatisfaction() {
     int same = _habitat.countSpecies(_species);

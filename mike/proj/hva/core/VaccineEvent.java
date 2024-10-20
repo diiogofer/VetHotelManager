@@ -1,5 +1,7 @@
 package hva.core;
 
-public class VaccineEvent {
+import java.io.Serializable;
+
+public class VaccineEvent implements Serializable{
   //TODO
 }

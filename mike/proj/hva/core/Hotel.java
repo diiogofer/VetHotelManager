@@ -33,7 +33,7 @@ public class Hotel implements Serializable {
    * 
    * @return a Boolean indicating whether the hotel's state has changed
    */
-  public final Boolean getHotelState(){
+  public Boolean getHotelState(){
     return _hotelChanged;
   }
   /**
@@ -49,6 +49,7 @@ public class Hotel implements Serializable {
     throws IOException, UnrecognizedEntryException, InvalidInputException {
     Parser _parser = new Parser(this);
     _parser.parseFile(filename);
+    setChanged(true);
   }
 
   // Identified ----------------------------------------------------------------
@@ -73,6 +74,7 @@ public class Hotel implements Serializable {
     if(containsIdentified(habitatId, _habitatMap)) throw new DuplicateHabitatException(habitatId);
     Habitat newHabitat = new Habitat(habitatId, habitatName, habitatArea);
     addIdentified(newHabitat, _habitatMap);
+    setChanged(true);
   }
   void registerHabitat(String habitatId, String habitatName, int area, String[] treeIds) 
     throws InvalidInputException {
@@ -88,6 +90,7 @@ public class Hotel implements Serializable {
       habitat.addTree(tree);
     }
     addIdentified(habitat, _habitatMap);
+    setChanged(true);
   }
   public List<Habitat> getAllHabitats() {
     return getAllIdentified(_habitatMap);
@@ -109,7 +112,8 @@ public class Hotel implements Serializable {
     if(area <= 0) throw new InvalidInputException("Invalid area value");
     Habitat habitat = getIdentified(habitatId, _habitatMap);
     if(habitat == null) throw new UnknownHabitatException(habitatId);
-    habitat.setArea(area);
+    boolean changed = habitat.setArea(area);
+    if(changed) setChanged(true);
   }
   public void setHabitatSpeciesAdequacy(String habitatId, String speciesId, SpeciesAdequacy adequacy) 
     throws UnknownHabitatException, UnknownSpeciesException {
@@ -119,6 +123,7 @@ public class Hotel implements Serializable {
     if(!containsIdentified(speciesId, _speciesMap)) 
       throw new UnknownSpeciesException(speciesId);
     boolean changed = habitat.setSpeciesAdequacy(speciesId, adequacy);
+    if(changed) setChanged(true);
   }
   // TREE ----------------------------------------------------------------------
   public void registerTree(String habitatKey, Tree tree) 
@@ -127,6 +132,7 @@ public class Hotel implements Serializable {
     if(habitat == null) throw new UnknownHabitatException(habitatKey);
     tree.setHabitat(habitat);
     addIdentified(tree, _treeMap);
+    setChanged(true);
   }
   
   public String registerPerene(String habitatId, String treeId, String treeName, int treeAge, int treeDifficulty) 
@@ -134,6 +140,7 @@ public class Hotel implements Serializable {
     if (containsIdentified(treeId, _treeMap)) throw new DuplicateTreeException(treeId);
     Tree newTree = new TreePerene(treeId, treeName, treeAge, treeDifficulty);
     registerTree(habitatId, newTree);
+    setChanged(true);
     return newTree.toString();
   }
   void registerPerene(String treeId, String treeName, int age, int difficulty) 
@@ -142,6 +149,7 @@ public class Hotel implements Serializable {
       throw new InvalidInputException("Tree already exists with id: " + treeId);
     Tree tree = new TreePerene(treeId, treeName, age, difficulty);
     addIdentified(tree, _treeMap);
+    setChanged(true);
   }
   
   public String registerCaduca(String habitatid, String treeid, String treeName, int treeAge, int treeDifficulty) 
@@ -149,6 +157,7 @@ public class Hotel implements Serializable {
     if (containsIdentified(treeid, _treeMap)) throw new DuplicateTreeException(treeid);
     Tree newTree = new TreeCaduca(treeid, treeName, treeAge, treeDifficulty);
     registerTree(habitatid, newTree);
+    setChanged(true);
     return newTree.toString();
   }
   void registerCaduca(String treeId, String treeName, int age, int difficulty) 
@@ -156,6 +165,7 @@ public class Hotel implements Serializable {
     if(containsIdentified(treeId, _treeMap)) throw new InvalidInputException("Tree already exists with id: " + treeId);
     Tree tree = new TreeCaduca(treeId, treeName, age, difficulty);
     addIdentified(tree, _treeMap);
+    setChanged(true);
   }
 
   // ANIMAL --------------------------------------------------------------------
@@ -171,7 +181,7 @@ public class Hotel implements Serializable {
     habitat.addAnimal(newAnimal);
     species.addAnimal(newAnimal);
     addIdentified(newAnimal, _animalMap);
-    
+    setChanged(true);
   }
   public List<Animal> getAllAnimals() {
     return getAllIdentified(_animalMap);
@@ -182,7 +192,8 @@ public class Hotel implements Serializable {
     if(animal == null) throw new UnknownAnimalException(animalId);
     Habitat newHabitat = getIdentified(habitatId, _habitatMap);
     if(newHabitat == null) throw new UnknownHabitatException(habitatId);
-    animal.changeHabitat(newHabitat);
+    boolean changed = animal.changeHabitat(newHabitat);
+    if(changed) setChanged(true);
   }
   public int getAnimalSatisfaction(String animalId) throws UnknownAnimalException {
     Animal animal = getIdentified(animalId, _animalMap);
@@ -201,6 +212,7 @@ public class Hotel implements Serializable {
     }
     Species newSpecies = new Species(speciesId, speciesName);
     addIdentified(newSpecies, _speciesMap);
+    setChanged(true);
   }
   Species getSpecies(String speciesId) {
     return getIdentified(speciesId, _speciesMap);
@@ -212,6 +224,7 @@ public class Hotel implements Serializable {
     if(containsIdentified(newEmployee.getId(), _employeeMap))
       throw new DuplicateEmployeeException(newEmployee.getId());
     addIdentified(newEmployee, _employeeMap);
+    setChanged(true);
   }
   public List<Employee> getAllEmployees() {
     return getAllIdentified(_employeeMap);
@@ -223,6 +236,7 @@ public class Hotel implements Serializable {
     Responsibility resp = employee.getResponsibility(this, responsibilityId);
     if(resp == null) throw new UnknownResponsibilityException(responsibilityId);
     boolean changed = employee.addResponsibility(resp);
+    if(changed) setChanged(true);
   }
   public void removeEmployeeResponsibility(String employeeId, String responsibilityId) 
     throws UnknownEmployeeException, UnknownResponsibilityException {
@@ -231,12 +245,14 @@ public class Hotel implements Serializable {
     Responsibility resp = employee.getResponsibility(this, responsibilityId);
     if(resp == null) throw new UnknownResponsibilityException(responsibilityId);
     boolean changed = employee.removeResponsibility(resp);
+    if(changed) setChanged(true);
   }
   
   public void registerVet(String employeeId, String employeeName) 
     throws DuplicateEmployeeException {
     Employee newEmployee = new EmployeeVet(employeeId, employeeName);
     registerEmployee(newEmployee);
+    setChanged(true);
   }
   void registerVet(String employeeId, String employeeName, String[] responsibilityIds) 
     throws InvalidInputException {
@@ -252,12 +268,14 @@ public class Hotel implements Serializable {
       employee.addResponsibility(resp);
     }
     addIdentified(employee, _employeeMap);
+    setChanged(true);
   }
 
   public void registerKeeper(String employeeId, String employeeName) 
     throws DuplicateEmployeeException {
     Employee newEmployee = new EmployeeKeeper(employeeId, employeeName);
     registerEmployee(newEmployee);
+    setChanged(true);
   }
   void registerKeeper(String employeeId, String employeeName, String[] responsibilityIds) 
     throws InvalidInputException {
@@ -273,6 +291,7 @@ public class Hotel implements Serializable {
       employee.addResponsibility(resp);
     }
     addIdentified(employee, _employeeMap);
+    setChanged(true);
   }
 
   // VACCINE -------------------------------------------------------------------
@@ -287,6 +306,7 @@ public class Hotel implements Serializable {
     }
     Vaccine newVaccine = new Vaccine(vaccineId, vaccineName, _vaccineSpeciesMap);
     addIdentified(newVaccine, _vaccineMap);
+    setChanged(true);
   }
   public List<Vaccine> getAllVaccines() {
     return getAllIdentified(_vaccineMap);
