@@ -6,6 +6,7 @@ public class Habitat extends Identified {
     private String _name;
     private int _area;
     private Map<String, Animal> _animalMap = new HashMap<>();
+    private Map<String, SpeciesAdequacy> _adequacies = new HashMap<>();
     private Set<Tree> _treeSet = new HashSet<>();
     
     Habitat(String habitatId, String habitatName, int habitatArea) { 
@@ -28,6 +29,29 @@ public class Habitat extends Identified {
     void removeTree(Tree tree) {
         _treeSet.remove(tree);
     }
+
+    //to calculate animal satisfaction: 
+    int countSpecies(Species species) {
+        int counter = 0;
+        for(Animal a : _animalMap.values()) {
+            if(a.getSpecies().equals(species)) counter++;
+        }
+        return counter;
+    }
+  
+    int countPopulation() {
+        return _animalMap.size();
+    }
+  
+    int getArea() {
+        return _area;
+    }
+  
+    int getAdequacy(Species species) {
+        SpeciesAdequacy adequacy =_adequacies.get(species.getId().toLowerCase());
+        return adequacy.getValue();
+    }
+
 
     public List<Tree> getAllTrees() {
         List<Tree> list = new ArrayList<>(_treeSet);
