@@ -13,9 +13,15 @@ public class EmployeeVet extends Employee {
   EmployeeVet(String id, String name) {
     super(id, name);
   }
-  
+
   @Override
-  double calculateSatisfaction() {return 0;}
+  double calculateSatisfaction() {
+    double satisfaction = 20;
+    for (Species species : _responsibilityMap.values()) {
+      satisfaction -= (species.getPopulation() / species.getNumberVet());
+    }
+    return satisfaction;
+  }
 
   @Override
   protected String responsibilitiesToString() {
@@ -53,6 +59,7 @@ public class EmployeeVet extends Employee {
     Species species = hotel.getSpecies(key);
     if(species == null) throw new UnknownResponsibilityException(responsibilityId);
     _responsibilityMap.putIfAbsent(key, species);
+    species.addVet();
     return true;
   }
 
@@ -60,8 +67,10 @@ public class EmployeeVet extends Employee {
   protected boolean removeResponsibility(String responsibilityId) 
     throws UnknownResponsibilityException {
     String key = responsibilityId.toLowerCase();
-    if(!_responsibilityMap.containsKey(key))
+    Species species = _responsibilityMap.get(key);
+    if(species == null)
       throw new UnknownResponsibilityException(responsibilityId);
+    species.removeVet();
     _responsibilityMap.remove(key);
     return true;
   }
