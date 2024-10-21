@@ -112,7 +112,7 @@ public class Hotel implements Serializable {
     if(habitat == null) throw new UnknownHabitatException(habitatId);
     return habitat.getAllAnimals();
   }
-  Responsibility getHabitat(String habitatId) {
+  Habitat getHabitat(String habitatId) {
     return getIdentified(habitatId, _habitatMap);
   }
   public void changeHabitatArea(String habitatId, int area) 
@@ -272,18 +272,14 @@ public class Hotel implements Serializable {
     throws UnknownEmployeeException, UnknownResponsibilityException {
     Employee employee = getIdentified(employeeId, _employeeMap);
     if(employee == null) throw new UnknownEmployeeException(employeeId);
-    Responsibility resp = employee.getResponsibility(this, responsibilityId);
-    if(resp == null) throw new UnknownResponsibilityException(responsibilityId);
-    boolean changed = employee.addResponsibility(resp);
+    boolean changed = employee.addResponsibility(responsibilityId, this);
     if(changed) setChanged(true);
   }
   public void removeEmployeeResponsibility(String employeeId, String responsibilityId) 
     throws UnknownEmployeeException, UnknownResponsibilityException {
     Employee employee = getIdentified(employeeId, _employeeMap);
     if(employee == null) throw new UnknownEmployeeException(employeeId);
-    Responsibility resp = employee.getResponsibility(this, responsibilityId);
-    if(resp == null) throw new UnknownResponsibilityException(responsibilityId);
-    boolean changed = employee.removeResponsibility(resp);
+    boolean changed = employee.removeResponsibility(responsibilityId);
     if(changed) setChanged(true);
   }
   
@@ -294,7 +290,7 @@ public class Hotel implements Serializable {
     setChanged(true);
   }
   void registerVet(String employeeId, String employeeName, String[] responsibilityIds) 
-    throws InvalidInputException {
+    throws InvalidInputException, UnknownResponsibilityException {
     if(containsIdentified(employeeId, _employeeMap)) 
       throw new InvalidInputException("Employee already exists with id: " + employeeId);
     Employee employee = new EmployeeVet(employeeId, employeeName);
@@ -303,8 +299,7 @@ public class Hotel implements Serializable {
         throw new InvalidInputException("Unknown Habitat id: " + id);
     }
     for(String id : responsibilityIds) {
-      Responsibility resp = getSpecies(id);
-      employee.addResponsibility(resp);
+      employee.addResponsibility(id, this);
     }
     addIdentified(employee, _employeeMap);
     setChanged(true);
@@ -324,7 +319,7 @@ public class Hotel implements Serializable {
     setChanged(true);
   }
   void registerKeeper(String employeeId, String employeeName, String[] responsibilityIds) 
-    throws InvalidInputException {
+    throws InvalidInputException, UnknownResponsibilityException {
     if(containsIdentified(employeeId, _employeeMap)) 
       throw new InvalidInputException("Employee already exists with id: " + employeeId);
     Employee employee = new EmployeeKeeper(employeeId, employeeName);
@@ -333,8 +328,7 @@ public class Hotel implements Serializable {
         throw new InvalidInputException("Unknown Habitat id: " + id);
     }
     for(String id : responsibilityIds) {
-      Responsibility resp = getHabitat(id);
-      employee.addResponsibility(resp);
+      employee.addResponsibility(id, this);
     }
     addIdentified(employee, _employeeMap);
     setChanged(true);

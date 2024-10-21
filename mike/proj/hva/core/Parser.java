@@ -141,11 +141,14 @@ public class Parser {
     String employeeId = components[1];
     String employeeName = components[2];
     String[] responsibilityIds = components.length == 3 ? new String[0] : components[3].split(",");
-
-    switch(employeeType) {
-      case "TRATADOR" -> _hotel.registerKeeper(employeeId, employeeName, responsibilityIds);
-      case "VETERINÁRIO" -> _hotel.registerVet(employeeId, employeeName, responsibilityIds);  
-      default -> throw new InvalidInputException("Invalid employee type.");   
+    try{
+      switch(employeeType) {
+        case "TRATADOR" -> _hotel.registerKeeper(employeeId, employeeName, responsibilityIds);
+        case "VETERINÁRIO" -> _hotel.registerVet(employeeId, employeeName, responsibilityIds);  
+        default -> throw new InvalidInputException("Invalid employee type.");   
+      }
+    } catch (UnknownResponsibilityException ure) {
+      throw new InvalidInputException(ure.getMessage());
     }
   }
 
