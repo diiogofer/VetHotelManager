@@ -11,6 +11,7 @@ public class Hotel implements Serializable {
 
   /** Indicates whether the state of the hotel has changed. */
   private boolean _hotelChanged = false;
+  private Season _season = Season.SPRING;
 
   private Map<String, Habitat> _habitatMap = new HashMap<>();
   private Map<String, Tree> _treeMap = new HashMap<>();
@@ -52,7 +53,12 @@ public class Hotel implements Serializable {
     _parser.parseFile(filename);
     setChanged(true);
   }
-
+  int advanceSeason() {
+    _season = _season.next();
+    setChanged(true);
+    return _season.getValue();
+  }
+  
   // Identified ----------------------------------------------------------------
   private <T extends Identified> void addIdentified(T identified, Map<String, T> map) {
     map.putIfAbsent(identified.getId().toLowerCase(), identified);
@@ -133,6 +139,7 @@ public class Hotel implements Serializable {
     boolean changed = habitat.setSpeciesAdequacy(speciesId, adequacy);
     if(changed) setChanged(true);
   }
+  
   // TREE ----------------------------------------------------------------------
   public void registerTree(String habitatId, Tree tree) 
     throws UnknownHabitatException {
