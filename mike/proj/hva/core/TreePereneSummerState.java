@@ -1,6 +1,6 @@
 package hva.core;
 
-public class TreePereneSummerStrategy implements TreeStrategy {
+public class TreePereneSummerState implements TreeState {
   @Override
   public String getBiologicalCycle() {
     return "COMFOLHAS";
@@ -12,7 +12,7 @@ public class TreePereneSummerStrategy implements TreeStrategy {
   }
 
   @Override
-  public TreeStrategy next() {
-    return new TreePereneAutumnStrategy();
+  public TreeState next() {
+    return new TreePereneAutumnState();
   }
 }

@@ -5,7 +5,7 @@ public abstract class Tree extends Identified {
   private String _name;
   private int _ageInSeasons;
   private int _baseCleaningDifficulty;
-  private TreeStrategy _strategy;
+  private TreeState _state;
 
   Tree (String id, String name, int age, int baseCleaningDifficulty) {
     super(id);
@@ -34,13 +34,18 @@ public abstract class Tree extends Identified {
 
   abstract String treeTypeToString();
 
-  //TODO
-  abstract String getBioCycle();
-  abstract int getSeasonalEffort();
-  abstract void advanceSeason();
-  TreeStrategy getStrategy() {return _strategy;}
-  void setStrategy(TreeStrategy strategy){
-    _strategy = strategy;
+  String getBioCycle() {
+    return getState().getBiologicalCycle();
+  }
+  int getSeasonalEffort() {
+    return getState().getSeasonalEffort();
+  }
+  void advanceSeason() {
+    setState(getState().next());
+  }
+  TreeState getState() {return _state;}
+  void setState(TreeState state){
+    _state = state;
   }
 
   public String toString() {

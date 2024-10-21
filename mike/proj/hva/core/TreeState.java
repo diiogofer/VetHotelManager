@@ -1,7 +1,7 @@
 package hva.core;
 
-public interface TreeStrategy {
+public interface TreeState {
   int getSeasonalEffort();
   String getBiologicalCycle();
-  TreeStrategy next();
+  TreeState next();
 }
