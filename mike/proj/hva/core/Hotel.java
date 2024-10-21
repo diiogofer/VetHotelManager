@@ -60,7 +60,17 @@ public class Hotel implements Serializable {
     setChanged(true);
     return _season.ordinal();
   }
-  
+  int calculateGlobalSatisfaction() {
+    double satisfaction = 0;
+    for(Animal a : _animalMap.values()) {
+      satisfaction += a.calculateSatisfaction();
+    }
+    for(Employee e : _employeeMap.values()) {
+      satisfaction += e.calculateSatisfaction();
+    }
+    return (int) Math.round(satisfaction);
+  }
+
   // Identified ----------------------------------------------------------------
   private <T extends Identified> void addIdentified(T identified, Map<String, T> map) {
     map.putIfAbsent(identified.getId().toLowerCase(), identified);

@@ -1,6 +1,7 @@
 package hva.app.main;
 
 import hva.core.HotelManager;
+
 import pt.tecnico.uilib.menus.Command;
 
 /**
@@ -13,6 +14,7 @@ class DoShowGlobalSatisfaction extends Command<HotelManager> {
   
   @Override
   protected final void execute() {
-    //FIXME implement command
+    int result = _receiver.calculateGlobalSatisfaction();
+    _display.addLine(result);
   }
 }

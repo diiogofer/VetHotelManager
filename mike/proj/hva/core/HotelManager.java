@@ -108,5 +108,9 @@ public class HotelManager {
   public int advanceSeason() {
     return _hotel.advanceSeason();
   }
+
+  public int calculateGlobalSatisfaction() {
+    return _hotel.calculateGlobalSatisfaction();
+  }
 }
 
