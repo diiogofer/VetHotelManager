@@ -36,4 +36,17 @@ public class Vaccine extends Identified{
       "VACINA|" + getId() + "|" + _name + "|" + _vaccineEventList.size() :
       "VACINA|" + getId() + "|" + _name + "|" + _vaccineEventList.size() + "|" + speciesToString();
   }
+
+  boolean isGoodForSpecies(Species species) {
+    return _speciesMap.containsKey(species.getId().toLowerCase());
+  }
+
+  List<Species> getGoodSpecies() {
+    List<Species> list = new ArrayList<>(_speciesMap.values());
+    return Collections.unmodifiableList(list);
+  }
+
+  void addVaccineEvent(VaccineEvent event) {
+    _vaccineEventList.add(event);
+  }
 }

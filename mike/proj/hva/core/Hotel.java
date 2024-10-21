@@ -11,6 +11,7 @@ public class Hotel implements Serializable {
 
   /** Indicates whether the state of the hotel has changed. */
   private boolean _hotelChanged = false;
+  private Season _season = Season.SPRING;
 
   private Map<String, Habitat> _habitatMap = new HashMap<>();
   private Map<String, Tree> _treeMap = new HashMap<>();
@@ -18,6 +19,7 @@ public class Hotel implements Serializable {
   private Map<String, Species> _speciesMap = new HashMap<>();
   private Map<String, Employee> _employeeMap = new HashMap<>();
   private Map<String, Vaccine> _vaccineMap = new HashMap<>();
+  private List<VaccineEvent> _vaccineEventList = new ArrayList<>();
 
   // Hotel ---------------------------------------------------------------------
   /**
@@ -51,10 +53,18 @@ public class Hotel implements Serializable {
     _parser.parseFile(filename);
     setChanged(true);
   }
-
+  int advanceSeason() {
+    _season = _season.next();
+    for(Tree t : _treeMap.values())
+      t.advanceSeason();
+    setChanged(true);
+    return _season.getValue();
+  }
+  
   // Identified ----------------------------------------------------------------
   private <T extends Identified> void addIdentified(T identified, Map<String, T> map) {
     map.putIfAbsent(identified.getId().toLowerCase(), identified);
+    setChanged(true);
   }
   private <T extends Identified> boolean containsIdentified(String id, Map<String, T> map) {
     return map.containsKey(id.toLowerCase());
@@ -104,7 +114,13 @@ public class Hotel implements Serializable {
     if(habitat == null) throw new UnknownHabitatException(habitatId);
     return getAllTreesOfHabitat(habitat);
   }
-  Responsibility getHabitat(String habitatId) {
+  public List<Animal> getAnimalsFromHabitat(String habitatId) 
+    throws UnknownHabitatException {
+    Habitat habitat = getIdentified(habitatId, _habitatMap);
+    if(habitat == null) throw new UnknownHabitatException(habitatId);
+    return habitat.getAllAnimals();
+  }
+  Habitat getHabitat(String habitatId) {
     return getIdentified(habitatId, _habitatMap);
   }
   public void changeHabitatArea(String habitatId, int area) 
@@ -125,11 +141,12 @@ public class Hotel implements Serializable {
     boolean changed = habitat.setSpeciesAdequacy(speciesId, adequacy);
     if(changed) setChanged(true);
   }
+  
   // TREE ----------------------------------------------------------------------
-  public void registerTree(String habitatKey, Tree tree) 
+  public void registerTree(String habitatId, Tree tree) 
     throws UnknownHabitatException {
-    Habitat habitat = getIdentified(habitatKey, _habitatMap);
-    if(habitat == null) throw new UnknownHabitatException(habitatKey);
+    Habitat habitat = getIdentified(habitatId, _habitatMap);
+    if(habitat == null) throw new UnknownHabitatException(habitatId);
     tree.setHabitat(habitat);
     addIdentified(tree, _treeMap);
     setChanged(true);
@@ -200,7 +217,38 @@ public class Hotel implements Serializable {
     if(animal == null) throw new UnknownAnimalException(animalId);
     return animal.calculateSatisfaction();
   }
-
+  /**
+   * 
+   * @param animalId
+   * @param vetId
+   * @param vaccineId
+   * @return true if vaccine was adequate to the animal
+   */
+  public boolean vaccinateAnimal(String animalId, String employeeId, String vaccineId) 
+    throws UnknownAnimalException, UnknownEmployeeException, UnknownVaccineException,
+    NotAVetException, NotAllowedToVaccinateException {
+    Animal animal = getIdentified(animalId, _animalMap);
+    if(animal == null) throw new UnknownAnimalException(animalId);
+    Employee employee = getIdentified(employeeId, _employeeMap);
+    if(employee == null) throw new UnknownEmployeeException(employeeId);
+    Vaccine vaccine = getIdentified(vaccineId, _vaccineMap);
+    if(vaccine == null) throw new UnknownVaccineException(vaccineId);
+    if(!(employee instanceof EmployeeVet vet)) throw new NotAVetException(employeeId);
+    VaccineEvent event = new VaccineEvent(vet, animal, vaccine);
+    vet.addVaccineEvent(event);
+    animal.addVaccineEvent(event);
+    vaccine.addVaccineEvent(event);
+    _vaccineEventList.add(event);
+    setChanged(true);
+    return event.isGood();
+  }
+  public List<VaccineEvent> getVaccinesFromAnimal(String animalId) 
+    throws UnknownAnimalException {
+    Animal animal = getIdentified(animalId, _animalMap);
+    if(animal == null) throw new UnknownAnimalException(animalId);
+    return animal.getAllVaccineEvents();
+  }
+  
   // SPECIES -------------------------------------------------------------------
   public void registerSpecies(String speciesId, String speciesName) 
     throws InvalidInputException {
@@ -233,18 +281,14 @@ public class Hotel implements Serializable {
     throws UnknownEmployeeException, UnknownResponsibilityException {
     Employee employee = getIdentified(employeeId, _employeeMap);
     if(employee == null) throw new UnknownEmployeeException(employeeId);
-    Responsibility resp = employee.getResponsibility(this, responsibilityId);
-    if(resp == null) throw new UnknownResponsibilityException(responsibilityId);
-    boolean changed = employee.addResponsibility(resp);
+    boolean changed = employee.addResponsibility(responsibilityId, this);
     if(changed) setChanged(true);
   }
   public void removeEmployeeResponsibility(String employeeId, String responsibilityId) 
     throws UnknownEmployeeException, UnknownResponsibilityException {
     Employee employee = getIdentified(employeeId, _employeeMap);
     if(employee == null) throw new UnknownEmployeeException(employeeId);
-    Responsibility resp = employee.getResponsibility(this, responsibilityId);
-    if(resp == null) throw new UnknownResponsibilityException(responsibilityId);
-    boolean changed = employee.removeResponsibility(resp);
+    boolean changed = employee.removeResponsibility(responsibilityId);
     if(changed) setChanged(true);
   }
   
@@ -255,7 +299,7 @@ public class Hotel implements Serializable {
     setChanged(true);
   }
   void registerVet(String employeeId, String employeeName, String[] responsibilityIds) 
-    throws InvalidInputException {
+    throws InvalidInputException, UnknownResponsibilityException {
     if(containsIdentified(employeeId, _employeeMap)) 
       throw new InvalidInputException("Employee already exists with id: " + employeeId);
     Employee employee = new EmployeeVet(employeeId, employeeName);
@@ -264,11 +308,17 @@ public class Hotel implements Serializable {
         throw new InvalidInputException("Unknown Habitat id: " + id);
     }
     for(String id : responsibilityIds) {
-      Responsibility resp = getSpecies(id);
-      employee.addResponsibility(resp);
+      employee.addResponsibility(id, this);
     }
     addIdentified(employee, _employeeMap);
     setChanged(true);
+  }
+  public List<VaccineEvent> getVaccineEventsOfVet(String employeeId) 
+    throws NotAVetException {
+    Employee employee = getIdentified(employeeId, _employeeMap);
+    if(employee == null || !(employee instanceof EmployeeVet vet))
+      throw new NotAVetException(employeeId);
+    return vet.getAllVaccineEvents();
   }
 
   public void registerKeeper(String employeeId, String employeeName) 
@@ -278,7 +328,7 @@ public class Hotel implements Serializable {
     setChanged(true);
   }
   void registerKeeper(String employeeId, String employeeName, String[] responsibilityIds) 
-    throws InvalidInputException {
+    throws InvalidInputException, UnknownResponsibilityException {
     if(containsIdentified(employeeId, _employeeMap)) 
       throw new InvalidInputException("Employee already exists with id: " + employeeId);
     Employee employee = new EmployeeKeeper(employeeId, employeeName);
@@ -287,8 +337,7 @@ public class Hotel implements Serializable {
         throw new InvalidInputException("Unknown Habitat id: " + id);
     }
     for(String id : responsibilityIds) {
-      Responsibility resp = getHabitat(id);
-      employee.addResponsibility(resp);
+      employee.addResponsibility(id, this);
     }
     addIdentified(employee, _employeeMap);
     setChanged(true);
@@ -310,5 +359,15 @@ public class Hotel implements Serializable {
   }
   public List<Vaccine> getAllVaccines() {
     return getAllIdentified(_vaccineMap);
+  }
+  public List<VaccineEvent> getAllVaccineEvents() {
+    return Collections.unmodifiableList(_vaccineEventList);
+  }
+  public List<VaccineEvent> getBadVaccineEvents() {
+    List<VaccineEvent> list = new ArrayList<>();
+    for(VaccineEvent ve : _vaccineEventList) {
+      if(ve.getDamage() > 0) list.add(ve);
+    }
+    return Collections.unmodifiableList(list);
   }
 }

@@ -1,6 +1,8 @@
 package hva.core;
 
-public abstract class Identified implements Comparable<Identified>{
+import java.io.Serializable;
+
+public abstract class Identified implements Comparable<Identified>, Serializable{
   private String _id;
   Identified(String id) {
     _id = id;

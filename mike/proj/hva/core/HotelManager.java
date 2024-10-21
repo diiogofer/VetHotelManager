@@ -104,5 +104,9 @@ public class HotelManager {
     _hotel = new Hotel();
     _filename = null;
   }
+
+  public int advanceSeason() {
+    return _hotel.advanceSeason();
+  }
 }
 

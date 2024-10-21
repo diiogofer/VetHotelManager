@@ -28,16 +28,18 @@ public class Habitat extends Identified implements Responsibility {
     List<Tree> list = new ArrayList<>(_treeSet);
     Collections.sort(list);
     return Collections.unmodifiableList(list);
-  } 
+  }
+
+  public List<Animal> getAllAnimals() {
+    List<Animal> list = new ArrayList<>(_animalMap.values());
+    Collections.sort(list);
+    return Collections.unmodifiableList(list);
+  }
 
   public String toString() {
     return "HABITAT|" + getId() + "|" + _name + "|" + _area + "|" + _treeSet.size();
   }
 
-  // int same = _habitat.countSpecies(_species);
-  // int population = _habitat.countPopulation();
-  // int area = _habitat.getArea();
-  // int adequacy = _habitat.getAdequacy(_species);
   int countSpecies(Species species) {
     int counter = 0;
     for(Animal a : _animalMap.values()) {

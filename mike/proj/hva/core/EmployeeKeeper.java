@@ -6,6 +6,7 @@ import hva.core.exception.UnknownResponsibilityException;
 
 public class EmployeeKeeper extends Employee {
   private Map<String, Habitat> _responsibilityMap = new HashMap<>();
+  
   EmployeeKeeper(String id, String name) {
     super(id, name);
   }
@@ -37,23 +38,29 @@ public class EmployeeKeeper extends Employee {
   }
 
   @Override
-  protected boolean addResponsibility(Responsibility resp) {
-    String key = resp.getId().toLowerCase();
-    if(!(resp instanceof Habitat habitat) || _responsibilityMap.containsKey(key))
+  protected boolean addResponsibility(String responsibilityId, Hotel hotel) 
+    throws UnknownResponsibilityException {
+    String key = responsibilityId.toLowerCase();
+    if(_responsibilityMap.containsKey(key))
       return false;
+    Habitat habitat = hotel.getHabitat(key);
+    if(habitat == null) throw new UnknownResponsibilityException(responsibilityId);
     _responsibilityMap.putIfAbsent(key, habitat);
     return true;
   }
 
   @Override
-  protected boolean removeResponsibility(Responsibility resp) 
+  protected boolean removeResponsibility(String responsibilityId) 
     throws UnknownResponsibilityException {
-    String key = resp.getId().toLowerCase();
-    if(!(resp instanceof Habitat))
-      return false;
+    String key = responsibilityId.toLowerCase();
     if(!_responsibilityMap.containsKey(key))
-      throw new UnknownResponsibilityException(resp.getId());
+      throw new UnknownResponsibilityException(responsibilityId);
     _responsibilityMap.remove(key);
     return true;
+  }
+
+  @Override
+  protected boolean hasRespondibility(Responsibility resp) {
+    return _responsibilityMap.containsKey(resp.getId().toLowerCase());
   }
 }
