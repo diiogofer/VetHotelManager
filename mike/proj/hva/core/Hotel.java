@@ -155,7 +155,7 @@ public class Hotel implements Serializable {
   public String registerPerene(String habitatId, String treeId, String treeName, int treeAge, int treeDifficulty) 
     throws DuplicateTreeException, UnknownHabitatException {
     if (containsIdentified(treeId, _treeMap)) throw new DuplicateTreeException(treeId);
-    Tree newTree = new TreePerene(treeId, treeName, treeAge, treeDifficulty);
+    Tree newTree = new TreePerene(treeId, treeName, treeAge, treeDifficulty, _season);
     registerTree(habitatId, newTree);
     setChanged(true);
     return newTree.toString();
@@ -164,7 +164,7 @@ public class Hotel implements Serializable {
     throws InvalidInputException {
     if(containsIdentified(treeId, _treeMap)) 
       throw new InvalidInputException("Tree already exists with id: " + treeId);
-    Tree tree = new TreePerene(treeId, treeName, age, difficulty);
+    Tree tree = new TreePerene(treeId, treeName, age, difficulty, _season);
     addIdentified(tree, _treeMap);
     setChanged(true);
   }
@@ -172,7 +172,7 @@ public class Hotel implements Serializable {
   public String registerCaduca(String habitatid, String treeid, String treeName, int treeAge, int treeDifficulty) 
     throws DuplicateTreeException, UnknownHabitatException {
     if (containsIdentified(treeid, _treeMap)) throw new DuplicateTreeException(treeid);
-    Tree newTree = new TreeCaduca(treeid, treeName, treeAge, treeDifficulty);
+    Tree newTree = new TreeCaduca(treeid, treeName, treeAge, treeDifficulty, _season);
     registerTree(habitatid, newTree);
     setChanged(true);
     return newTree.toString();
@@ -180,7 +180,7 @@ public class Hotel implements Serializable {
   void registerCaduca(String treeId, String treeName, int age, int difficulty) 
     throws InvalidInputException {
     if(containsIdentified(treeId, _treeMap)) throw new InvalidInputException("Tree already exists with id: " + treeId);
-    Tree tree = new TreeCaduca(treeId, treeName, age, difficulty);
+    Tree tree = new TreeCaduca(treeId, treeName, age, difficulty, _season);
     addIdentified(tree, _treeMap);
     setChanged(true);
   }
