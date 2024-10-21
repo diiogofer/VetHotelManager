@@ -274,6 +274,12 @@ public class Hotel implements Serializable {
     addIdentified(newEmployee, _employeeMap);
     setChanged(true);
   }
+  public int getEmployeeSatisfaction(String employeeId) 
+    throws UnknownEmployeeException {
+    Employee employee = getIdentified(employeeId, _employeeMap);
+    if(employee == null) throw new UnknownEmployeeException(employeeId);
+    return (int) Math.round(employee.calculateSatisfaction());
+  }
   public List<Employee> getAllEmployees() {
     return getAllIdentified(_employeeMap);
   }

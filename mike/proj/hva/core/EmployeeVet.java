@@ -13,6 +13,9 @@ public class EmployeeVet extends Employee {
   EmployeeVet(String id, String name) {
     super(id, name);
   }
+  
+  @Override
+  double calculateSatisfaction() {return 0;}
 
   @Override
   protected String responsibilitiesToString() {

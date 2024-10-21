@@ -1,10 +1,10 @@
 package hva.app.employee;
 
 import hva.core.Hotel;
+import hva.core.exception.UnknownEmployeeException;
 import hva.app.exception.UnknownEmployeeKeyException;
 import pt.tecnico.uilib.menus.Command;
 import pt.tecnico.uilib.menus.CommandException;
-//FIXME add more imports if needed
 
 /**
  * Show the satisfaction of a given employee.
@@ -13,11 +13,17 @@ class DoShowSatisfactionOfEmployee extends Command<Hotel> {
 
   DoShowSatisfactionOfEmployee(Hotel receiver) {
     super(Label.SHOW_SATISFACTION_OF_EMPLOYEE, receiver);
-    //FIXME add command fields
+    addStringField("employeeKey", Prompt.employeeKey());
   }
   
   @Override
   protected void execute() throws CommandException {
-    //FIXME implement command
+    String employeeKey = stringField("employeeKey");
+    try {
+     int result = _receiver.getEmployeeSatisfaction(employeeKey);
+      _display.addLine(result);
+    } catch (UnknownEmployeeException uee) {
+      throw new UnknownEmployeeKeyException(employeeKey);
+    }
   }
 }

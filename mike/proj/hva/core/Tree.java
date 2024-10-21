@@ -14,6 +14,10 @@ public abstract class Tree extends Identified {
     _baseCleaningDifficulty = baseCleaningDifficulty;
   }
 
+  double calculateEffort(){
+    return _baseCleaningDifficulty * getSeasonalEffort() * Math.log(getAgeInYears() + 1);
+  }
+
   void setHabitat(Habitat habitat) {
     if(_habitat != null) 
       _habitat.removeTree(this);

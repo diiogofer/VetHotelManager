@@ -5,6 +5,7 @@ import java.util.*;
 public class Habitat extends Identified implements Responsibility {
   private String _name;
   private int _area;
+  private int _nKeepers = 0;
   private Map<String, Animal> _animalMap = new HashMap<>();
   private Map<String, SpeciesAdequacy> _adequacies = new HashMap<>();
   private Set<Tree> _treeSet = new HashSet<>();
@@ -19,6 +20,18 @@ public class Habitat extends Identified implements Responsibility {
   }
   void removeAnimal(Animal animal) {
     _animalMap.remove(animal.getId().toLowerCase());
+  }
+
+  void addKeeper() {
+    _nKeepers++;
+  }
+
+  void removeKeeper() {
+    _nKeepers--;
+  }
+
+  int getNumberKeepers() {
+    return _nKeepers;
   }
 
   void addTree(Tree tree) {_treeSet.add(tree);}
@@ -47,7 +60,18 @@ public class Habitat extends Identified implements Responsibility {
     }
     return counter;
   }
-  int countPopulation() {return _animalMap.size();}
+  int countPopulation() {
+    return _animalMap.size();
+  }
+
+  double calculateEffort() {
+    double effort = _area + 3 * countPopulation();
+    for(Tree tree : _treeSet) {
+      effort += tree.calculateEffort();
+    }
+    return effort;
+  }
+
   int getArea() {return _area;}
   boolean setArea(int area) {
     if(area == _area) return false;

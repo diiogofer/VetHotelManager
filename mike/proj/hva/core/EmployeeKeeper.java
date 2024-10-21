@@ -10,6 +10,14 @@ public class EmployeeKeeper extends Employee {
   EmployeeKeeper(String id, String name) {
     super(id, name);
   }
+  @Override
+  double calculateSatisfaction(){
+    double satisfaction = 300;
+    for(Habitat habitat : _responsibilityMap.values()) {
+      satisfaction -= (habitat.calculateEffort() / habitat.getNumberKeepers());
+    }
+    return satisfaction;
+  }
 
   @Override
   protected String responsibilitiesToString() {
@@ -46,6 +54,7 @@ public class EmployeeKeeper extends Employee {
     Habitat habitat = hotel.getHabitat(key);
     if(habitat == null) throw new UnknownResponsibilityException(responsibilityId);
     _responsibilityMap.putIfAbsent(key, habitat);
+    habitat.addKeeper();
     return true;
   }
 
@@ -55,6 +64,8 @@ public class EmployeeKeeper extends Employee {
     String key = responsibilityId.toLowerCase();
     if(!_responsibilityMap.containsKey(key))
       throw new UnknownResponsibilityException(responsibilityId);
+    Habitat habitat = _responsibilityMap.get(key);
+    habitat.removeKeeper();
     _responsibilityMap.remove(key);
     return true;
   }
