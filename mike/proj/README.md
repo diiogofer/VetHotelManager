@@ -1,6 +1,9 @@
 # PROJECT
 
 ## Perguntas
+- Season 
+- - implementacao de State pattern
+- - nomenclatura? request? -> advanceSeason()
 - VaccineEvent 
 - - toCategory()
 - - ifs pode-se usar? alternativa?

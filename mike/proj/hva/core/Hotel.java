@@ -55,6 +55,8 @@ public class Hotel implements Serializable {
   }
   int advanceSeason() {
     _season = _season.next();
+    for(Tree t : _treeMap.values())
+      t.advanceSeason();
     setChanged(true);
     return _season.getValue();
   }
