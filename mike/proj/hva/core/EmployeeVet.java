@@ -6,6 +6,7 @@ import hva.core.exception.UnknownResponsibilityException;
 
 public class EmployeeVet extends Employee {
 
+  private EmployeeVetStrategy _strategy;
   private Map<String, Species> _responsibilityMap = new HashMap<>();
   private List<VaccineEvent> _vaccineEventList = new ArrayList<>();
 
@@ -14,14 +15,6 @@ public class EmployeeVet extends Employee {
     super(id, name);
   }
 
-  @Override
-  double calculateSatisfaction() {
-    double satisfaction = 20;
-    for (Species species : _responsibilityMap.values()) {
-      satisfaction -= (species.getPopulation() / species.getNumberVet());
-    }
-    return satisfaction;
-  }
 
   @Override
   protected String responsibilitiesToString() {
@@ -39,6 +32,16 @@ public class EmployeeVet extends Employee {
     return str.toString();
   }
 
+  @Override
+  double calculateSatisfaction() {
+    _strategy = new EmployeeVetSatisfactionStrategy();
+    return _strategy.calculateSatisfaction(this);
+  }
+
+  List<Species> getAllSpecies() {
+    List<Species> list = new ArrayList<>(_responsibilityMap.values());
+    return Collections.unmodifiableList(list);  
+  }
 
   @Override
   protected String employeeTypeToString() {

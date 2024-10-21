@@ -6,17 +6,20 @@ import hva.core.exception.UnknownResponsibilityException;
 
 public class EmployeeKeeper extends Employee {
   private Map<String, Habitat> _responsibilityMap = new HashMap<>();
+  private EmployeeKeeperStrategy _strategy;
   
   EmployeeKeeper(String id, String name) {
     super(id, name);
   }
   @Override
   double calculateSatisfaction(){
-    double satisfaction = 300;
-    for(Habitat habitat : _responsibilityMap.values()) {
-      satisfaction -= (habitat.calculateEffort() / habitat.getNumberKeepers());
-    }
-    return satisfaction;
+    _strategy = new EmployeeKeeperSatisfactionStrategy();
+    return _strategy.calculateSatisfaction(this);
+  }
+
+  List<Habitat> getAllHabitats() {
+    List<Habitat> list = new ArrayList<>(_responsibilityMap.values());
+    return Collections.unmodifiableList(list);
   }
 
   @Override
