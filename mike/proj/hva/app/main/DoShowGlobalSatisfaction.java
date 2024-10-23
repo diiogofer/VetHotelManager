@@ -14,7 +14,7 @@ class DoShowGlobalSatisfaction extends Command<HotelManager> {
   
   @Override
   protected final void execute() {
-    int result = _receiver.calculateGlobalSatisfaction();
+    long result = Math.round(_receiver.calculateGlobalSatisfaction());
     _display.addLine(result);
   }
 }

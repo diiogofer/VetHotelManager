@@ -60,7 +60,7 @@ public class Hotel implements Serializable {
     setChanged(true);
     return _season.ordinal();
   }
-  int calculateGlobalSatisfaction() {
+  double calculateGlobalSatisfaction() {
     double satisfaction = 0;
     for(Animal a : _animalMap.values()) {
       satisfaction += a.calculateSatisfaction();
@@ -68,7 +68,7 @@ public class Hotel implements Serializable {
     for(Employee e : _employeeMap.values()) {
       satisfaction += e.calculateSatisfaction();
     }
-    return (int) Math.round(satisfaction);
+    return satisfaction;
   }
 
   // Identified ----------------------------------------------------------------
@@ -285,11 +285,11 @@ public class Hotel implements Serializable {
     addIdentified(newEmployee, _employeeMap);
     setChanged(true);
   }
-  public int getEmployeeSatisfaction(String employeeId) 
+  public double getEmployeeSatisfaction(String employeeId) 
     throws UnknownEmployeeException {
     Employee employee = getIdentified(employeeId, _employeeMap);
     if(employee == null) throw new UnknownEmployeeException(employeeId);
-    return (int) Math.round(employee.calculateSatisfaction());
+    return employee.calculateSatisfaction();
   }
   public List<Employee> getAllEmployees() {
     return getAllIdentified(_employeeMap);

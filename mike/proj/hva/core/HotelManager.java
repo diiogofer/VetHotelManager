@@ -109,7 +109,7 @@ public class HotelManager {
     return _hotel.advanceSeason();
   }
 
-  public int calculateGlobalSatisfaction() {
+  public double calculateGlobalSatisfaction() {
     return _hotel.calculateGlobalSatisfaction();
   }
 }

@@ -20,7 +20,7 @@ class DoShowSatisfactionOfEmployee extends Command<Hotel> {
   protected void execute() throws CommandException {
     String employeeKey = stringField("employeeKey");
     try {
-     int result = _receiver.getEmployeeSatisfaction(employeeKey);
+     long result = Math.round(_receiver.getEmployeeSatisfaction(employeeKey));
       _display.addLine(result);
     } catch (UnknownEmployeeException uee) {
       throw new UnknownEmployeeKeyException(employeeKey);
