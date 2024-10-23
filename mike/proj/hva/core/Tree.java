@@ -1,6 +1,6 @@
 package hva.core;
 
-public abstract class Tree extends Identified implements SeasonObserver{
+public abstract class Tree extends Identified {
   private Habitat _habitat;
   private String _name;
   private int _ageInSeasons;
@@ -44,7 +44,7 @@ public abstract class Tree extends Identified implements SeasonObserver{
   int getSeasonalEffort() {
     return getState().getSeasonalEffort();
   }
-  public void updateSeason() {
+  void advanceSeason() {
     setState(getState().next());
   }
   TreeState getState() {return _state;}

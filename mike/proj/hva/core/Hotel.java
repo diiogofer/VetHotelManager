@@ -12,7 +12,6 @@ public class Hotel implements Serializable {
   /** Indicates whether the state of the hotel has changed. */
   private boolean _hotelChanged = false;
   private Season _season = Season.SPRING;
-  private List<SeasonObserver> _seasonObserverList = new ArrayList<>();
 
   private Map<String, Habitat> _habitatMap = new HashMap<>();
   private Map<String, Tree> _treeMap = new HashMap<>();
@@ -56,7 +55,9 @@ public class Hotel implements Serializable {
   }
   int advanceSeason() {
     _season = _season.next();
-    notifySeasonObservers();
+    for(Tree t : _treeMap.values())
+      t.advanceSeason();
+    setChanged(true);
     return _season.ordinal();
   }
   int calculateGlobalSatisfaction() {
@@ -68,18 +69,6 @@ public class Hotel implements Serializable {
       satisfaction += e.calculateSatisfaction();
     }
     return (int) Math.round(satisfaction);
-  }
-  
-  private void subscribeSeasonObserver(SeasonObserver obs) {
-    _seasonObserverList.add(obs);
-  }
-  private void unsubscribeSeasonObserver(SeasonObserver obs) {
-    _seasonObserverList.remove(obs);
-  }
-  private void notifySeasonObservers() {
-    for (SeasonObserver obs : _seasonObserverList) {
-      obs.updateSeason();
-    }
   }
 
   // Identified ----------------------------------------------------------------
@@ -170,7 +159,6 @@ public class Hotel implements Serializable {
     if(habitat == null) throw new UnknownHabitatException(habitatId);
     tree.setHabitat(habitat);
     addIdentified(tree, _treeMap);
-    subscribeSeasonObserver(tree);
     setChanged(true);
   }
   
