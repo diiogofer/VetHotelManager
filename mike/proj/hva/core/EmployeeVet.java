@@ -49,11 +49,6 @@ public class EmployeeVet extends Employee {
   }
 
   @Override
-  protected Responsibility getResponsibility(Hotel hotel, String speciesId) {
-    return hotel.getSpecies(speciesId);
-  }
-
-  @Override
   protected boolean addResponsibility(String responsibilityId, Hotel hotel) 
     throws UnknownResponsibilityException {
     String key = responsibilityId.toLowerCase();
@@ -78,16 +73,16 @@ public class EmployeeVet extends Employee {
     return true;
   }
 
-  @Override
-  protected boolean hasRespondibility(Responsibility resp) {
-    return _responsibilityMap.containsKey(resp.getId().toLowerCase());
-  }
-
   void addVaccineEvent(VaccineEvent event) {
     _vaccineEventList.add(event);
   }
 
   List<VaccineEvent> getAllVaccineEvents() {
     return Collections.unmodifiableList(_vaccineEventList);
+  }
+
+  @Override
+  protected boolean hasRespondibility(String respId) {
+    return _responsibilityMap.containsKey(respId.toLowerCase());
   }
 }

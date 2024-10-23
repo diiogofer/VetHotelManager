@@ -3,7 +3,7 @@ package hva.core;
 import java.util.Map;
 import java.util.HashMap;
 
-public class Species extends Identified implements Responsibility {
+public class Species extends Identified {
   final String _name;
   private int _nVet = 0;
   private Map<String, Animal> _animalMap = new HashMap<>();

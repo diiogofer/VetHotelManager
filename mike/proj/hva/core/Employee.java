@@ -18,11 +18,10 @@ public abstract class Employee extends Identified {
 
   protected abstract String responsibilitiesToString();
   protected abstract String employeeTypeToString();
-  protected abstract Responsibility getResponsibility(Hotel hotel, String responsibilityId);
   protected abstract boolean addResponsibility(String responsibilityId, Hotel hotel)
     throws UnknownResponsibilityException;
   protected abstract boolean removeResponsibility(String responsibilityId) 
     throws UnknownResponsibilityException;
-  protected abstract boolean hasRespondibility(Responsibility resp);
+  protected abstract boolean hasRespondibility(String respId);
   abstract double calculateSatisfaction();  
 }

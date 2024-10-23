@@ -44,11 +44,6 @@ public class EmployeeKeeper extends Employee {
   }
 
   @Override
-  protected Responsibility getResponsibility(Hotel hotel, String habitatId) {
-    return hotel.getHabitat(habitatId);
-  }
-
-  @Override
   protected boolean addResponsibility(String responsibilityId, Hotel hotel) 
     throws UnknownResponsibilityException {
     String key = responsibilityId.toLowerCase();
@@ -74,7 +69,7 @@ public class EmployeeKeeper extends Employee {
   }
 
   @Override
-  protected boolean hasRespondibility(Responsibility resp) {
-    return _responsibilityMap.containsKey(resp.getId().toLowerCase());
+  protected boolean hasRespondibility(String respId) {
+    return _responsibilityMap.containsKey(respId.toLowerCase());
   }
 }

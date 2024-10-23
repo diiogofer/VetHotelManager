@@ -2,7 +2,7 @@ package hva.core;
 
 import java.util.*;
 
-public class Habitat extends Identified implements Responsibility {
+public class Habitat extends Identified{
   private String _name;
   private int _area;
   private int _nKeepers = 0;
