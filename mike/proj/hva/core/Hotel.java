@@ -243,7 +243,8 @@ public class Hotel implements Serializable {
     if(employee == null) throw new UnknownEmployeeException(employeeId);
     Vaccine vaccine = getIdentified(vaccineId, _vaccineMap);
     if(vaccine == null) throw new UnknownVaccineException(vaccineId);
-    if(!(employee instanceof EmployeeVet vet)) throw new NotAVetException(employeeId);
+    EmployeeVet vet = employee.isVet();
+    if(vet == null) throw new NotAVetException(employeeId);
     VaccineEvent event = new VaccineEvent(vet, animal, vaccine);
     vet.addVaccineEvent(event);
     animal.addVaccineEvent(event);
@@ -330,9 +331,11 @@ public class Hotel implements Serializable {
     setChanged(true);
   }
   public List<VaccineEvent> getVaccineEventsOfVet(String employeeId) 
-    throws NotAVetException {
+    throws NotAVetException, UnknownEmployeeException {
     Employee employee = getIdentified(employeeId, _employeeMap);
-    if(employee == null || !(employee instanceof EmployeeVet vet))
+    if(employee == null) throw new UnknownEmployeeException(employeeId);
+    EmployeeVet vet = employee.isVet();
+    if(vet == null)
       throw new NotAVetException(employeeId);
     return vet.getAllVaccineEvents();
   }

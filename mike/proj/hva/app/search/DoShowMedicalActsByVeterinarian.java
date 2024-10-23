@@ -3,6 +3,7 @@ package hva.app.search;
 import hva.core.Hotel;
 import hva.core.VaccineEvent;
 import hva.core.exception.NotAVetException;
+import hva.core.exception.UnknownEmployeeException;
 
 import java.util.List;
 
@@ -28,7 +29,7 @@ class DoShowMedicalActsByVeterinarian extends Command<Hotel> {
       for(VaccineEvent ve : list) {
         _display.addLine(ve);
       }
-    } catch (NotAVetException nave) {
+    } catch (NotAVetException | UnknownEmployeeException ex) {
       throw new UnknownVeterinarianKeyException(employeeKey);
     }
   }

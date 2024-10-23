@@ -19,7 +19,7 @@ public class VaccineEvent implements Serializable{
     _animal = animal;
     _vaccine = vaccine;
     Species species = animal.getSpecies();
-    if(!vet.hasRespondibility(species.getId()))
+    if(!vet.hasResponsibility(species.getId()))
       throw new NotAllowedToVaccinateException(species.getId());
     if(vaccine.isGoodForSpecies(species)) {
       _correct = true;

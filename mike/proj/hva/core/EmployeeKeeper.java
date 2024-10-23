@@ -69,7 +69,7 @@ public class EmployeeKeeper extends Employee {
   }
 
   @Override
-  protected boolean hasRespondibility(String respId) {
+  protected boolean hasResponsibility(String respId) {
     return _responsibilityMap.containsKey(respId.toLowerCase());
   }
 }
