@@ -1,5 +1,9 @@
 # PROJECT
 
+## TODO
+- remove getResponsibility
+- remove Responsibility interface (probably dont need)
+
 ## Perguntas
 - Season 
 - - implementacao de State pattern
