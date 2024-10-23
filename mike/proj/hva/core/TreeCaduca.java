@@ -15,7 +15,7 @@ public class TreeCaduca extends Tree {
 
   private TreeState initialTreeState(Season season) {
     int index = season.ordinal();
-    TreeState state = new TreeCaducaSpringState();
+    TreeState state = TreeCaducaSpringState.createTreeCaducaSpringState();
     while(index > 0) {
       state = state.next();
       index--;

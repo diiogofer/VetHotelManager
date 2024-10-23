@@ -13,7 +13,7 @@ public class TreePerene extends Tree {
 
   private TreeState initialTreeState(Season season) {
     int index = season.ordinal();
-    TreeState state = new TreePereneSpringState();
+    TreeState state = TreePereneSpringState.createTreePereneSpringState();
     while(index > 0) {
       state = state.next();
       index--;

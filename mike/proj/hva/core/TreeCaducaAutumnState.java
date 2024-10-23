@@ -2,6 +2,15 @@ package hva.core;
 
 public class TreeCaducaAutumnState implements TreeState {
 
+  private static TreeCaducaAutumnState _instance;
+
+  private TreeCaducaAutumnState() {};
+
+  static TreeCaducaAutumnState createTreeCaducaAutumnState() {
+    if(_instance == null) _instance = new TreeCaducaAutumnState();
+    return _instance;
+  }
+
   @Override
   public String getBiologicalCycle() {
     return "LARGARFOLHAS";
@@ -14,7 +23,7 @@ public class TreeCaducaAutumnState implements TreeState {
 
   @Override
   public TreeState next() {
-    return new TreeCaducaWinterState();
+    return TreeCaducaWinterState.createTreeCaducaWinterState();
   }
   
 }

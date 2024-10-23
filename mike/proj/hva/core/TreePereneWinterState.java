@@ -1,6 +1,16 @@
 package hva.core;
 
 public class TreePereneWinterState implements TreeState {
+
+  private static TreePereneWinterState _instance;
+
+  private TreePereneWinterState() {}
+
+  static TreePereneWinterState createTreePereneWinterState() {
+    if(_instance == null) _instance = new TreePereneWinterState();
+    return _instance;
+  }
+
   @Override
   public String getBiologicalCycle() {
     return "LARGARFOLHAS";
@@ -13,6 +23,6 @@ public class TreePereneWinterState implements TreeState {
 
   @Override
   public TreeState next() {
-    return new TreePereneSpringState();
+    return TreePereneSpringState.createTreePereneSpringState();
   }
 }
