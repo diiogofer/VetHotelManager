@@ -2,14 +2,12 @@ package hva.core;
 
 public abstract class Tree extends Identified {
   private Habitat _habitat;
-  private String _name;
   private int _ageInSeasons;
   private int _baseCleaningDifficulty;
   private TreeState _state;
 
   Tree (String id, String name, int age, int baseCleaningDifficulty) {
-    super(id);
-    _name = name;
+    super(id, name);
     _ageInSeasons = age * 4;
     _baseCleaningDifficulty = baseCleaningDifficulty;
   }
@@ -53,7 +51,7 @@ public abstract class Tree extends Identified {
   }
 
   public String toString() {
-    return "ÁRVORE|" + getId() + "|" + _name + "|" + getAgeInYears() + 
+    return "ÁRVORE|" + getId() + "|" + getName() + "|" + getAgeInYears() + 
       "|" + _baseCleaningDifficulty + "|" + treeTypeToString() + "|" + getBioCycle();
   }
 }

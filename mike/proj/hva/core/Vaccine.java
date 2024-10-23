@@ -3,13 +3,11 @@ package hva.core;
 import java.util.*;
 
 public class Vaccine extends Identified{
-  private String _name;
   private Map<String, Species> _speciesMap;
   List<VaccineEvent> _vaccineEventList = new ArrayList<>();
 
   Vaccine(String id, String name, Map<String, Species> map) {
-    super(id);
-    _name = name;
+    super(id, name);
     _speciesMap = map;
   }
 
@@ -33,8 +31,8 @@ public class Vaccine extends Identified{
   public String toString() {
     String species = speciesToString();
     return species.length() == 0 ? 
-      "VACINA|" + getId() + "|" + _name + "|" + _vaccineEventList.size() :
-      "VACINA|" + getId() + "|" + _name + "|" + _vaccineEventList.size() + "|" + speciesToString();
+      "VACINA|" + getId() + "|" + getName() + "|" + _vaccineEventList.size() :
+      "VACINA|" + getId() + "|" + getName() + "|" + _vaccineEventList.size() + "|" + speciesToString();
   }
 
   boolean isGoodForSpecies(Species species) {

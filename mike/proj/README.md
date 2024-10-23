@@ -1,28 +1,10 @@
 # PROJECT
 
-## TODO
-- remove getResponsibility
-- remove Responsibility interface (probably dont need)
-
-## Perguntas
-- Season 
-- - implementacao de State pattern
-- - nomenclatura? request? -> advanceSeason()
-- VaccineEvent 
-- - toCategory()
-- - ifs pode-se usar? alternativa?
-- Pode-se aceitar string vazios? (id, nome, etc)
-- equals(Object obj) em Tree.java -> instanceof e downcasting pode-se?
-- ver todos os instanceof
-- Hotel
-- - registerEmployee() mas instancia-se employee no app (DoRegisterEmployee) com construtores publicos?
-- - ou
-- - registerVet() e registerKeeper()
-
-- 4.5.2
-- - espaços brancos sao irrelevantes? n se tem que fazer nada ou é preciso removelos?
-- 4.2.2
-- - despois de registar especie tenta-se registar o mesmo animal outra vez?
+- _name em todas as subclasses de identified
+- - mas a especie tem final _name
+- Observer
+- - è preciso?
+- - multiplicacao de dados?
 
 ## Global
 - ids are case insensitive (A = a)

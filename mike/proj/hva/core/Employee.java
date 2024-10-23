@@ -4,17 +4,15 @@ import hva.core.exception.NotAVetException;
 import hva.core.exception.UnknownResponsibilityException;
 
 public abstract class Employee extends Identified {
-  private String _name;
 
   Employee(String id, String name) {
-    super(id);
-    _name = name;
+    super(id, name);
   }
 
   public String toString() {
     String resp = responsibilitiesToString();
-    return resp.length() == 0 ? employeeTypeToString() + "|" + getId() + "|" + _name :
-                                employeeTypeToString() + "|" + getId() + "|" + _name + "|" + resp;
+    return resp.length() == 0 ? employeeTypeToString() + "|" + getId() + "|" + getName() :
+                                employeeTypeToString() + "|" + getId() + "|" + getName() + "|" + resp;
   }
 
   EmployeeVet isVet() throws NotAVetException {

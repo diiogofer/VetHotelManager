@@ -3,7 +3,6 @@ package hva.core;
 import java.util.*;
 
 public class Habitat extends Identified{
-  private String _name;
   private int _area;
   private int _nKeepers = 0;
   private Map<String, Animal> _animalMap = new HashMap<>();
@@ -11,8 +10,7 @@ public class Habitat extends Identified{
   private Set<Tree> _treeSet = new HashSet<>();
 
   Habitat(String id, String name, int area) {
-    super(id);
-    _name = name;
+    super(id, name);
     _area = area;
   }
   void addAnimal(Animal newAnimal) {
@@ -50,7 +48,7 @@ public class Habitat extends Identified{
   }
 
   public String toString() {
-    return "HABITAT|" + getId() + "|" + _name + "|" + _area + "|" + _treeSet.size();
+    return "HABITAT|" + getId() + "|" + getName() + "|" + _area + "|" + _treeSet.size();
   }
 
   int countSpecies(Species species) {

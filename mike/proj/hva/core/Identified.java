@@ -4,10 +4,15 @@ import java.io.Serializable;
 
 public abstract class Identified implements Comparable<Identified>, Serializable{
   private String _id;
-  Identified(String id) {
+  private String _name;
+
+  Identified(String id, String name) {
     _id = id;
+    _name = name;
   }
-  public String getId() {return _id;}
+  protected String getId() {return _id;}
+  protected String getName() {return _name;}
+
   public int compareTo(Identified iden) {
     return (_id.toLowerCase()).compareTo(iden.getId().toLowerCase());
   }

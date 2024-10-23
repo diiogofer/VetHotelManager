@@ -5,14 +5,12 @@ import java.util.Collections;
 import java.util.List;
 
 public class Animal extends Identified {
-  String _name;
   Species _species;
   Habitat _habitat;
   private List<VaccineEvent> _vaccineEventList = new ArrayList<>();
 
   Animal(String id, String name, Species species, Habitat habitat) {
-    super(id);
-    _name = name;
+    super(id, name);
     _species = species;
     _habitat = habitat;
   }
@@ -26,7 +24,7 @@ public class Animal extends Identified {
     return true;
   }
   public String toString() {
-    return "ANIMAL|" + getId() + "|" + _name + "|" + _species.getId() + "|" + 
+    return "ANIMAL|" + getId() + "|" + getName() + "|" + _species.getId() + "|" + 
       vaccineEventsToString() + "|" + _habitat.getId();
   }
   // TODO
