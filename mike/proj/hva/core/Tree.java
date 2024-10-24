@@ -27,13 +27,6 @@ public abstract class Tree extends Identified {
     return (int)(_ageInSeasons / 4);
   }
 
-  public boolean equals(Object obj) {
-    if (this == obj) return true;
-    if (!(obj instanceof Tree tree)) return false;
-    return this.getId().toLowerCase().equals(tree.getId().toLowerCase());
-  }
-  public int hashCode() {return this.getId().toLowerCase().hashCode();}
-
   abstract String treeTypeToString();
 
   String getBioCycle() {

@@ -62,7 +62,6 @@ public class VaccineEvent implements Serializable{
     return maxDamage;
   }
 
-  //TODO CHANGE THIS 
   int getDamage() {return _damage;}
   boolean isGood() {return _correct;}
   VaccineDamageCategory toCategory() {

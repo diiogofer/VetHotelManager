@@ -27,7 +27,6 @@ public class Animal extends Identified {
     return "ANIMAL|" + getId() + "|" + getName() + "|" + _species.getId() + "|" + 
       vaccineEventsToString() + "|" + _habitat.getId();
   }
-  // TODO
   private String vaccineEventsToString() {
     if(_vaccineEventList.size() == 0) return "VOID";
 

@@ -57,7 +57,7 @@ public class EmployeeVet extends Employee {
     Species species = hotel.getSpecies(key);
     if(species == null) throw new UnknownResponsibilityException(responsibilityId);
     _responsibilityMap.putIfAbsent(key, species);
-    species.addVet();
+    species.addVet(this);
     return true;
   }
 
@@ -68,7 +68,7 @@ public class EmployeeVet extends Employee {
     Species species = _responsibilityMap.get(key);
     if(species == null)
       throw new UnknownResponsibilityException(responsibilityId);
-    species.removeVet();
+    species.removeVet(this);
     _responsibilityMap.remove(key);
     return true;
   }
