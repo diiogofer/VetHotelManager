@@ -21,6 +21,12 @@ class DoChangeHabitatInfluence extends Command<Hotel> {
     addOptionField("habitatInfluence", Prompt.habitatInfluence(), "POS", "NEG", "NEU");
   }
   
+/**
+ * Executes the command to associate a species with a given habitat.
+ * 
+ * @throws UnknownHabitatKeyException if the specified habitat key does not exist.
+ * @throws UnknownSpeciesKeyException if the specified species key does not exist.
+ */
   @Override
   protected void execute() throws CommandException {
     String habitatKey = stringField("habitatKey");

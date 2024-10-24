@@ -14,10 +14,13 @@ class DoShowAllEmployees extends Command<Hotel> {
     super(Label.SHOW_ALL_EMPLOYEES, receiver);
   }
   
+/**
+ * Executes the command to show all employees of the zoo hotel.
+ */
   @Override
   protected void execute() {
     List<Employee> list = _receiver.getAllEmployees();
-    for(Employee e : list)
-      _display.addLine(e);
+    for(Employee employee : list)
+      _display.addLine(employee);
   }
 }
