@@ -8,7 +8,11 @@ import java.io.*;
  * zoo hotel.
  **/
 public class HotelManager {
+
+  /** Instância do hotel que gerencia os dados e operações do sistema. */
   private Hotel _hotel = new Hotel();
+
+  /** Nome do arquivo associado ao estado atual do hotel. */
   private String _filename;
 
   /**
@@ -105,10 +109,21 @@ public class HotelManager {
     _filename = null;
   }
 
+
+  /**
+   * Advances the current season of the hotel.
+   *
+   * @return An integer representing the new season's index.
+   */
   public int advanceSeason() {
     return _hotel.advanceSeason();
   }
 
+  /**
+   * Calculates the global satisfaction.
+   *
+   * @return A double representing the overall satisfaction score of the hotel.
+   */
   public double calculateGlobalSatisfaction() {
     return _hotel.calculateGlobalSatisfaction();
   }
