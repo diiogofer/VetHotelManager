@@ -52,7 +52,7 @@ public class EmployeeKeeper extends Employee {
     Habitat habitat = hotel.getHabitat(key);
     if(habitat == null) throw new UnknownResponsibilityException(responsibilityId);
     _responsibilityMap.putIfAbsent(key, habitat);
-    habitat.addKeeper();
+    habitat.addKeeper(this);
     return true;
   }
 
@@ -63,7 +63,7 @@ public class EmployeeKeeper extends Employee {
     if(!_responsibilityMap.containsKey(key))
       throw new UnknownResponsibilityException(responsibilityId);
     Habitat habitat = _responsibilityMap.get(key);
-    habitat.removeKeeper();
+    habitat.removeKeeper(this);
     _responsibilityMap.remove(key);
     return true;
   }

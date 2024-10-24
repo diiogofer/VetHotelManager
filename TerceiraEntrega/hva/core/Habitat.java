@@ -4,39 +4,50 @@ import java.util.*;
 
 public class Habitat extends Identified{
   private int _area;
-  private int _nKeepers = 0;
   private Map<String, Animal> _animalMap = new HashMap<>();
   private Map<String, SpeciesAdequacy> _adequacies = new HashMap<>();
-  private Set<Tree> _treeSet = new HashSet<>();
+  private Map<String, Tree> _treeMap = new HashMap<>();
+  private Map<String, EmployeeKeeper> _keeperMap = new HashMap<>();
 
   Habitat(String id, String name, int area) {
     super(id, name);
     _area = area;
   }
+  private <T extends Identified> void addIdentified(T identified, Map<String, T> map) {
+    map.putIfAbsent(identified.getId().toLowerCase(), identified);
+  }
+  private <T extends Identified> void removeIdentified(T identified, Map<String, T> map) {
+    map.remove(identified.getId().toLowerCase());
+  }
+
   void addAnimal(Animal newAnimal) {
-    _animalMap.putIfAbsent(newAnimal.getId().toLowerCase(), newAnimal);
+    addIdentified(newAnimal, _animalMap);
   }
   void removeAnimal(Animal animal) {
-    _animalMap.remove(animal.getId().toLowerCase());
+    removeIdentified(animal, _animalMap);
   }
 
-  void addKeeper() {
-    _nKeepers++;
+  void addKeeper(EmployeeKeeper keeper) {
+    addIdentified(keeper, _keeperMap);
   }
 
-  void removeKeeper() {
-    _nKeepers--;
+  void removeKeeper(EmployeeKeeper keeper) {
+    removeIdentified(keeper, _keeperMap);
   }
 
   int getNumberKeepers() {
-    return _nKeepers;
+    return _keeperMap.size();
   }
 
-  void addTree(Tree tree) {_treeSet.add(tree);}
-  void removeTree(Tree tree) {_treeSet.remove(tree);}
+  void addTree(Tree tree) {
+    addIdentified(tree, _treeMap);
+  }
+  void removeTree(Tree tree) {
+    removeIdentified(tree, _treeMap);
+  }
 
   public List<Tree> getAllTrees() {
-    List<Tree> list = new ArrayList<>(_treeSet);
+    List<Tree> list = new ArrayList<>(_treeMap.values());
     Collections.sort(list);
     return Collections.unmodifiableList(list);
   }
@@ -48,7 +59,7 @@ public class Habitat extends Identified{
   }
 
   public String toString() {
-    return "HABITAT|" + getId() + "|" + getName() + "|" + _area + "|" + _treeSet.size();
+    return "HABITAT|" + getId() + "|" + getName() + "|" + _area + "|" + _treeMap.size();
   }
 
   int countSpecies(Species species) {
@@ -64,7 +75,7 @@ public class Habitat extends Identified{
 
   double calculateEffort() {
     double effort = _area + 3 * countPopulation();
-    for(Tree tree : _treeSet) {
+    for(Tree tree : _treeMap.values()) {
       effort += tree.calculateEffort();
     }
     return effort;
