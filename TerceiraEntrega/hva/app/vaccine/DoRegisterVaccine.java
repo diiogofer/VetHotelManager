@@ -20,6 +20,12 @@ class DoRegisterVaccine extends Command<Hotel> {
     addStringField("speciesKeys", Prompt.listOfSpeciesKeys());
   }
 
+/**
+ * Executes the command to register a new vaccine.
+ * 
+ * @throws DuplicateVaccineKeyException if a vaccine with the specified key already exists.
+ * @throws UnknownSpeciesKeyException if one of the specified species keys does not exist.
+ */
   @Override
   protected final void execute() throws CommandException {
     String vaccineKey = stringField("vaccineKey");

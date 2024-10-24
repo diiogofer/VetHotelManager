@@ -16,11 +16,14 @@ class DoShowWrongVaccinations extends Command<Hotel> {
     super(Label.WRONG_VACCINATIONS, receiver);
   }
 
+/**
+ * Executes the command to show all vaccines applied to animals belonging to an invalid species.
+ */
   @Override
   protected void execute() throws CommandException {
       List<VaccineEvent> list = _receiver.getBadVaccineEvents();
-      for(VaccineEvent ve : list) {
-        _display.addLine(ve);
+      for(VaccineEvent vaccineEvents : list) {
+        _display.addLine(vaccineEvents);
       }
   }
 }

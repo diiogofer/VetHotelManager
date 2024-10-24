@@ -20,13 +20,18 @@ class DoShowMedicalActsOnAnimal extends Command<Hotel> {
     addStringField("animalKey", hva.app.animal.Prompt.animalKey());
   }
 
+/**
+ * Executes the command to show all medical acts (vaccine events) applied to a given animal.
+ *
+ * @throws UnknownAnimalKeyException if the specified animal key does not exist.
+ */
   @Override
   protected void execute() throws CommandException {
     String animalKey = stringField("animalKey");
     try {
       List<VaccineEvent> list = _receiver.getVaccinesFromAnimal(animalKey);
-      for(VaccineEvent ve : list) {
-        _display.addLine(ve);
+      for(VaccineEvent vaccineEvents : list) {
+        _display.addLine(vaccineEvents);
       }
     } catch (UnknownAnimalException uae) {
       throw new UnknownAnimalKeyException(animalKey);

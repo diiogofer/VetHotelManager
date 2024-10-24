@@ -19,6 +19,11 @@ class DoOpenFile extends Command<HotelManager> {
     super(Label.OPEN_FILE, receiver);
   }
 
+/**
+ * Executes the command to open a file.
+ * 
+ * @throws FileOpenFailedException if the file could not be opened due to missing file association, IO errors, or file unavailability.
+ */
   @Override
   protected final void execute() throws CommandException {
     try {
