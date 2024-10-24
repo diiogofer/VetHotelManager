@@ -21,6 +21,14 @@ class DoRegisterAnimal extends Command<Hotel> {
     addStringField("habitatKey", hva.app.habitat.Prompt.habitatKey());
   }
   
+  /**
+   * Executes the command to register a new animal. 
+   * Attempts to register the animal in the hotel. If the species is unknown, it prompts the user to register a new species.
+   * 
+   * @throws DuplicateAnimalKeyException if an animal with the given key already exists.
+   * @throws UnknownHabitatKeyException if the habitat key does not exist.
+   * @throws UnknownSpeciesException if the species key does not exist, prompting user to input a species name.
+   */
   @Override
   protected final void execute() throws CommandException {
     try {
