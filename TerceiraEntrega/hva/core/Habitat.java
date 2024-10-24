@@ -1,0 +1,89 @@
+package hva.core;
+
+import java.util.*;
+
+public class Habitat extends Identified{
+  private int _area;
+  private int _nKeepers = 0;
+  private Map<String, Animal> _animalMap = new HashMap<>();
+  private Map<String, SpeciesAdequacy> _adequacies = new HashMap<>();
+  private Set<Tree> _treeSet = new HashSet<>();
+
+  Habitat(String id, String name, int area) {
+    super(id, name);
+    _area = area;
+  }
+  void addAnimal(Animal newAnimal) {
+    _animalMap.putIfAbsent(newAnimal.getId().toLowerCase(), newAnimal);
+  }
+  void removeAnimal(Animal animal) {
+    _animalMap.remove(animal.getId().toLowerCase());
+  }
+
+  void addKeeper() {
+    _nKeepers++;
+  }
+
+  void removeKeeper() {
+    _nKeepers--;
+  }
+
+  int getNumberKeepers() {
+    return _nKeepers;
+  }
+
+  void addTree(Tree tree) {_treeSet.add(tree);}
+  void removeTree(Tree tree) {_treeSet.remove(tree);}
+
+  public List<Tree> getAllTrees() {
+    List<Tree> list = new ArrayList<>(_treeSet);
+    Collections.sort(list);
+    return Collections.unmodifiableList(list);
+  }
+
+  public List<Animal> getAllAnimals() {
+    List<Animal> list = new ArrayList<>(_animalMap.values());
+    Collections.sort(list);
+    return Collections.unmodifiableList(list);
+  }
+
+  public String toString() {
+    return "HABITAT|" + getId() + "|" + getName() + "|" + _area + "|" + _treeSet.size();
+  }
+
+  int countSpecies(Species species) {
+    int counter = 0;
+    for(Animal a : _animalMap.values()) {
+      if(a.getSpecies().equals(species)) counter++;
+    }
+    return counter;
+  }
+  int countPopulation() {
+    return _animalMap.size();
+  }
+
+  double calculateEffort() {
+    double effort = _area + 3 * countPopulation();
+    for(Tree tree : _treeSet) {
+      effort += tree.calculateEffort();
+    }
+    return effort;
+  }
+
+  int getArea() {return _area;}
+  boolean setArea(int area) {
+    if(area == _area) return false;
+    _area = area;
+    return true;
+  }
+  int getAdequacy(Species species) {
+    SpeciesAdequacy adequacy =_adequacies.get(species.getId().toLowerCase());
+    return adequacy == null ? SpeciesAdequacy.NEUTRAL.getValue() : adequacy.getValue();
+  }
+  boolean setSpeciesAdequacy(String speciesId, SpeciesAdequacy adequacy) {
+    SpeciesAdequacy oldAdequacy = _adequacies.get(speciesId.toLowerCase());
+    if(oldAdequacy != null && oldAdequacy == adequacy) return false;
+    _adequacies.put(speciesId.toLowerCase(), adequacy);
+    return true;
+  }
+}
