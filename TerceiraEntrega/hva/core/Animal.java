@@ -10,10 +10,10 @@ import java.util.List;
 public class Animal extends Identified {
   
   /** The species to which the animal belongs. */
-  Species _species;
+  private Species _species;
 
   /** The habitat where the animal resides. */
-  Habitat _habitat;
+  private Habitat _habitat;
 
   /** List of vaccine events associated with the animal. */
   private List<VaccineEvent> _vaccineEventList = new ArrayList<>();

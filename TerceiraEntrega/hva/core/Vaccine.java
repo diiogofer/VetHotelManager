@@ -11,7 +11,7 @@ public class Vaccine extends Identified {
   private Map<String, Species> _speciesMap;
 
   /** List of vaccine events where this vaccine has been applied. */
-  List<VaccineEvent> _vaccineEventList = new ArrayList<>();
+  private List<VaccineEvent> _vaccineEventList = new ArrayList<>();
 
   /**
    * Constructs a new Vaccine with the specified ID, name, and the species it is good for.

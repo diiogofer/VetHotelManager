@@ -31,7 +31,7 @@ class DoRegisterVaccine extends Command<Hotel> {
     String vaccineKey = stringField("vaccineKey");
     String vaccineName = stringField("vaccineName");
     String speciesKeys = stringField("speciesKeys");
-    String[] speciesKeyArray = speciesKeys.length() > 0 ? speciesKeys.split("\\s*,\\s*") : new String[0];
+    String[] speciesKeyArray = speciesKeys.length() > 0 ? speciesKeys.split(",") : new String[0];
     try {
       _receiver.registerVaccine(vaccineKey, vaccineName, speciesKeyArray);
     } catch (DuplicateVaccineException dve) {
