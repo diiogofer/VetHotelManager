@@ -14,7 +14,7 @@ public abstract class Tree extends Identified {
   /** The base difficulty associated with cleaning the tree. */
   private int _baseCleaningDifficulty;
 
-  /** The current state of the tree (e.g., active, dormant, etc.). */
+  /** The current state of the tree. */
   private TreeState _state;
 
   /**
@@ -41,7 +41,7 @@ public abstract class Tree extends Identified {
   }
 
   /**
-   * Sets the habitat for the tree, removing it from any previous habitat.
+   * Sets the habitat for the tree, removing it from the previous habitat.
    * 
    * @param habitat the new habitat for the tree
    */
@@ -98,7 +98,9 @@ public abstract class Tree extends Identified {
    * 
    * @return the current state of the tree
    */
-  TreeState getState() {return _state;}
+  TreeState getState() {
+    return _state;
+  }
 
   /**
    * Sets the state of the tree.

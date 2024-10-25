@@ -1,7 +1,7 @@
 package hva.core;
 
 /**
- * Represents the autumn state for a perennial tree (Perene).
+ * Represents the autumn state for a evergreen tree (Perene).
  * In this state, the tree has leaves, and the cleaning effort is reduced compared to other seasons.
  */
 public class TreePereneAutumnState implements TreeState {
@@ -13,7 +13,7 @@ public class TreePereneAutumnState implements TreeState {
   private TreePereneAutumnState() {}
 
   /**
-   * Returns the singleton instance of the autumn state for perennial trees.
+   * Returns the singleton instance of the autumn state for evergreen trees.
    *
    * @return the singleton instance of {@code TreePereneAutumnState}
    */
@@ -44,7 +44,7 @@ public class TreePereneAutumnState implements TreeState {
   }
 
   /**
-   * Advances to the next seasonal state, which is winter for a perennial tree.
+   * Advances to the next seasonal state, which is winter for a evergreen tree.
    *
    * @return the next {@code TreeState}, which is {@code TreePereneWinterState}
    */

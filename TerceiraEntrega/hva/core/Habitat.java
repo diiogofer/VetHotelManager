@@ -25,7 +25,7 @@ public class Habitat extends Identified {
   /**
    * Constructs a habitat with a specified ID, name, and area.
    * 
-   * @param id The unique identifier of the habitat.
+   * @param identifier The unique identifier of the habitat.
    * @param name The name of the habitat.
    * @param area The area of the habitat.
    */
@@ -35,7 +35,7 @@ public class Habitat extends Identified {
   }
 
   /**
-   * Adds an identified entity (like an animal, tree, or keeper) to the provided map.
+   * Adds an identified entity to the provided map.
    * 
    * @param <T> The type of identified entity.
    * @param identified The entity to add.
@@ -46,7 +46,7 @@ public class Habitat extends Identified {
   }
 
   /**
-   * Removes an identified entity (like an animal, tree, or keeper) from the provided map.
+   * Removes an identified entity from the provided map.
    * 
    * @param <T> The type of identified entity.
    * @param identified The entity to remove.

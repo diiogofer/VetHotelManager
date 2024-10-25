@@ -5,7 +5,7 @@ import java.util.*;
 /**
  * Represents a vaccine that is suitable for specific species.
  */
-public class Vaccine extends Identified{
+public class Vaccine extends Identified {
 
   /** Map containing species that the vaccine is suitable for, identified by their IDs. */
   private Map<String, Species> _speciesMap;
@@ -41,7 +41,7 @@ public class Vaccine extends Identified{
 
     // Check if the string builder is not empty, then remove the last comma
     if (str.length() > 0) {
-        str.deleteCharAt(str.length() - 1);  // Remove the trailing comma
+        str.deleteCharAt(str.length() - 1);  // Remove the last comma
     }
 
     return str.toString();

@@ -1,7 +1,7 @@
 package hva.core;
 
 /**
- * Represents a perennial tree (Perene).
+ * Represents a evergreen tree (Perene).
  * This class extends the {@link Tree} class.
  */
 public class TreePerene extends Tree {
@@ -22,7 +22,7 @@ public class TreePerene extends Tree {
   }
 
   /**
-   * Returns the type of tree as a string, which is "PERENE" for perennial trees.
+   * Returns the type of tree as a string, which is "PERENE".
    *
    * @return a string representing the type of tree
    */

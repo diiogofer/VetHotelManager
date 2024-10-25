@@ -1,7 +1,7 @@
 package hva.core;
 
 /**
- * Represents the winter state for a perennial tree (Perene).
+ * Represents the winter state for a evergreen tree (Perene).
  * In this state, the tree sheds its leaves ("LARGARFOLHAS") and requires moderate cleaning effort.
  */
 public class TreePereneWinterState implements TreeState {
@@ -13,7 +13,7 @@ public class TreePereneWinterState implements TreeState {
   private TreePereneWinterState() {}
 
   /**
-   * Returns the singleton instance of the winter state for perennial trees.
+   * Returns the singleton instance of the winter state for evergreen trees.
    *
    * @return the singleton instance of {@code TreePereneWinterState}
    */
@@ -44,7 +44,7 @@ public class TreePereneWinterState implements TreeState {
   }
 
   /**
-   * Advances to the next seasonal state, which is spring for a perennial tree.
+   * Advances to the next seasonal state, which is spring for a evergreen tree.
    *
    * @return the next {@code TreeState}, which is {@code TreePereneSpringState}
    */

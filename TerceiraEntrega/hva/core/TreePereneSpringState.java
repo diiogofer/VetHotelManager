@@ -1,7 +1,7 @@
 package hva.core;
 
 /**
- * Represents the spring state for a perennial tree (Perene).
+ * Represents the spring state for a evergreen tree (Perene).
  * In this state, the tree is in the process of generating leaves, and the cleaning effort is minimal.
  */
 public class TreePereneSpringState implements TreeState {
@@ -13,7 +13,7 @@ public class TreePereneSpringState implements TreeState {
   private TreePereneSpringState() {}
 
   /**
-   * Returns the singleton instance of the spring state for perennial trees.
+   * Returns the singleton instance of the spring state for evergreen trees.
    *
    * @return the singleton instance of {@code TreePereneSpringState}
    */
@@ -45,7 +45,7 @@ public class TreePereneSpringState implements TreeState {
   }
 
   /**
-   * Advances to the next seasonal state, which is summer for a perennial tree.
+   * Advances to the next seasonal state, which is summer for a evergreen tree.
    *
    * @return the next {@code TreeState}, which is {@code TreePereneSummerState}
    */

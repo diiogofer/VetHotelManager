@@ -30,7 +30,7 @@ public class Parser {
 
   /**
    * Reads a file and processes each line to create domain entities in the hotel.
-   * Each line is parsed and mapped to a specific type of entity (species, tree, habitat, etc.).
+   * Each line is parsed and mapped to a specific type of entity.
    * 
    * @param filename the name of the input file
    * @throws IOException if an I/O error occurs while reading the file

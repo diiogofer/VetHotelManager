@@ -66,7 +66,7 @@ public class Hotel implements Serializable {
    * 
    * @param filename name of the text input file
    * @throws UnrecognizedEntryException if some entry is not correct
-   * @throws IOException if there is an IO erro while processing the text file
+   * @throws IOException if there is an IO error while processing the text file
    * @throws DuplicateFieldException if duplicate fields are found in the file
    * @throws UnknownFieldException if unknown fields are encountered in the file
    */
@@ -313,7 +313,7 @@ public class Hotel implements Serializable {
   }
   
   /**
-   * Registers a perennial tree (TreePerene) in a given habitat.
+   * Registers a evergreen tree (TreePerene) in a given habitat.
    * 
    * @param habitatId The ID of the habitat where the tree will be registered.
    * @param treeId The ID of the new tree.
