@@ -89,12 +89,12 @@ public class Animal extends Identified {
    * 
    * @return The calculated satisfaction level of the animal.
    */
-  double calculateSatisfaction() {
-    double same = _habitat.countSpecies(_species) - 1;
+  Double calculateSatisfaction() {
+    int same = _habitat.countSpecies(_species) - 1;
     double population = _habitat.countPopulation();
     double different = population - same - 1;
     double area = _habitat.getArea();
-    double adequacy = _habitat.getAdequacy(_species);
+    int adequacy = _habitat.getAdequacy(_species);
     return 20 + 3 * same - 2 * different + area / population + adequacy;
   }
 

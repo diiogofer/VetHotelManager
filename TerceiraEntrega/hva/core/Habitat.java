@@ -221,7 +221,7 @@ public class Habitat extends Identified {
    * @return The adequacy value for the species.
    */
   int getAdequacy(Species species) {
-    SpeciesAdequacy adequacy =_adequacies.get(species.getId().toLowerCase());
+    SpeciesAdequacy adequacy = _adequacies.get(species.getId().toLowerCase());
     return adequacy == null ? SpeciesAdequacy.NEUTRAL.getValue() : adequacy.getValue();
   }
 
