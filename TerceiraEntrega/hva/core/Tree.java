@@ -91,6 +91,7 @@ public abstract class Tree extends Identified {
    */
   void advanceSeason() {
     setState(getState().next());
+    _ageInSeasons++;
   }
 
   /**
