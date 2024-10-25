@@ -451,7 +451,7 @@ public class Hotel implements Serializable {
    * @return The satisfaction score of the animal.
    * @throws UnknownAnimalException If the animal does not exist.
    */
-  public int getAnimalSatisfaction(String animalId) throws UnknownAnimalException {
+  public double getAnimalSatisfaction(String animalId) throws UnknownAnimalException {
     Animal animal = getIdentified(animalId, _animalMap);
     if(animal == null) throw new UnknownAnimalException(animalId);
     return animal.calculateSatisfaction();
