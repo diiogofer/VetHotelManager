@@ -86,7 +86,6 @@ public class VaccineEvent implements Serializable{
             maxDamage = result;
         }
     }
-
     return maxDamage;
   }
 

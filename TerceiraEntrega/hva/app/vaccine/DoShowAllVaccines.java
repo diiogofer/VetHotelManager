@@ -20,8 +20,8 @@ class DoShowAllVaccines extends Command<Hotel> {
   @Override
   protected final void execute() {
     List<Vaccine> list = _receiver.getAllVaccines();
-    for(Vaccine habitat : list) {
-      _display.addLine(habitat);
+    for(Vaccine vaccine : list) {
+      _display.addLine(vaccine);
     }
   }
 }
