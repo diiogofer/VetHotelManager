@@ -21,6 +21,11 @@ class DoShowMedicalActsByVeterinarian extends Command<Hotel> {
     addStringField("vetKey", hva.app.employee.Prompt.employeeKey());
   }
   
+/**
+ * Executes the command to show all medical acts (vaccine events) performed by a given veterinarian.
+ *
+ * @throws UnknownVeterinarianKeyException if the specified employee key does not correspond to a veterinarian.
+ */
   @Override
   protected void execute() throws CommandException {
     String employeeKey = stringField("vetKey");

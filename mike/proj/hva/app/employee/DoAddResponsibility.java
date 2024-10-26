@@ -20,6 +20,12 @@ class DoAddResponsibility extends Command<Hotel> {
     addStringField("responsibilityKey", Prompt.responsibilityKey());
   }
   
+/**
+ * Executes the command to add a new responsibility to an employee.
+ * 
+ * @throws UnknownEmployeeKeyException if the specified employee key does not exist.
+ * @throws NoResponsibilityException if the specified responsibility key does not exist.
+ */
   @Override
   protected void execute() throws CommandException {
     String employeeKey = stringField("employeeKey");

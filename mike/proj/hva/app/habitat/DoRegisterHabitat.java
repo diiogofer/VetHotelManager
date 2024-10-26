@@ -17,6 +17,11 @@ class DoRegisterHabitat extends Command<Hotel> {
     addIntegerField("habitatArea", Prompt.habitatArea());
   }
   
+/**
+ * Executes the command to add a new habitat to the zoo hotel.
+ * 
+ * @throws DuplicateHabitatKeyException if a habitat with the specified key already exists.
+ */
   @Override
   protected void execute() throws CommandException {
     try {

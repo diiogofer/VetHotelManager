@@ -16,6 +16,11 @@ class DoShowSatisfactionOfEmployee extends Command<Hotel> {
     addStringField("employeeKey", Prompt.employeeKey());
   }
   
+/**
+ * Executes the command to show the satisfaction of a given employee.
+ * 
+ * @throws UnknownEmployeeKeyException if the specified employee key does not exist.
+ */
   @Override
   protected void execute() throws CommandException {
     String employeeKey = stringField("employeeKey");

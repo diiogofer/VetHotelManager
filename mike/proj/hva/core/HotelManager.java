@@ -8,11 +8,15 @@ import java.io.*;
  * zoo hotel.
  **/
 public class HotelManager {
+
+  /** Instance of the hotel */
   private Hotel _hotel = new Hotel();
+
+  /** Name of the file associated with the current state of the hotel. */
   private String _filename;
 
   /**
-   * Saves the serialized application's state into the file associated to the current network.
+   * Saves the serialized application's state into the associated file.
    *
    * @throws FileNotFoundException if for some reason the file cannot be created or opened. 
    * @throws MissingFileAssociationException if the current network does not have a file.
@@ -32,8 +36,7 @@ public class HotelManager {
   }
   
   /**
-   * Saves the serialized application's state into the specified file. The current network is
-   * associated to this file.
+   * Saves the serialized application's state into the specified file.
    *
    * @param filename the name of the file.
    * @throws FileNotFoundException if for some reason the file cannot be created or opened.
@@ -49,8 +52,9 @@ public class HotelManager {
   }
   
   /**
-   * @param filename name of the file containing the serialized application's state
-   *        to load.
+   * Loads the serialized state of the application from the specified file.
+   * 
+   * @param filename name of the file containing the serialized application's state to load.
    * @throws UnavailableFileException if the specified file does not exist or there is
    *         an error while processing this file.
    **/
@@ -64,7 +68,7 @@ public class HotelManager {
   
   /**
    * Read text input file and initializes the current zoo hotel (which should be empty)
-   * with the domain entitiesi representeed in the import file.
+   * with the domain entities representeed in the import file.
    *
    * @param filename name of the text input file
    * @throws ImportFileException if some error happens during the processing of the
@@ -105,10 +109,21 @@ public class HotelManager {
     _filename = null;
   }
 
+
+  /**
+   * Advances the current season of the hotel.
+   *
+   * @return An integer representing the new season's index.
+   */
   public int advanceSeason() {
     return _hotel.advanceSeason();
   }
 
+  /**
+   * Calculates the global satisfaction.
+   *
+   * @return A double representing the global satisfaction level of the hotel.
+   */
   public double calculateGlobalSatisfaction() {
     return _hotel.calculateGlobalSatisfaction();
   }

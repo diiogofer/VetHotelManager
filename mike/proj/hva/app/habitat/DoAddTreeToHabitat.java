@@ -23,6 +23,12 @@ class DoAddTreeToHabitat extends Command<Hotel> {
     addOptionField("treeType", Prompt.treeType(), "PERENE", "CADUCA");
   }
   
+/**
+ * Executes the command to add a new tree to a given habitat in the zoo hotel.
+ * 
+ * @throws DuplicateTreeKeyException if a tree with the specified key already exists.
+ * @throws UnknownHabitatKeyException if the specified habitat key does not exist.
+ */
   @Override
   protected void execute() throws CommandException {
     String habitatKey = stringField("habitatKey");
@@ -43,6 +49,8 @@ class DoAddTreeToHabitat extends Command<Hotel> {
     } catch (UnknownHabitatException uhe) {
       throw new UnknownHabitatKeyException(uhe.getMessage());
     }
-    if(ret != null) _display.addLine(ret);
+    if(ret != null) { 
+      _display.addLine(ret); 
+    }
   }
 }

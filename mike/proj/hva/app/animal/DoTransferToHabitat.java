@@ -19,6 +19,12 @@ class DoTransferToHabitat extends Command<Hotel> {
     addStringField("habitatKey", hva.app.habitat.Prompt.habitatKey());
   }
   
+  /**
+   * Executes the command to transfer an animal to a new habitat.
+   * 
+   * @throws UnknownAnimalKeyException if the specified animal key does not exist.
+   * @throws UnknownHabitatKeyException if the specified habitat key does not exist.
+   */
   @Override
   protected final void execute() throws CommandException {
     try{

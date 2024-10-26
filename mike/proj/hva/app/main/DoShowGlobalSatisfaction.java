@@ -12,6 +12,9 @@ class DoShowGlobalSatisfaction extends Command<HotelManager> {
     super(hva.app.main.Label.SHOW_GLOBAL_SATISFACTION, receiver);
   }
   
+/**
+ * Executes the command to show the global satisfaction of the current zoo hotel.
+ */
   @Override
   protected final void execute() {
     long result = Math.round(_receiver.calculateGlobalSatisfaction());

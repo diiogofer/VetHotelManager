@@ -20,6 +20,11 @@ class DoShowAllTreesInHabitat extends Command<Hotel> {
     addStringField("habitatKey", Prompt.habitatKey());
   }
   
+/**
+ * Executes the command to show all trees in a given habitat.
+ *
+ * @throws UnknownHabitatKeyException if the specified habitat key does not exist.
+ */
   @Override
   protected void execute() throws CommandException {
     String habitatKey = stringField("habitatKey");

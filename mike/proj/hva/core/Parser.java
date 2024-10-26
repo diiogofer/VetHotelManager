@@ -30,13 +30,12 @@ public class Parser {
 
   /**
    * Reads a file and processes each line to create domain entities in the hotel.
-   * Each line is parsed and mapped to a specific type of entity (species, tree, habitat, etc.).
+   * Each line is parsed and mapped to a specific type of entity.
    * 
    * @param filename the name of the input file
    * @throws IOException if an I/O error occurs while reading the file
    * @throws UnrecognizedEntryException if an unrecognized entry type is encountered
-   * @throws DuplicateFieldException if a duplicate entry is found
-   * @throws UnknownFieldException if an unknown field or type is encountered
+   * @throws InvalidInputException if any entry has an invalid input (duplicate, unknown fields, etc.)
    */
   void parseFile(String filename) 
     throws IOException, UnrecognizedEntryException, InvalidInputException {
@@ -50,6 +49,7 @@ public class Parser {
    * Parses a single line and creates the corresponding entity based on the entry type.
    * 
    * @param line the line to be parsed
+   * @throws InvalidInputException if the entry type or data is invalid
    */
   private void parseLine(String line) throws InvalidInputException {
     String[] components = line.split("\\|");
@@ -70,7 +70,7 @@ public class Parser {
    * Parses a species entry and registers the species in the hotel.
    * 
    * @param components the components of the species entry
-   * @throws DuplicateFieldException if a duplicate species entry is found
+   * @throws InvalidInputException if a duplicate species entry is found or data is invalid
    */
   private void parseSpecies(String[] components) throws InvalidInputException {
 			_hotel.registerSpecies(components[1], components[2]);
@@ -80,8 +80,7 @@ public class Parser {
    * Parses a tree entry and registers the tree in the hotel.
    * 
    * @param components the components of the tree entry
-   * @throws UnknownFieldException if the tree type is unknown
-   * @throws DuplicateFieldException if a duplicate tree entry is found
+   * @throws InvalidInputException if the tree type is unknown or a duplicate tree entry is found
    */
   private void parseTree(String[] components) throws InvalidInputException {
     String treeId = components[1];
@@ -100,7 +99,7 @@ public class Parser {
    * Parses a habitat entry and registers the habitat in the hotel.
    * 
    * @param components the components of the habitat entry
-   * @throws DuplicateFieldException if a duplicate habitat entry is found
+   * @throws InvalidInputException if a duplicate habitat entry is found or data is invalid
    */
   private void parseHabitat(String[] components) throws InvalidInputException{
     String habitatId = components[1];
@@ -114,8 +113,7 @@ public class Parser {
    * Parses an animal entry and registers the animal in the hotel.
    * 
    * @param components the components of the animal entry
-   * @throws UnknownFieldException if the species or habitat is unknown
-   * @throws DuplicateFieldException if a duplicate animal entry is found
+   * @throws InvalidInputException if the animal's species or habitat is unknown or a duplicate entry is found
    */
   private void parseAnimal(String[] components) throws InvalidInputException {
     String animalId = components[1];
@@ -133,8 +131,7 @@ public class Parser {
    * Parses an employee entry and registers the employee in the hotel.
    * 
    * @param components the components of the employee entry
-   * @throws UnknownFieldException if the employee type or responsibility is unknown
-   * @throws DuplicateFieldException if a duplicate employee entry is found
+   * @throws InvalidInputException if the employee type or responsibility is invalid or unknown
    */
   private void parseEmployee(String[] components) throws InvalidInputException {
     String employeeType = components[0];
@@ -156,8 +153,7 @@ public class Parser {
    * Parses a vaccine entry and registers the vaccine in the hotel.
    * 
    * @param components the components of the vaccine entry
-   * @throws DuplicateFieldException if a duplicate vaccine entry is found
-   * @throws UnknownFieldException if a species for the vaccine is unknown
+   * @throws InvalidInputException if the vaccine's species is unknown or a duplicate entry is found
    */
   private void parseVaccine(String[] components) throws InvalidInputException {
     String vaccineId = components[1];

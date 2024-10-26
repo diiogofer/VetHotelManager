@@ -18,6 +18,11 @@ class DoChangeHabitatArea extends Command<Hotel> {
     addIntegerField("area", Prompt.habitatArea());
   }
   
+/**
+ * Executes the command to change the area of a given habitat in the zoo hotel.
+ * 
+ * @throws UnknownHabitatKeyException if the specified habitat key does not exist.
+ */
   @Override
   protected void execute() throws CommandException, UnknownHabitatKeyException {
     String habitatKey = stringField("habitatKey");

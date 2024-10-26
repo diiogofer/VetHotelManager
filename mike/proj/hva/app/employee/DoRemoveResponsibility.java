@@ -19,6 +19,12 @@ class DoRemoveResponsibility extends Command<Hotel> {
     addStringField("responsibilityKey", Prompt.responsibilityKey());
   }
   
+/**
+ * Executes the command to remove a responsibility from a given employee in the zoo hotel.
+ * 
+ * @throws UnknownEmployeeKeyException if the specified employee key does not exist.
+ * @throws NoResponsibilityException if the specified responsibility key does not exist for the employee.
+ */
   @Override
   protected void execute() throws CommandException {
     String employeeKey = stringField("employeeKey");

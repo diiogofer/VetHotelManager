@@ -24,6 +24,14 @@ class DoVaccinateAnimal extends Command<Hotel> {
     addStringField("animalKey", hva.app.animal.Prompt.animalKey());
   }
 
+/**
+ * Executes the command to vaccinate a given animal by a given veterinarian with a specified vaccine.
+ *
+ * @throws UnknownVeterinarianKeyException if the specified veterinarian key does not exist or the employee is not a veterinarian.
+ * @throws VeterinarianNotAuthorizedException if the veterinarian is not authorized to vaccinate the animal.
+ * @throws UnknownAnimalKeyException if the specified animal key does not exist.
+ * @throws UnknownVaccineKeyException if the specified vaccine key does not exist.
+ */
   @Override
   protected final void execute() throws CommandException {
     String vaccineKey = stringField("vaccineKey");

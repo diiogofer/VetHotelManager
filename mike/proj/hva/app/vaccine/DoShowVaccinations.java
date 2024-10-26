@@ -15,11 +15,14 @@ class DoShowVaccinations extends Command<Hotel> {
     super(Label.SHOW_VACCINATIONS, receiver);
   }
   
+/**
+ * Executes the command to show all vaccines applied by all veterinarians in the zoo hotel.
+ */
   @Override
   protected final void execute() {
     List<VaccineEvent> list = _receiver.getAllVaccineEvents();
-    for(VaccineEvent ve : list) {
-      _display.addLine(ve);
+    for(VaccineEvent vaccineEvents : list) {
+      _display.addLine(vaccineEvents);
     }
   }
 }

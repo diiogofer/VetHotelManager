@@ -15,14 +15,17 @@ class DoShowAllHabitats extends Command<Hotel> {
     super(Label.SHOW_ALL_HABITATS, receiver);
   }
   
+/**
+ * Executes the command to show all habitats in the zoo hotel.
+ */
   @Override
   protected void execute() {
     List<Habitat> list = _receiver.getAllHabitats();
-    for(Habitat h : list) {
-      _display.addLine(h);
-      List<Tree> treeList = _receiver.getAllTreesOfHabitat(h);
-      for(Tree t : treeList)
-        _display.addLine(t);
+    for(Habitat habitat : list) {
+      _display.addLine(habitat);
+      List<Tree> treeList = _receiver.getAllTreesOfHabitat(habitat);
+      for(Tree tree : treeList)
+        _display.addLine(tree);
     }
   }
 }

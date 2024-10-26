@@ -11,6 +11,9 @@ class DoAdvanceSeason extends Command<HotelManager> {
     super(Label.ADVANCE_SEASON, receiver);
   }
 
+/**
+ * Executes the command to advance the season in the system.
+ */
   @Override
   protected final void execute() {
     _display.addLine(_receiver.advanceSeason());

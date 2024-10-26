@@ -18,6 +18,11 @@ class DoRegisterEmployee extends Command<Hotel> {
     addOptionField("employeeType", Prompt.employeeType(), "VET", "TRT");
   }
   
+/**
+ * Executes the command to register a new employee in the zoo hotel.
+ * 
+ * @throws DuplicateEmployeeKeyException if an employee with the specified key already exists.
+ */
   @Override
   protected void execute() throws CommandException {
     String employeeKey = stringField("employeeKey");

@@ -17,6 +17,11 @@ class DoNewFile extends Command<HotelManager> {
     super(Label.NEW_FILE, receiver);
   }
 
+/**
+ * Executes the command to create a new zoo hotel.
+ *
+ * @throws FileOpenFailedException if saving the current hotel fails due to a missing file association or an IO error.
+ */
   @Override
   protected final void execute() throws CommandException {
     Hotel hotel = _receiver.getHotel();
