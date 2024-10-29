@@ -1,11 +1,13 @@
 package hva.core;
 
+import java.io.Serializable;
+
 /**
  * The {@code TreeState} interface defines the behavior for different seasonal states of a tree.
  * Each tree state represents a specific season and governs the tree's biological cycle
  * and the effort required for its cleaning or maintenance.
  */
-public interface TreeState {
+public interface TreeState extends Serializable {
   /**
    * Returns the cleaning or maintenance effort required for the tree during the current seasonal state.
    * 
