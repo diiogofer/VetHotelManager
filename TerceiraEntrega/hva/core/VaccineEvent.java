@@ -9,7 +9,7 @@ import hva.core.exception.NotAllowedToVaccinateException;
  * The {@code VaccineEvent} class represents a vaccination event performed by a veterinarian on an animal
  * using a specific vaccine.
  */
-public class VaccineEvent implements Serializable{
+public class VaccineEvent implements Serializable {
   
   /** The veterinarian responsible for the vaccination. */
   private final EmployeeVet _vet;

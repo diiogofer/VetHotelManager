@@ -3,7 +3,6 @@ package hva.core;
 import hva.core.exception.*;
 import java.io.*;
 import java.util.*;
-
 /**
  * Represents the Hotel entity.
  */
