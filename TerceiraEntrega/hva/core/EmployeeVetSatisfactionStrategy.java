@@ -22,7 +22,7 @@ public class EmployeeVetSatisfactionStrategy implements EmployeeVetStrategy {
       double satisfaction = 20;
       List<Species> list = vet.getAllSpecies();
       for (Species species : list) {
-        satisfaction -= (species.getPopulation() / species.getNumberVet());
+        satisfaction -= ((double) species.getPopulation() / species.getNumberVet());
       }
       return satisfaction;
     }
