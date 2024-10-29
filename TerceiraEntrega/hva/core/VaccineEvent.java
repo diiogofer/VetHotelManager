@@ -66,28 +66,31 @@ public class VaccineEvent implements Serializable{
 
     for (Species s : vaccineSpecies) {
         String compareName = s.getName().toLowerCase();
-        int counter = 0;
-        char[] name1 = speciesName.toCharArray();
-        char[] name2 = compareName.toCharArray();
-
-        for (char c : name1) {
-            for (int i = 0; i < name2.length; i++) {
-                if (c == name2[i]) {
-                    name2[i] = 0;  // Mark letter as used
-                    counter++;
-                    break;  // Break after finding a match
+        
+        // Contar caracteres comuns
+        int commonCharacters = 0;
+        boolean[] usedInSpeciesName = new boolean[compareName.length()]; // Para marcar caracteres usados
+        
+        for (char c : speciesName.toCharArray()) {
+            for (int i = 0; i < compareName.length(); i++) {
+                if (c == compareName.charAt(i) && !usedInSpeciesName[i]) {
+                    commonCharacters++;
+                    usedInSpeciesName[i] = true; // Marcar como usado
+                    break; // Sair do loop após encontrar um caractere correspondente
                 }
             }
         }
 
-        // Calculate the difference as the number of unmatched letters
-        int result = name2.length - counter;
+        // Calcular dano
+        int result = Math.max(speciesName.length(), compareName.length()) - commonCharacters;
         if (result > maxDamage) {
             maxDamage = result;
         }
     }
+    
     return maxDamage;
-  }
+}
+
 
 
   /**
