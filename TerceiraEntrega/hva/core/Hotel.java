@@ -753,7 +753,7 @@ public class Hotel implements Serializable {
   public List<VaccineEvent> getBadVaccineEvents() {
     List<VaccineEvent> list = new ArrayList<>();
     for(VaccineEvent ve : _vaccineEventList) {
-      if(ve.getDamage() > 0) list.add(ve);
+      if(ve.getDamage() > 0 || (ve.getDamage() == 0 && ve.isGood() == false)) list.add(ve);
     }
     return Collections.unmodifiableList(list);
   }
