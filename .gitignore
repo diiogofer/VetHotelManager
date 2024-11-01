@@ -31,7 +31,3 @@ replay_pid*
 # zone identifiers
 *:Zone.Identifier
 
-# tests
-*.sh
-tests/
-*._tests
